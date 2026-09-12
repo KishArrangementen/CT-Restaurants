@@ -65,9 +65,11 @@ label{font-size:12px;color:var(--muted);display:block;margin:12px 0 5px;font-wei
 }
 
 /* Merk */
-#brand{display:none;align-items:center;gap:9px;margin:0 6px 0 4px}
-.brandIcon{width:28px;height:28px;border-radius:7px;background:#fff;color:var(--accent);font-weight:900;font-size:18px;display:inline-flex;align-items:center;justify-content:center;font-family:Arial,sans-serif}
-.brandTxt{color:#fff;font-weight:900;font-size:17px;letter-spacing:.22em}
+#brand{display:none;align-items:center;gap:9px;margin:0 auto 0 4px}
+.brandIcon{width:28px;height:28px;border-radius:7px;background:#fff;color:var(--accent);font-weight:900;font-size:16px;display:inline-flex;align-items:center;justify-content:center;font-family:Arial,sans-serif}
+.brandTxt{color:#fff;font-weight:900;font-size:17px;letter-spacing:.22em;margin-right:-.22em}
+.brandSub{color:rgba(255,255,255,.62);font-weight:600;font-size:12px;letter-spacing:.04em;margin-left:1px;padding-left:9px;border-left:1px solid rgba(255,255,255,.22);white-space:nowrap}
+@media (max-width:600px){.brandSub{display:none}}
 @media (min-width:768px){ #brand{display:flex} }
 @media (min-width:768px){
   /* iPad: de tellingen vullen de ruimte, zoekbalk en iconen netjes rechts ertegenaan */
@@ -93,6 +95,7 @@ label{font-size:12px;color:var(--muted);display:block;margin:12px 0 5px;font-wei
 #dateInput{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
 
 #syncDot{display:none;width:9px;height:9px;border-radius:50%;background:#777;margin:0 2px;flex:0 0 auto;align-self:center}
+@media (max-width:767px){ #btnCal{margin-left:auto} }
 
 /* Countbar */
 #countbar{display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);gap:16px;flex-wrap:wrap;row-gap:10px;backdrop-filter:blur(10px) saturate(130%);-webkit-backdrop-filter:blur(10px) saturate(130%)}
@@ -162,6 +165,28 @@ body.kaartVol #content{padding-bottom:0;overflow:hidden}
 .card{background:#15181f;border:none;border-bottom:1px solid #262c40;border-radius:0;padding:12px 14px;margin:0;display:flex;gap:14px;align-items:center;cursor:pointer}
 .card:nth-child(even){background:#1b1f2a}
 .card:active{background:#1b1f2a}
+
+/* ===== Eigen dagweergave voor het restaurant =====
+   Tijd als vaste linkerkolom, boekingen als losse kaarten ernaast.
+   Staat ná de .card-regels hierboven zodat het die overschrijft. */
+.dagTijdlijn{padding:14px 14px 20px}
+.tijdBlok{display:grid;grid-template-columns:76px minmax(0,1fr);gap:14px;position:relative;padding-bottom:18px}
+.tijdBlok::before{content:'';position:absolute;left:75px;top:26px;bottom:0;width:1px;background:var(--line)}
+.tijdBlok:last-child::before{display:none}
+.tijdRail{position:relative;padding-top:4px;text-align:right;padding-right:4px}
+.tijdRail b{display:block;font-size:19px;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.tijdRail span{display:block;font-size:11px;color:var(--muted);margin-top:3px;font-weight:600}
+.tijdRail::after{content:'';position:absolute;right:-8px;top:9px;width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--bg)}
+.tijdKaarten{display:flex;flex-direction:column;gap:8px;min-width:0}
+.tijdKaarten .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:11px 13px;gap:12px}
+.tijdKaarten .card:nth-child(even){background:var(--panel)}
+.tijdKaarten .card:active{background:var(--panel2);border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+@media (max-width:520px){
+  .dagTijdlijn{padding:10px 10px 18px}
+  .tijdBlok{grid-template-columns:56px minmax(0,1fr);gap:10px}
+  .tijdBlok::before{left:55px}
+  .tijdRail b{font-size:16px}
+}
 .cpax{font-size:16px;font-weight:800;min-width:32px;white-space:nowrap}
 .cpax small{font-size:10px;color:var(--muted);margin-left:2px;font-weight:600}
 .cnaam{font-weight:700;font-size:15px;flex:0 1 200px;min-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -386,7 +411,28 @@ body.themaGob.themaGlas #drawer nav button.on{background:linear-gradient(90deg,r
 .pinOog:active{transform:scale(.94)}
 /* Instellingen: menu met iconen */
 .instHero{display:flex;align-items:center;gap:13px;padding:2px 0 16px;border-bottom:1px solid var(--line)}
-.instHeroIco{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-weight:900;font-size:20px;color:#fff;flex:none;background:linear-gradient(150deg,var(--accent),var(--accent2));box-shadow:0 6px 18px rgba(0,0,0,.32)}
+/* Openingstijden */
+.tijdKaart{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:12px}
+.tijdKop{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.tijdKop b{font-size:16px}
+.tijdAan{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);font-weight:600;text-transform:none;letter-spacing:0;margin:0;cursor:pointer}
+.tijdAan input{width:auto;accent-color:var(--accent);transform:scale(1.15)}
+.tijdVelden{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.tijdVelden label{margin:0;font-size:11px}
+.tijdVelden input,.tijdVelden select{margin-top:4px}
+.tijdVoorbeeld{display:flex;flex-wrap:wrap;gap:6px;margin-top:13px;padding-top:12px;border-top:1px solid var(--line)}
+.tijdVoorbeeld span{background:color-mix(in srgb,var(--accent) 20%,transparent);border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);color:var(--txt);font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:999px}
+.tijdVoorbeeld em{color:var(--muted);font-size:13px;font-style:normal}
+.dichtLijst{margin-top:10px}
+.dichtRij{display:flex;align-items:center;gap:10px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-bottom:7px}
+.dichtRij b{flex:1;font-size:14px}
+.dichtRij span{color:var(--muted);font-size:12px}
+.dichtRij button{color:var(--muted);font-size:20px;line-height:1;padding:0 4px}
+.dichtRij button:active{color:var(--red)}
+.dichtToe{display:flex;gap:10px;align-items:center;margin-top:12px}
+.dichtToe input{flex:1}
+@media (max-width:520px){ .tijdVelden{grid-template-columns:1fr 1fr} .tijdVelden label:last-child{grid-column:1/-1} }
+.instHeroIco{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-weight:900;font-size:17px;color:#fff;flex:none;background:linear-gradient(150deg,var(--accent),var(--accent2));box-shadow:0 6px 18px rgba(0,0,0,.32)}
 .instHeroT{font-size:19px;font-weight:800;letter-spacing:.01em}
 .instHeroS{color:var(--muted);font-size:12.5px;margin-top:3px;line-height:1.4}
 .instRol{margin-left:auto;flex:none;font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;padding:5px 10px;border-radius:999px;border:1px solid var(--line);color:var(--accent2);background:rgba(255,255,255,.04)}
@@ -663,7 +709,7 @@ body.themaGlas .drankVoet{
 #bezigBar,#tafelBar{background:#7a5b12;color:#ffe9b8;border:1px solid #a97f1d;border-radius:10px;padding:9px 13px;font-size:12.5px;font-weight:700;margin:4px 0 10px;animation:kishFade .2s ease-out}
 #loginOv{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px}
 .loginBox{width:min(360px,92vw);background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px 24px;text-align:center}
-.loginBox .loginLogo{width:56px;height:56px;border-radius:14px;background:var(--accent);color:#fff;font-size:30px;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.loginBox .loginLogo{width:56px;height:56px;border-radius:14px;background:var(--accent);color:#fff;font-size:24px;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
 .loginBox h2{font-size:19px;margin-bottom:6px}
 .loginBox p{color:var(--muted);font-size:13px;margin-bottom:18px}
 .loginBox label{display:block;text-align:left;font-size:11.5px;color:var(--muted);margin:12px 0 5px;font-weight:700}
@@ -877,6 +923,10 @@ body.themaGlas .drankVoet{
 
 /* Ticket scanner */
 #btnScan{padding:6px 8px;border-radius:8px;color:#fff;display:flex;align-items:center}
+/* Ticketscanner hoort bij het theater-ticketsysteem, niet bij een losse
+   restaurantreservering. Verborgen i.p.v. verwijderd (de onderliggende
+   scancode is verweven met andere functies, dus laten staan is veiliger). */
+#btnScan{display:none!important}
 #btnScan:active{background:rgba(255,255,255,.15)}
 .scanOv{position:fixed;inset:0;background:#0c0e13;z-index:65;display:flex;flex-direction:column}
 .scanTop{display:flex;align-items:center;gap:10px;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;background:var(--accent)}
@@ -960,19 +1010,18 @@ body.themaGlas .drankVoet{
 #scrim.open{opacity:1;pointer-events:auto}
 #drawer{position:fixed;top:0;left:0;bottom:0;width:78%;max-width:320px;background:var(--panel);z-index:60;transform:translateX(-102%);transition:transform .3s cubic-bezier(.22,.9,.28,1);display:flex;flex-direction:column;border-right:1px solid var(--line)}
 #drawer.open{transform:none}
-#drawer .head{padding:22px 20px 16px;border-bottom:1px solid var(--line)}
-#drawer .head .logo{font-size:21px;font-weight:900;letter-spacing:.12em}
+#drawer .head{padding:26px 20px 20px;border-bottom:1px solid var(--line);background:radial-gradient(120% 100% at 0% 0%, rgba(var(--gl1),.16), transparent 65%)}
+#drawer .head .logo{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800;letter-spacing:.01em}
 #drawer .head .logo span{color:var(--accent)}
-#drawer .head .who{font-size:12px;color:var(--muted);margin-top:4px}
-#drawer nav{flex:1;overflow-y:auto;padding:8px 0}
-#drawer nav button{display:flex;align-items:center;gap:14px;width:100%;padding:15px 20px;font-size:15.5px;font-weight:600;text-align:left}
-#drawer nav button .mi{width:24px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
-#drawer nav button .mi svg{width:20px;height:20px;display:block}
-#drawer nav button{border-left:3px solid transparent}
-#drawer nav button.on{border-left-color:var(--accent)}
-#drawer nav button.on .mi{color:var(--accent2)}
-#drawer nav button.on{background:var(--panel2);color:var(--accent2)}
-#drawer nav hr{border:none;border-top:1px solid var(--line);margin:6px 0}
+#drawer .head .logo .logoSub{color:var(--muted);font-size:12.5px;font-weight:600;letter-spacing:.02em}
+#drawer .head .who{font-size:12px;color:var(--muted);margin-top:5px;letter-spacing:.02em}
+#drawer nav{flex:1;overflow-y:auto;padding:14px 12px}
+#drawer nav button{display:flex;align-items:center;gap:12px;width:100%;padding:11px 12px;font-size:15px;font-weight:600;text-align:left;border-radius:11px;margin-bottom:2px}
+#drawer nav button .mi{width:30px;height:30px;border-radius:8px;background:var(--panel2);flex:none;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+#drawer nav button .mi svg{width:18px;height:18px;display:block}
+#drawer nav button.on{background:linear-gradient(135deg,rgba(var(--gl1),.22),rgba(var(--gl2),.1));color:var(--accent2)}
+#drawer nav button.on .mi{background:var(--accent);color:var(--bg)}
+#drawer nav hr{border:none;border-top:1px solid var(--line);margin:10px 8px}
 
 /* Sheet (formulier) */
 #sheetWrap{position:fixed;inset:0;z-index:70;visibility:hidden;pointer-events:none;transition:visibility 0s .3s}
@@ -1440,7 +1489,7 @@ body.sheetOpen:not(.sheetNaast){
 
 <div id="topbar">
   <button id="btnMenu" aria-label="Menu">&#9776;</button>
-  <div id="brand"><span class="brandIcon">K</span><span class="brandTxt">KISH</span></div>
+  <div id="brand"><span class="brandIcon">K</span><span class="brandTxt">KISH</span><span class="brandSub">Restaurant</span></div>
   <div id="dateNav">
     <button id="btnPrev">&#8249;</button>
     <div id="dateLabel">Vandaag</div>
@@ -1495,7 +1544,7 @@ body.sheetOpen:not(.sheetNaast){
 <div id="scrim"></div>
 <div id="drawer">
   <div class="head">
-    <div class="logo"><span class="brandIcon">K</span>KISH</div>
+    <div class="logo"><span class="brandIcon">K</span> Kevora <span class="logoSub">Restaurant</span></div>
     <div class="who">Tafelreservering &middot; AFAS Circustheater</div>
   </div>
   <nav>
@@ -2147,7 +2196,7 @@ function toonLogin(){
   ov.innerHTML = `
     <div class="loginBox">
       <div class="loginLogo">K</div>
-      <h2>Inloggen bij Kish</h2>
+      <h2>Inloggen bij Kevora</h2>
       <p>Dit apparaat is nog niet aangemeld. Log eenmalig in, daarna blijft dit apparaat toegang houden.</p>
       <label>E-mail</label>
       <input id="lgMail" type="email" autocomplete="username" inputmode="email">
@@ -2261,6 +2310,12 @@ function startSync(){
         const v = sn.val();
         if(v) store.set('ct_pins', v);
       });
+      // Openingstijden worden centraal beheerd: elk apparaat volgt wat er
+      // in de instellingen is gezet, net als bij de tafelindeling.
+      db.ref(syncPad + '/instel/tijden').on('value', sn=>{
+        const v = sn.val();
+        if(v) store.set('ct_tijden', v);
+      });
       syncSubDatum = null;
       render();
     })
@@ -2307,6 +2362,37 @@ function syncLayout(){
     });
 }
 function syncTafels(){ if(db) db.ref(syncPad+'/tafels').set(store.get('ct_tafels', {})); }
+
+/* ===== Openingstijden =====
+   Bepaalt welke tijden de gast op de reserveringspagina te zien krijgt.
+   Wordt gedeeld via Firebase, zodat de widget en alle apparaten dezelfde
+   tijden gebruiken. Standaard komt overeen met hoe Le Cirque nu draait. */
+const TIJDEN_STANDAARD = {
+  lunch: { aan:true,  start:'11:30', eind:'12:30', stap:15 },
+  diner: { aan:true,  start:'16:30', eind:'17:30', stap:15 },
+  dicht: []   // datums (JJJJ-MM-DD) waarop het restaurant gesloten is
+};
+function getTijden(){
+  const t = store.get('ct_tijden', null);
+  if(!t) return JSON.parse(JSON.stringify(TIJDEN_STANDAARD));
+  return Object.assign(JSON.parse(JSON.stringify(TIJDEN_STANDAARD)), t);
+}
+function zetTijden(t){
+  store.set('ct_tijden', t);
+  if(db) db.ref(syncPad+'/instel/tijden').set(t);
+}
+// Zet een begintijd, eindtijd en stapgrootte om in een lijst tijdstippen.
+function tijdenLijst(dienst){
+  const d = getTijden()[dienst];
+  if(!d || !d.aan) return [];
+  const s = tijdNaarMin(d.start), e = tijdNaarMin(d.eind), stap = Math.max(5, +d.stap || 15);
+  if(!(e >= s)) return [];
+  const uit = [];
+  for(let m = s; m <= e; m += stap){
+    uit.push(String(Math.floor(m/60)).padStart(2,'0') + ':' + String(m%60).padStart(2,'0'));
+  }
+  return uit;
+}
 function syncPins(){ if(db) db.ref(syncPad+'/pins').set(store.get('ct_pins', [])); }
 
 function openSyncSetup(){
@@ -4079,7 +4165,8 @@ function toonInstellingen(){
     backup:'<path d="M12 3v11"/><path d="m8 10 4 4 4-4"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/>',
     managers:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M17 7.5a2.8 2.8 0 0 1 0 5.4"/><path d="M18.5 20c0-2.3-.8-4-2.2-5"/>',
     vangnet:'<path d="M12 3.2 20 6v6c0 4.4-3.2 7.6-8 8.8-4.8-1.2-8-4.4-8-8.8V6Z"/><path d="m9 12 2.2 2.2L15.5 10"/>',
-    weergave:'<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17Z" fill="currentColor" stroke="none"/>'
+    weergave:'<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17Z" fill="currentColor" stroke="none"/>',
+    tijden:'<circle cx="12" cy="12" r="8.6"/><path d="M12 7v5.2l3.4 2"/>'
   };
   const rij = (id, naam, uitleg, teken, nu) => `
     <div class="instMenuRow" id="${id}">
@@ -4100,6 +4187,7 @@ function toonInstellingen(){
     </div>
 
     <div class="instGroep">Dagelijks</div>
+    ${rij('rTijden','Openingstijden','Reserveertijden en sluitingsdagen voor de website', ico.tijden, 'rTijdenNu')}
     ${rij('rArchief','Dagarchief','Eerdere dagen terugkijken en gegevens vergelijken', ico.archief)}
     ${rij('rZalen','Zalen &amp; Tafels','Tafels en zitplaatsen aanpassen, geldt op alle apparaten', ico.zalen)}
     ${rij('rBackup','Reservekopie','Een eerdere stand van de dag terugzetten', ico.backup)}
@@ -4117,6 +4205,7 @@ function toonInstellingen(){
     </div>`);
 
   const bind = (id, fn)=>{ const el = pg.querySelector(id); if(el) el.onclick = fn; };
+  bind('#rTijden', instTijden);
   bind('#rZalen', instZalen);
   bind('#rArchief', instArchief);
   bind('#rBackup', instBackup);
@@ -4124,7 +4213,92 @@ function toonInstellingen(){
   bind('#rVangnet', instVangnet);
   bind('#rThema', instThemaKeuze);
   { const el = pg.querySelector('#rThemaNu'); if(el) el.textContent = store.get('ct_themaGlas', true) ? 'Blauw' : 'Standaard'; }
+  { const el = pg.querySelector('#rTijdenNu'); if(el){
+      const t = getTijden();
+      const aan = ['lunch','diner'].filter(d=>t[d] && t[d].aan);
+      el.textContent = aan.length ? aan.map(d=> d==='lunch'?'Lunch':'Diner').join(' + ') : 'gesloten';
+    } }
   { const el = pg.querySelector('#rVangnetNu'); if(el) el.textContent = reserveKlaar() ? 'aan' : 'uit'; }
+}
+
+function instTijden(){
+  const t = getTijden();
+  const blok = (sleutel, titel) => {
+    const d = t[sleutel];
+    const voorbeeld = tijdenLijst(sleutel);
+    return `<div class="tijdKaart" data-d="${sleutel}">
+      <div class="tijdKop">
+        <b>${titel}</b>
+        <label class="tijdAan"><input type="checkbox" data-veld="aan" ${d.aan?'checked':''}> open</label>
+      </div>
+      <div class="tijdVelden">
+        <label>Eerste tijd<input type="time" data-veld="start" value="${esc(d.start)}"></label>
+        <label>Laatste tijd<input type="time" data-veld="eind" value="${esc(d.eind)}"></label>
+        <label>Om de<select data-veld="stap">
+          ${[10,15,20,30,60].map(s=>`<option value="${s}" ${+d.stap===s?'selected':''}>${s} min</option>`).join('')}
+        </select></label>
+      </div>
+      <div class="tijdVoorbeeld">${voorbeeld.length ? voorbeeld.map(x=>`<span>${esc(x)}</span>`).join('') : '<em>Gesloten, gasten kunnen hier niet reserveren.</em>'}</div>
+    </div>`;
+  };
+
+  const pg = instPagina([{n:'Instellingen', ga:toonInstellingen},{n:'Openingstijden', ga:instTijden}], `
+    <div class="instH">Openingstijden</div>
+    <div class="instSub">Bepaalt welke tijden gasten op de reserveringspagina kunnen kiezen. Wijzigingen gelden direct op alle apparaten en op de website.</div>
+    ${blok('lunch','Lunch')}
+    ${blok('diner','Diner')}
+
+    <div class="instH" style="margin-top:22px">Gesloten op</div>
+    <div class="instSub">Losse dagen waarop er niets geboekt kan worden, bijvoorbeeld feestdagen of een sluitingsweek.</div>
+    <div id="dichtLijst" class="dichtLijst"></div>
+    <div class="dichtToe">
+      <input type="date" id="dichtDatum">
+      <button class="btn primary" id="dichtAdd">Dag toevoegen</button>
+    </div>`);
+
+  // Voorbeeldlijst meteen bijwerken zodra er iets verandert, zodat je ziet
+  // wat de gast straks te zien krijgt voordat je opslaat.
+  const leesUit = ()=>{
+    pg.querySelectorAll('.tijdKaart').forEach(k=>{
+      const d = t[k.dataset.d];
+      d.aan   = k.querySelector('[data-veld="aan"]').checked;
+      d.start = k.querySelector('[data-veld="start"]').value || d.start;
+      d.eind  = k.querySelector('[data-veld="eind"]').value || d.eind;
+      d.stap  = +k.querySelector('[data-veld="stap"]').value || 15;
+    });
+  };
+  const toonVoorbeeld = ()=>{
+    store.set('ct_tijden', t);   // tijdenLijst() leest uit de opslag
+    pg.querySelectorAll('.tijdKaart').forEach(k=>{
+      const lijst = tijdenLijst(k.dataset.d);
+      k.querySelector('.tijdVoorbeeld').innerHTML = lijst.length
+        ? lijst.map(x=>`<span>${esc(x)}</span>`).join('')
+        : '<em>Gesloten, gasten kunnen hier niet reserveren.</em>';
+    });
+  };
+  const bewaar = ()=>{ leesUit(); zetTijden(t); toonVoorbeeld(); };
+  pg.querySelectorAll('.tijdKaart input, .tijdKaart select').forEach(el=>{
+    el.addEventListener('change', ()=>{ bewaar(); toast('Openingstijden opgeslagen'); });
+  });
+
+  const tekenDicht = ()=>{
+    const lijst = (t.dicht||[]).slice().sort();
+    const box = pg.querySelector('#dichtLijst');
+    box.innerHTML = lijst.length
+      ? lijst.map(d=>`<div class="dichtRij"><b>${esc(fmtDate(d))}</b><span>${esc(d)}</span><button data-weg="${esc(d)}">&times;</button></div>`).join('')
+      : '<div class="instSub" style="margin:0">Geen sluitingsdagen ingesteld.</div>';
+    box.querySelectorAll('button[data-weg]').forEach(b=> b.onclick = ()=>{
+      t.dicht = (t.dicht||[]).filter(x=> x !== b.dataset.weg);
+      zetTijden(t); tekenDicht(); toast('Sluitingsdag verwijderd');
+    });
+  };
+  pg.querySelector('#dichtAdd').onclick = ()=>{
+    const v = pg.querySelector('#dichtDatum').value;
+    if(!v){ toast('Kies eerst een datum'); return; }
+    t.dicht = [...new Set([...(t.dicht||[]), v])];
+    zetTijden(t); tekenDicht(); toast('Sluitingsdag toegevoegd');
+  };
+  tekenDicht();
 }
 
 function instZalen(){
@@ -5146,12 +5320,23 @@ function renderDag(all){
   locTabs.innerHTML = '';
   const list = all.slice().sort((a,b)=> a.tijd.localeCompare(b.tijd) || a.naam.localeCompare(b.naam,'nl'));
   if(!list.length){ content.innerHTML = '<div class="empty">Helaas, geen reserveringen :-(</div>'; return; }
-  let html = '', lastTijd = '';
+  // Eigen weergave voor het restaurant: de tijd staat als vaste linkerkolom,
+  // zodat je in één blik langs de hele service scant, met de boekingen van
+  // dat tijdstip als losse kaarten ernaast.
+  const perTijd = new Map();
   list.forEach(r=>{
-    if(r.tijd !== lastTijd){ html += `<div class="sectionH"><span>${esc(r.tijd)}</span></div>`; lastTijd = r.tijd; }
-    html += cardHTML(r);
+    if(!perTijd.has(r.tijd)) perTijd.set(r.tijd, []);
+    perTijd.get(r.tijd).push(r);
   });
-  content.innerHTML = html;
+  let html = '<div class="dagTijdlijn">';
+  perTijd.forEach((groep, tijd)=>{
+    const gasten = groep.reduce((s,r)=> s + (+r.pax||0), 0);
+    html += `<div class="tijdBlok">
+      <div class="tijdRail"><b>${esc(tijd)}</b><span>${gasten} gast${gasten===1?'':'en'}</span></div>
+      <div class="tijdKaarten">${groep.map(r=>cardHTML(r)).join('')}</div>
+    </div>`;
+  });
+  content.innerHTML = html + '</div>';
 }
 
 /* --- Tafels: tijdlijn zoals DISH, alle locaties onder elkaar --- */
