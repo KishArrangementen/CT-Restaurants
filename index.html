@@ -2293,6 +2293,48 @@ html body #filterInner .fltReset{height:34px;padding:0 14px;border-radius:9px;fo
 @media (max-width:640px){.gbRaster{grid-template-columns:1fr}.gbLijst .gbRij{flex-wrap:wrap}}
 .gbTestTekst{flex:1;align-self:center;font-size:13px;color:var(--muted)}
 .gbTestTekst b{color:var(--txt)}
+
+/* ===== Instellingen > Reserveringspagina ===== */
+.rpLink{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--vlak);border:1px solid var(--vlakRand);border-radius:14px}
+.rpLinkTekst{flex:1;min-width:0}
+.rpLinkTekst small{display:block;font-size:11.5px;color:var(--muted);font-weight:700}
+.rpLinkTekst b{display:block;font-size:14px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rpLink .btn{text-decoration:none;flex:none}
+.rpLab{display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:7px}
+.rpKleuren{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.rpKleur{width:36px;height:36px;margin:0;box-sizing:border-box;flex:none;border-radius:50%;border:2px solid rgba(255,255,255,.18);padding:0;position:relative;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+.rpKleur.on{border-color:#fff;box-shadow:0 0 0 3px var(--accent)}
+.rpEigen{display:grid;place-items:center;overflow:hidden;text-transform:none!important;letter-spacing:0!important}
+.rpEigen input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.rpEigen span{color:#fff;font-weight:800;font-size:18px;text-shadow:0 1px 3px rgba(0,0,0,.6);pointer-events:none}
+.rpLogoVak{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.rpLogoVoorbeeld{flex:1;min-width:220px;height:58px;border-radius:12px;display:flex;align-items:center;gap:14px;padding:0 16px;color:#fff;border:1px solid rgba(255,255,255,.1)}
+.rpLogoVoorbeeld img{width:34px;height:34px;object-fit:contain}
+.rpLogoVoorbeeld img.wit{filter:brightness(0) invert(1)}
+.rpLogoVoorbeeld i{font-size:12px;opacity:.6}
+.rpLogoVoorbeeld b{font-size:15px;margin:0 auto;padding-right:48px}
+.rpLogoKnoppen{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rpLogoKnoppen .btn{white-space:nowrap;width:auto;flex:none}
+.rpCat{margin-bottom:12px}
+.rpCatKop{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--vlakRand);background:rgba(255,255,255,.03)}
+.rpCatNaam{flex:1;min-width:0;height:40px;border-radius:10px;border:1px solid var(--vlakRand);background:var(--balk,var(--bg));color:var(--txt);font-size:15px;font-weight:800;padding:0 12px}
+.rpDienst{width:150px;flex:none;height:40px}
+.rpPijlen{display:flex;gap:4px;flex:none}
+.rpMini{width:32px;height:32px;border-radius:8px;border:1px solid var(--vlakRand);background:var(--balk,var(--bg));color:var(--muted);font-size:15px;font-weight:800;padding:0;display:grid;place-items:center}
+.rpMini:disabled{opacity:.3}
+.rpMini.rood{color:#f87171}
+.rpMenu{display:flex;align-items:center;gap:12px;padding:10px 12px;border-bottom:1px solid var(--vlakRand)}
+.rpFoto{width:52px;height:78px;border-radius:9px;overflow:hidden;flex:none;cursor:pointer;background:var(--balk,var(--bg));border:1px dashed var(--vlakRand);display:grid;place-items:center;position:relative}
+.rpFoto img{width:100%;height:100%;object-fit:cover;display:block}
+.rpFoto i{font-size:11px;color:var(--muted);font-style:normal}
+.rpFoto::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,0);transition:background .15s}
+.rpFoto:hover::after{background:rgba(0,0,0,.25)}
+.rpMenuVelden{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.rpMenuVelden input{height:36px;border-radius:9px;border:1px solid var(--vlakRand);background:var(--balk,var(--bg));color:var(--txt);font-size:13.5px;padding:0 10px;width:100%;box-sizing:border-box}
+.rpMenuVelden input:first-child{font-weight:700;font-size:14px}
+.rpErbij{display:block;width:100%;padding:12px;border:0;background:transparent;color:var(--accent2);font-weight:800;font-size:13px;text-align:left}
+.rpErbijGroot{border:1px dashed var(--vlakRand);border-radius:14px;text-align:center;margin-top:4px}
+@media (max-width:600px){.rpCatKop{flex-wrap:wrap}.rpCatNaam{flex-basis:100%}.rpDienst{flex:1}.rpMenu .rpPijlen{flex-direction:column}}
 </style>
 </head>
 <body>
@@ -5573,6 +5615,7 @@ function toonInstellingen(){
     weergave:'<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17Z" fill="currentColor" stroke="none"/>',
     tijden:'<circle cx="12" cy="12" r="8.6"/><path d="M12 7v5.2l3.4 2"/>',
     berichten:'<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/>',
+    pagina:'<rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9h18"/><path d="M7 13h5"/><path d="M7 16h8"/>',
     cijfers:'<path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M21 20H3"/>'
   };
   const rij = (id, naam, uitleg, teken, nu) => `
@@ -5597,6 +5640,7 @@ function toonInstellingen(){
     ${rij('rTijden','Openingstijden','Reserveertijden en sluitingsdagen voor de website', ico.tijden, 'rTijdenNu')}
     ${rij('rCijfers','Cijfers','Gasten, drukke dagen en tijden, menukeuzes en no-shows', ico.cijfers)}
     ${rij('rBerichten','Gastberichten','Mails aan gasten en de wachtlijst', ico.berichten, 'rBerichtenNu')}
+    ${rij('rPagina','Reserveringspagina','Naam, logo, kleuren en menukaart van de website', ico.pagina)}
     ${rij('rArchief','Dagarchief','Eerdere dagen terugkijken en gegevens vergelijken', ico.archief)}
     ${rij('rZalen','Zalen &amp; Tafels','Tafels en zitplaatsen aanpassen, geldt op alle apparaten', ico.zalen)}
     ${rij('rBackup','Reservekopie','Een eerdere stand van de dag terugzetten', ico.backup)}
@@ -5618,6 +5662,7 @@ function toonInstellingen(){
   bind('#rArchief', instArchief);
   bind('#rCijfers', instCijfers);
   bind('#rBerichten', instBerichten);
+  bind('#rPagina', instPaginaWeb);
   { const el = pg.querySelector('#rBerichtenNu'); if(el) el.textContent = (store.get('ct_berichten', {}) || {}).aan ? 'aan' : 'uit'; }
   bind('#rBackup', instBackup);
   bind('#rManagers', instManagers);
@@ -6577,6 +6622,335 @@ async function instBerichten(){
   if(vorig && vorig.y){ const w = pg.querySelector('.instWrap'); if(w) w.scrollTop = vorig.y; }
 }
 function euroTekst(n){ return '€' + (+n || 0).toFixed(2).replace('.', ',').replace(',00', ''); }
+
+/* ===== Reserveringspagina: hoe de website eruitziet =====
+   Alles wat de gast op de reserveringspagina ziet, stelt het restaurant hier
+   zelf in: naam, logo, kleuren, teksten en de menukaart met foto's. Het staat
+   in ct_<restaurant>/publiek, dat de website zonder inloggen mag lezen.
+   De tafels gaan er vanzelf heen (publiceerZaal), zodat de website altijd
+   dezelfde indeling gebruikt als de app. */
+const RP_STANDAARD = {
+  naam: KLANT.naam || '',
+  logo: KLANT.id === 'lecirque' ? '/assets/le-cirque-logo.png' : '',
+  logoWit: true,
+  kleur: { kop: '#0c1624', accent: '#265be8' },
+  eyebrow: 'EEN PLEK AAN TAFEL',
+  titel: 'Reserveer een tafel',
+  intro: 'Kies je gezelschap, je moment en je menu.',
+  voet: 'We kijken uit naar je komst.',
+  zaal: '',
+  categorieen: [
+    { id: 'lunch', naam: 'Lunch', dienst: 'lunch', menus: [
+      { id: 'lunch-a-la-carte', naam: 'À la carte', tekst: 'Kies je favoriete gerechten van de kaart.', foto: '/assets/lunch-a-la-carte.webp' },
+      { id: 'lunch-two-courses', naam: '2 gangen', tekst: 'Twee gangen om rustig van te genieten.', foto: '/assets/lunch-two-courses.webp' },
+      { id: 'lunch-three-courses', naam: '3 gangen', tekst: 'Drie gangen, van voorgerecht tot dessert.', foto: '/assets/lunch-three-courses.webp' } ] },
+    { id: 'diner', naam: 'Diner', dienst: 'diner', menus: [
+      { id: 'diner-a-la-carte', naam: 'À la carte', tekst: 'Kies je favoriete gerechten van de kaart.', foto: '/assets/a-la-carte.jpg' },
+      { id: 'diner-two-courses', naam: '2 gangen', tekst: 'Twee gangen om rustig van te genieten.', foto: '/assets/two-courses.jpg' },
+      { id: 'diner-three-courses', naam: '3 gangen', tekst: 'Drie gangen, van voorgerecht tot dessert.', foto: '/assets/three-courses.jpg' } ] },
+    { id: 'kids-lunch', naam: 'Kids lunch', tab: 'Kids lunch menu', dienst: 'lunch', menus: [
+      { id: 'kids-lunch-one-course', naam: '1 gang kids', tekst: 'Eén gang voor de kleine eters.', foto: '/assets/kids-lunch-one-course.webp' },
+      { id: 'kids-lunch-two-courses', naam: '2 gangen kids', tekst: 'Twee gangen in kinderporties.', foto: '/assets/kids-lunch-two-courses.webp' },
+      { id: 'kids-lunch-three-courses', naam: '3 gangen kids', tekst: 'Drie kindergangen, met een zoet dessert.', foto: '/assets/kids-lunch-three-courses.webp' } ] },
+    { id: 'kids-diner', naam: 'Kids diner', tab: 'Kids diner menu', dienst: 'diner', menus: [
+      { id: 'kids-diner-one-course', naam: '1 gang kids', tekst: 'Eén gang voor de kleine eters.', foto: '/assets/kids-one-course.png' },
+      { id: 'kids-diner-two-courses', naam: '2 gangen kids', tekst: 'Twee gangen in kinderporties.', foto: '/assets/kids-two-courses.png' },
+      { id: 'kids-diner-three-courses', naam: '3 gangen kids', tekst: 'Drie kindergangen, met een zoet dessert.', foto: '/assets/kids-three-courses.png' } ] }
+  ]
+};
+const RP_KLEUREN_KOP = ['#0c1624','#1d2a44','#1d3b2a','#3a1d24','#2b2118','#111111','#3b2a52'];
+const RP_KLEUREN_ACCENT = ['#265be8','#c8963e','#2e9e6a','#d1435b','#e07a2e','#7c4ddb','#0f8b8d'];
+const RP_LABELKLEUREN = ['#4d8dff','#f5a623','#2ec08a','#e5557a','#14b8c4','#f97316','#a3e635','#c084fc','#facc15','#60a5fa'];
+const rpKopie = (o) => JSON.parse(JSON.stringify(o));
+const rpId = (t) => String(t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 24) || 'x';
+const rpNieuwId = (voor) => rpId(voor) + '-' + Date.now().toString(36) + Math.floor(Math.random() * 36).toString(36);
+
+// Het adres van de reserveringspagina, zoals ingesteld bij Gastberichten
+function rpSiteUrl(){
+  const b = store.get('ct_berichten', {}) || {};
+  return (b.siteUrl || '').replace(/\/+$/, '');
+}
+// Een standaardfoto (/assets/...) staat op de website, niet in de app
+function rpFotoSrc(src){
+  if(!src) return '';
+  if(/^\/assets\//.test(src)){
+    let basis = 'https://restaurantct.web.app';
+    try{ if(rpSiteUrl()) basis = new URL(rpSiteUrl()).origin; }catch(_){}
+    return basis + src;
+  }
+  return src;
+}
+
+// Menu's van de website ook als keuze in het reserveringsformulier, met een eigen kleur
+function rpMenusInKeuzelijst(p){
+  if(!p || !Array.isArray(p.categorieen)) return;
+  let i = ARRS.length;
+  p.categorieen.forEach(c => (c.menus || []).forEach(m => {
+    const n = String(m.naam || '').trim();
+    if(n && !ARRS.some(a => a.n.toLowerCase() === n.toLowerCase())) ARRS.push({ n, c: RP_LABELKLEUREN[(i++) % RP_LABELKLEUREN.length] });
+  }));
+}
+rpMenusInKeuzelijst(store.get('ct_pagina', null));
+
+// Verkleinen voor de website: menufoto's staand 2:3, logo klein met transparantie
+function rpVerklein(bestand, soort){
+  return new Promise((klaar, fout) => {
+    const url = URL.createObjectURL(bestand);
+    const img = new Image();
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const c = document.createElement('canvas');
+      const x = c.getContext('2d');
+      if(soort === 'logo'){
+        const s = Math.min(1, 256 / Math.max(img.width, img.height));
+        c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+        x.drawImage(img, 0, 0, c.width, c.height);
+        klaar(c.toDataURL('image/png'));
+        return;
+      }
+      c.width = 600; c.height = 900;
+      const doel = 600 / 900, bron = img.width / img.height;
+      let sw = img.width, sh = img.height, sx = 0, sy = 0;
+      if(bron > doel){ sw = img.height * doel; sx = (img.width - sw) / 2; } else { sh = img.width / doel; sy = (img.height - sh) / 2; }
+      x.drawImage(img, sx, sy, sw, sh, 0, 0, 600, 900);
+      let d = c.toDataURL('image/webp', 0.78);
+      if(!/^data:image\/webp/.test(d)) d = c.toDataURL('image/jpeg', 0.8);   // Safari maakt geen webp
+      klaar(d);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); fout(new Error('Dit bestand kan ik niet openen als foto')); };
+    img.src = url;
+  });
+}
+
+// De tafels van de zaal die op de website geboekt wordt
+function rpZaalVoorWebsite(){
+  const p = store.get('ct_pagina', null) || {};
+  const loc = (p.zaal && LOCS.includes(p.zaal)) ? p.zaal : LOCS[0];
+  const lijst = tafelsVoor(loc);
+  const tafels = {}, rond = [];
+  lijst.forEach(t => {
+    const nr = String(t.nr);
+    tafels[nr] = +t.cap || 2;
+    if((t.vorm || shapeClass(loc, nr)) === 'round') rond.push(nr);
+  });
+  const posities = {};
+  const lay = Object.assign({}, DEFAULT_LAYOUT[loc] || {}, (layout && layout[loc]) || {});
+  Object.entries(lay).forEach(([nr, v]) => { if(v && isFinite(v.x) && isFinite(v.y) && tafels[nr]) posities[nr] = { x: +(+v.x).toFixed(2), y: +(+v.y).toFixed(2) }; });
+  return { naam: loc, tafels, groepen: (KOPPEL_GROEPEN[loc] || []).map(g => g.map(String)), rond, hoog: (KLANT.hogeTafels || []).map(String), posities };
+}
+let _rpZaalLaatst = '', _rpZaalTimer = null;
+function publiceerZaal(){
+  clearTimeout(_rpZaalTimer);
+  _rpZaalTimer = setTimeout(() => {
+    if(!db || !syncPad) return;
+    const gebruiker = window.firebase && firebase.auth && firebase.auth().currentUser;
+    if(!gebruiker || gebruiker.isAnonymous) return;
+    let z;
+    try{ z = rpZaalVoorWebsite(); }catch(e){ console.warn('Zaal voor de website', e); return; }
+    if(!Object.keys(z.tafels).length) return;
+    const tekst = JSON.stringify(z);
+    if(tekst === _rpZaalLaatst) return;
+    db.ref(syncPad + '/publiek/zaal').set(z).then(() => { _rpZaalLaatst = tekst; }).catch(e => console.warn('Zaal publiceren mislukt', e));
+  }, 2500);
+}
+// Na elke wijziging aan tafels of indeling meteen ook naar de website
+(function(){
+  const t = syncTafels, l = syncLayout;
+  syncTafels = function(){ const r = t.apply(this, arguments); publiceerZaal(); return r; };
+  syncLayout = function(){ const r = l.apply(this, arguments); publiceerZaal(); return r; };
+})();
+
+// Meeluisteren met de pagina-instellingen (voor de keuzelijst met menu's)
+// en bij het openen van de app de tafels voor de website bijwerken.
+let _rpLuistert = false;
+setInterval(() => {
+  if(_rpLuistert || !db || !syncPad) return;
+  const g = window.firebase && firebase.auth && firebase.auth().currentUser;
+  if(!g || g.isAnonymous) return;
+  _rpLuistert = true;
+  db.ref(syncPad + '/publiek/pagina').on('value', sn => {
+    const v = sn.val();
+    if(v){ store.set('ct_pagina', v); rpMenusInKeuzelijst(v); }
+  }, () => {});
+  db.ref(syncPad + '/publiek/zaal').once('value').then(sn => { _rpZaalLaatst = JSON.stringify(sn.val() || ''); publiceerZaal(); }).catch(() => {});
+}, 3000);
+
+async function instPaginaWeb(){
+  const kruimel = [{n:'Instellingen', ga:toonInstellingen},{n:'Reserveringspagina', ga:instPaginaWeb}];
+  let p = null, fotos = {};
+  const vorig = instPaginaWeb.zonderLaden; instPaginaWeb.zonderLaden = null;
+  let pg;
+  if(vorig){ p = vorig.p; fotos = vorig.fotos; }
+  else {
+    pg = instPagina(kruimel, '<div class="instSub" style="padding:24px 0;text-align:center">Instellingen ophalen...</div>');
+    p = store.get('ct_pagina', null);
+    if(db && syncPad){
+      try{
+        const [sp, sf] = await Promise.all([db.ref(syncPad + '/publiek/pagina').once('value'), db.ref(syncPad + '/publiek/fotos').once('value')]);
+        if(sp.val()) p = sp.val();
+        fotos = sf.val() || {};
+      }catch(e){ console.warn('Reserveringspagina ophalen mislukt', e); }
+    }
+    p = Object.assign(rpKopie(RP_STANDAARD), p || {});
+    p.kleur = Object.assign({}, RP_STANDAARD.kleur, p.kleur || {});
+    p.categorieen = (Array.isArray(p.categorieen) ? p.categorieen : Object.values(p.categorieen || {})).map(c => Object.assign({}, c, { menus: Array.isArray(c.menus) ? c.menus : Object.values(c.menus || {}) }));
+  }
+  if(!document.querySelector('.instPage')) return;
+
+  let _bewaarTimer = null;
+  const bewaar = (melding, direct) => {
+    store.set('ct_pagina', p);
+    rpMenusInKeuzelijst(p);
+    clearTimeout(_bewaarTimer);
+    const doe = () => {
+      if(db && syncPad){
+        db.ref(syncPad + '/publiek/pagina').set(p)
+          .then(() => { if(melding) toast(melding); })
+          .catch(() => toast('Opslaan in de database lukte niet'));
+      } else if(melding) toast(melding + ' (alleen op dit apparaat)');
+    };
+    if(direct) doe(); else _bewaarTimer = setTimeout(doe, 500);
+  };
+  const bewaarFoto = (id, data) => {
+    if(data) fotos[id] = data; else delete fotos[id];
+    if(!db || !syncPad) return Promise.resolve();
+    return db.ref(syncPad + '/publiek/fotos/' + id).set(data || null);
+  };
+  const teken = () => { const w = document.querySelector('.instPage .instWrap'); instPaginaWeb.zonderLaden = { p, fotos, y: w ? w.scrollTop : 0 }; instPaginaWeb(); };
+
+  const site = rpSiteUrl();
+  const fotoVan = (id, standaard) => fotos[id] || rpFotoSrc(standaard);
+  const kleurRij = (welk, lijst) => `<div class="rpKleuren">${lijst.map(k => `<button type="button" class="rpKleur ${p.kleur[welk].toLowerCase() === k ? 'on' : ''}" data-kleur="${welk}" data-w="${k}" style="background:${k}" aria-label="Kleur ${k}"></button>`).join('')}
+      <label class="rpKleur rpEigen" style="background:${esc(p.kleur[welk])}" title="Eigen kleur"><input type="color" data-kleur-eigen="${welk}" value="${esc(p.kleur[welk])}"><span>+</span></label></div>`;
+  const tveld = (k, label, ph, max) => `<label class="gbVeld"><span>${label}</span><input type="text" data-t="${k}" value="${esc(p[k] || '')}" placeholder="${esc(ph || '')}" maxlength="${max || 80}" autocomplete="off"></label>`;
+  const logoSrc = fotos.logo || rpFotoSrc(p.logo);
+  const aantalMenus = p.categorieen.reduce((n, c) => n + c.menus.length, 0);
+
+  pg = instPagina(kruimel, `
+    <div id="rpPagina">
+    <div class="instH">Reserveringspagina</div>
+    <div class="instSub">Wat de gast ziet als hij online een tafel boekt. Wijzigingen staan meteen online.</div>
+
+    <div class="rpLink">
+      ${site ? `<div class="rpLinkTekst"><small>Jouw pagina</small><b>${esc(site)}</b></div>
+        <a class="btn primary" href="${esc(site)}" target="_blank" rel="noopener">Bekijk</a>`
+      : `<div class="rpLinkTekst"><small>Nog geen adres</small><b>Vul het adres van je pagina in bij Gastberichten</b></div>
+        <button type="button" class="btn" id="rpNaarBerichten">Gastberichten</button>`}
+    </div>
+
+    <div class="otKop">Uiterlijk</div>
+    <div class="otLijst gbLijst"><div class="gbExtra gbRaster" style="border:0">
+      <div style="grid-column:1/-1">${tveld('naam', 'Naam restaurant', 'Le Cirque', 60)}</div>
+      <div class="rpLogoVak" style="grid-column:1/-1">
+        <div class="rpLogoVoorbeeld" style="background:${esc(p.kleur.kop)}">${logoSrc ? `<img src="${esc(logoSrc)}" alt="" class="${p.logoWit ? 'wit' : ''}">` : '<i>Geen logo</i>'}<b>${esc(p.naam || '')}</b></div>
+        <div class="rpLogoKnoppen">
+          <input type="file" accept="image/*" id="rpLogoBestand" hidden><button type="button" class="btn" id="rpLogoKies">${logoSrc ? 'Ander logo' : 'Logo kiezen'}</button>
+          ${logoSrc ? '<button type="button" class="btn ghost" id="rpLogoWeg">Weghalen</button>' : ''}
+          <label class="otSchakel"><input type="checkbox" id="rpLogoWit" ${p.logoWit ? 'checked' : ''}><span></span><i>Wit maken</i></label>
+        </div>
+      </div>
+      <div class="otVeld" style="grid-column:1/-1"><span class="rpLab">Kleur bovenbalk</span>${kleurRij('kop', RP_KLEUREN_KOP)}</div>
+      <div class="otVeld" style="grid-column:1/-1"><span class="rpLab">Kleur knoppen</span>${kleurRij('accent', RP_KLEUREN_ACCENT)}</div>
+      ${LOCS.length > 1 ? `<div class="otVeld" style="grid-column:1/-1"><span class="rpLab">Zaal voor online boekingen</span>
+        <div class="otSeg" data-zaal>${LOCS.map(l => `<button type="button" data-w="${esc(l)}" class="${(p.zaal || LOCS[0]) === l ? 'on' : ''}">${esc(l)}</button>`).join('')}</div></div>` : ''}
+    </div></div>
+
+    <div class="otKop">Teksten</div>
+    <div class="otLijst gbLijst"><div class="gbExtra gbRaster" style="border:0">
+      ${tveld('eyebrow', 'Kleine regel boven de titel', 'EEN PLEK AAN TAFEL', 60)}
+      ${tveld('titel', 'Titel', 'Reserveer een tafel', 80)}
+      <div style="grid-column:1/-1">${tveld('intro', 'Uitleg onder de titel', 'Kies je gezelschap, je moment en je menu.', 240)}</div>
+      <div style="grid-column:1/-1">${tveld('voet', 'Tekst onderaan', 'We kijken uit naar je komst.', 120)}</div>
+    </div></div>
+
+    <div class="otKop">Menukaart <small>${p.categorieen.length} ${p.categorieen.length === 1 ? 'tabblad' : 'tabbladen'}, ${aantalMenus} menu's</small></div>
+    ${p.categorieen.map((c, ci) => `
+      <div class="otLijst rpCat" data-ci="${ci}">
+        <div class="rpCatKop">
+          <input type="text" class="rpCatNaam" data-cnaam="${ci}" value="${esc(c.tab || c.naam || '')}" placeholder="Naam tabblad" maxlength="30">
+          <div class="otSeg rpDienst" data-cdienst="${ci}"><button type="button" data-w="lunch" class="${c.dienst !== 'diner' ? 'on' : ''}">Lunch</button><button type="button" data-w="diner" class="${c.dienst === 'diner' ? 'on' : ''}">Diner</button></div>
+          <div class="rpPijlen">
+            <button type="button" class="rpMini" data-cop="${ci}" ${ci === 0 ? 'disabled' : ''} aria-label="Omhoog">&#8593;</button>
+            <button type="button" class="rpMini" data-cneer="${ci}" ${ci === p.categorieen.length - 1 ? 'disabled' : ''} aria-label="Omlaag">&#8595;</button>
+            <button type="button" class="rpMini rood" data-cweg="${ci}" aria-label="Tabblad weghalen">&#215;</button>
+          </div>
+        </div>
+        ${c.menus.map((m, mi) => {
+          const src = fotoVan(m.id, m.foto);
+          return `<div class="rpMenu" data-ci="${ci}" data-mi="${mi}">
+            <label class="rpFoto" title="Foto kiezen">${src ? `<img src="${esc(src)}" alt="">` : '<i>Foto</i>'}<input type="file" accept="image/*" data-mfoto="${ci}:${mi}" hidden></label>
+            <div class="rpMenuVelden">
+              <input type="text" data-mnaam="${ci}:${mi}" value="${esc(m.naam || '')}" placeholder="Naam, bijv. 3 gangen" maxlength="40">
+              <input type="text" data-mtekst="${ci}:${mi}" value="${esc(m.tekst || '')}" placeholder="Korte uitleg (mag leeg)" maxlength="160">
+            </div>
+            <div class="rpPijlen">
+              <button type="button" class="rpMini" data-mop="${ci}:${mi}" ${mi === 0 ? 'disabled' : ''} aria-label="Omhoog">&#8593;</button>
+              <button type="button" class="rpMini" data-mneer="${ci}:${mi}" ${mi === c.menus.length - 1 ? 'disabled' : ''} aria-label="Omlaag">&#8595;</button>
+              <button type="button" class="rpMini rood" data-mweg="${ci}:${mi}" aria-label="Menu weghalen">&#215;</button>
+            </div>
+          </div>`; }).join('')}
+        <button type="button" class="rpErbij" data-mnieuw="${ci}">+ Menu toevoegen</button>
+      </div>`).join('')}
+    <button type="button" class="rpErbij rpErbijGroot" id="rpCatNieuw">+ Tabblad toevoegen</button>
+
+    <div class="instSub" style="margin-top:18px">Tip: foto's worden vanzelf verkleind en staand bijgesneden. De tafels voor de website komen uit Zalen &amp; Tafels.</div>
+    <div style="margin:10px 0 30px"><button type="button" class="btn ghost" id="rpHerstel">Terug naar de standaard</button></div>
+    </div>`);
+
+  const deel = (s) => s.split(':').map(Number);
+  pg.querySelector('#rpNaarBerichten')?.addEventListener('click', instBerichten);
+  pg.querySelectorAll('input[data-t]').forEach(inp => inp.onchange = () => { p[inp.dataset.t] = inp.value.trim(); bewaar('Opgeslagen'); if(inp.dataset.t === 'naam') teken(); });
+  pg.querySelectorAll('.rpKleur[data-kleur]').forEach(k => k.onclick = () => { p.kleur[k.dataset.kleur] = k.dataset.w; bewaar('Kleur opgeslagen'); teken(); });
+  pg.querySelectorAll('input[data-kleur-eigen]').forEach(inp => inp.onchange = () => { p.kleur[inp.dataset.kleurEigen] = inp.value.toLowerCase(); bewaar('Kleur opgeslagen'); teken(); });
+  pg.querySelectorAll('.otSeg[data-zaal] button').forEach(b => b.onclick = () => { p.zaal = b.dataset.w; bewaar('Opgeslagen', true); publiceerZaal(); teken(); });
+  pg.querySelector('#rpLogoKies').onclick = () => pg.querySelector('#rpLogoBestand').click();
+  pg.querySelector('#rpLogoWit').onchange = (e) => { p.logoWit = e.target.checked; bewaar('Opgeslagen'); teken(); };
+  pg.querySelector('#rpLogoBestand').onchange = async (e) => {
+    const f = e.target.files && e.target.files[0]; if(!f) return;
+    try{ const d = await rpVerklein(f, 'logo'); await bewaarFoto('logo', d); p.logo = ''; bewaar('Logo opgeslagen', true); teken(); }
+    catch(err){ toast(err.message || 'Logo opslaan lukte niet'); }
+  };
+  pg.querySelector('#rpLogoWeg')?.addEventListener('click', async () => { await bewaarFoto('logo', null); p.logo = ''; bewaar('Logo weggehaald', true); teken(); });
+
+  pg.querySelectorAll('input[data-cnaam]').forEach(inp => inp.onchange = () => { const c = p.categorieen[+inp.dataset.cnaam]; c.tab = c.naam = inp.value.trim() || c.naam; bewaar('Opgeslagen'); });
+  pg.querySelectorAll('.otSeg[data-cdienst] button').forEach(b => b.onclick = () => { p.categorieen[+b.parentElement.dataset.cdienst].dienst = b.dataset.w; bewaar('Opgeslagen'); teken(); });
+  const schuif = (lijst, i, d) => { const j = i + d; if(j < 0 || j >= lijst.length) return; [lijst[i], lijst[j]] = [lijst[j], lijst[i]]; };
+  pg.querySelectorAll('[data-cop]').forEach(b => b.onclick = () => { schuif(p.categorieen, +b.dataset.cop, -1); bewaar('Opgeslagen'); teken(); });
+  pg.querySelectorAll('[data-cneer]').forEach(b => b.onclick = () => { schuif(p.categorieen, +b.dataset.cneer, 1); bewaar('Opgeslagen'); teken(); });
+  pg.querySelectorAll('[data-cweg]').forEach(b => b.onclick = () => {
+    if(p.categorieen.length === 1){ toast('Er moet minstens één tabblad blijven'); return; }
+    const c = p.categorieen[+b.dataset.cweg];
+    vraag('Tabblad "' + esc(c.tab || c.naam) + '" met ' + c.menus.length + ' menu\'s weghalen?', () => {
+      c.menus.forEach(m => fotos[m.id] && bewaarFoto(m.id, null));
+      p.categorieen.splice(+b.dataset.cweg, 1); bewaar('Tabblad weggehaald', true); teken();
+    });
+  });
+  pg.querySelector('#rpCatNieuw').onclick = () => { p.categorieen.push({ id: rpNieuwId('tab'), naam: 'Nieuw', tab: 'Nieuw', dienst: 'diner', menus: [{ id: rpNieuwId('menu'), naam: 'Menu', tekst: '' }] }); bewaar('Tabblad toegevoegd', true); teken(); };
+
+  pg.querySelectorAll('input[data-mnaam]').forEach(inp => inp.onchange = () => { const [ci, mi] = deel(inp.dataset.mnaam); const v = inp.value.trim(); if(!v){ inp.value = p.categorieen[ci].menus[mi].naam; toast('Een menu heeft een naam nodig'); return; } p.categorieen[ci].menus[mi].naam = v; bewaar('Opgeslagen'); });
+  pg.querySelectorAll('input[data-mtekst]').forEach(inp => inp.onchange = () => { const [ci, mi] = deel(inp.dataset.mtekst); p.categorieen[ci].menus[mi].tekst = inp.value.trim(); bewaar('Opgeslagen'); });
+  pg.querySelectorAll('[data-mop]').forEach(b => b.onclick = () => { const [ci, mi] = deel(b.dataset.mop); schuif(p.categorieen[ci].menus, mi, -1); bewaar('Opgeslagen'); teken(); });
+  pg.querySelectorAll('[data-mneer]').forEach(b => b.onclick = () => { const [ci, mi] = deel(b.dataset.mneer); schuif(p.categorieen[ci].menus, mi, 1); bewaar('Opgeslagen'); teken(); });
+  pg.querySelectorAll('[data-mweg]').forEach(b => b.onclick = () => {
+    const [ci, mi] = deel(b.dataset.mweg); const c = p.categorieen[ci];
+    if(c.menus.length === 1){ toast('Een tabblad heeft minstens één menu. Haal anders het tabblad weg.'); return; }
+    const m = c.menus[mi];
+    vraag('Menu "' + esc(m.naam) + '" weghalen?', () => { if(fotos[m.id]) bewaarFoto(m.id, null); c.menus.splice(mi, 1); bewaar('Menu weggehaald', true); teken(); });
+  });
+  pg.querySelectorAll('[data-mnieuw]').forEach(b => b.onclick = () => { const c = p.categorieen[+b.dataset.mnieuw]; c.menus.push({ id: rpNieuwId(c.id), naam: 'Nieuw menu', tekst: '' }); bewaar('Menu toegevoegd', true); teken(); });
+  pg.querySelectorAll('input[data-mfoto]').forEach(inp => inp.onchange = async () => {
+    const f = inp.files && inp.files[0]; if(!f) return;
+    const [ci, mi] = deel(inp.dataset.mfoto); const m = p.categorieen[ci].menus[mi];
+    toast('Foto verwerken...');
+    try{ const d = await rpVerklein(f, 'foto'); await bewaarFoto(m.id, d); m.foto = ''; bewaar('Foto opgeslagen', true); teken(); }
+    catch(err){ toast(err.message || 'Foto opslaan lukte niet'); }
+  });
+  pg.querySelector('#rpHerstel').onclick = () => vraag('Alles terugzetten naar de standaardpagina? Je eigen foto\'s en teksten gaan weg.', async () => {
+    for(const id of Object.keys(fotos)) await bewaarFoto(id, null);
+    p = rpKopie(RP_STANDAARD); bewaar('Teruggezet naar de standaard', true); teken();
+  });
+  if(vorig && vorig.y){ const w = pg.querySelector('.instWrap'); if(w) w.scrollTop = vorig.y; }
+}
 
 /* In een reservering laten zien welke mails er weg zijn en of er betaald is */
 async function toonGastberichtenInFormulier(r){
