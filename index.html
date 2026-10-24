@@ -6540,7 +6540,7 @@ async function instCijfers(){
    De Kevora-server leest deze instellingen. Staat de hoofdschakelaar uit,
    dan gaat er niets naar gasten. */
 const KEVORA_SERVER = 'https://europe-west1-' + ((KLANT.firebase && KLANT.firebase.projectId) || 'restaurantct') + '.cloudfunctions.net';
-const BERICHTEN_STANDAARD = { aan:false, bevestiging:true, herinnering:true, herinneringUur:10, review:false, reviewUur:11, reviewLink:'',
+const BERICHTEN_STANDAARD = { routeLink:'', aan:false, bevestiging:true, herinnering:true, herinneringUur:10, review:false, reviewUur:11, reviewLink:'',
   wachtlijst:true, annuleerTotUren:2, siteUrl:'', restaurantNaam:'', afzenderNaam:'', afzenderEmail:'', antwoordEmail:'', telefoon:'', adres:'' };
 const AANBETALING_STANDAARD = { aan:false, vanafPax:8, bedragPP:10, terugTotUren:24 };
 // Aanbetaling staat uit en is verborgen. Klaar voor later: zet op true, samen met de server en de website.
@@ -6627,6 +6627,7 @@ async function instBerichten(){
       ${veld('antwoordEmail', 'Antwoorden naar', 'email', 'info@...', 'Als een gast op de mail antwoordt')}
       ${veld('telefoon', 'Telefoonnummer', 'tel', '070 ...')}
       ${veld('adres', 'Adres', 'text', 'Straat 1, Den Haag')}
+      <div style="grid-column:1/-1">${veld('routeLink', 'Link voor de route (mag leeg)', 'url', 'https://maps.app.goo.gl/...', 'Leeg: Google zoekt op naam en adres. Komt de route verkeerd uit, zoek je restaurant op in Google Maps, klik op Delen en plak de link hier.')}</div>
       <div style="grid-column:1/-1">${isEigenaar ? veld('siteUrl', 'Adres van de reserveringspagina', 'url', 'https://...', 'Bijvoorbeeld https://reserveringen.kevora.nl/' + esc(KLANT.sleutel || 'lecirque') + ', met de naam van je restaurant erachter')
         : ''}</div>
     </div></div>
@@ -6651,6 +6652,7 @@ async function instBerichten(){
   pg.querySelectorAll('input[data-v]').forEach(inp => inp.onchange = ()=>{
     let v = inp.value.trim();
     if(inp.dataset.v === 'siteUrl' && v && !/^https?:\/\//.test(v)) v = 'https://' + v;
+    if(inp.dataset.v === 'routeLink' && v && !/^https:\/\/(www\.google\.[a-z.]+\/maps|maps\.google\.[a-z.]+|maps\.app\.goo\.gl|goo\.gl\/maps)/i.test(v)){ toast('Plak een link van Google Maps (Delen > Link kopiëren)'); inp.value = b.routeLink || ''; return; }
     b[inp.dataset.v] = v; bewaar('Opgeslagen');
     if(['afzenderEmail','siteUrl'].includes(inp.dataset.v)) instBerichtenTeken();
   });
