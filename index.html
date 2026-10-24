@@ -2309,10 +2309,11 @@ html body #filterInner .fltReset{height:34px;padding:0 14px;border-radius:9px;fo
 .rpEigen span{color:#fff;font-weight:800;font-size:18px;text-shadow:0 1px 3px rgba(0,0,0,.6);pointer-events:none}
 .rpLogoVak{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .rpLogoVoorbeeld{flex:1;min-width:220px;height:58px;border-radius:12px;display:flex;align-items:center;gap:14px;padding:0 16px;color:#fff;border:1px solid rgba(255,255,255,.1)}
-.rpLogoVoorbeeld img{width:34px;height:34px;object-fit:contain}
-.rpLogoVoorbeeld img.wit{filter:brightness(0) invert(1)}
-.rpLogoVoorbeeld i{font-size:12px;opacity:.6}
-.rpLogoVoorbeeld b{font-size:15px;margin:0 auto;padding-right:48px}
+.rpLogoVoorbeeld .rpKv{width:26px;height:26px;object-fit:contain;flex:none}
+.rpLogoMidden{flex:1;display:flex;align-items:center;justify-content:center;gap:9px;padding-right:26px;min-width:0}
+.rpLogoMidden img{height:28px;max-width:80px;object-fit:contain}
+.rpLogoMidden img.wit{filter:brightness(0) invert(1)}
+.rpLogoMidden b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rpLogoKnoppen{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .rpLogoKnoppen .btn{white-space:nowrap;width:auto;flex:none}
 .rpCat{margin-bottom:12px}
@@ -2335,6 +2336,28 @@ html body #filterInner .fltReset{height:34px;padding:0 14px;border-radius:9px;fo
 .rpErbij{display:block;width:100%;padding:12px;border:0;background:transparent;color:var(--accent2);font-weight:800;font-size:13px;text-align:left}
 .rpErbijGroot{border:1px dashed var(--vlakRand);border-radius:14px;text-align:center;margin-top:4px}
 @media (max-width:600px){.rpCatKop{flex-wrap:wrap}.rpCatNaam{flex-basis:100%}.rpDienst{flex:1}.rpMenu .rpPijlen{flex-direction:column}}
+
+/* Live voorbeeld */
+.rpVb{display:none}
+body.rpVbAan .rpVb{display:flex;position:fixed;z-index:85;top:70px;right:16px;bottom:16px;width:min(440px,36vw);flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.45);overflow:hidden;animation:kishRise .25s ease-out}
+body.rpVbAan .instPage .instWrap{padding-right:min(470px,calc(36vw + 30px))}
+.rpVbKop{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line)}
+.rpVbKop b{font-size:13px;font-weight:800;flex:1;display:flex;align-items:center;gap:7px}
+.rpVbKop b::before{content:'';width:8px;height:8px;border-radius:50%;background:#22c08a;box-shadow:0 0 8px #22c08a}
+.rpVbModus{height:34px;width:190px}
+.rpVbSluit{display:none;width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--panel2);color:var(--txt);font-size:18px;padding:0}
+.rpVbVak{flex:1;min-height:0;display:flex;align-items:flex-start;justify-content:center;padding:14px 4px;overflow:hidden;background:radial-gradient(circle at 50% 0,rgba(255,255,255,.05),transparent 70%)}
+.rpVbToestel{position:relative;border-radius:22px;overflow:hidden;box-shadow:0 0 0 6px #0b0e14,0 0 0 7px rgba(255,255,255,.12),0 18px 40px rgba(0,0,0,.5);background:#edf0f5;flex:none}
+.rpVbToestel iframe{position:absolute;top:0;left:0;border:0;transform-origin:0 0;background:#edf0f5}
+.rpVbVoet{padding:9px 12px;font-size:11.5px;color:var(--muted);border-top:1px solid var(--line);text-align:center}
+.rpVbKnop{display:none;width:100%;margin-top:10px}
+@media (max-width:1099px){
+  body.rpVbAan .instPage .instWrap{padding-right:14px}
+  .rpVbKnop{display:block}
+  body.rpVbAan .rpVb{display:none}
+  body.rpVbAan.rpVbOpen .rpVb{display:flex;inset:0;width:auto;top:0;right:0;bottom:0;border-radius:0;z-index:95}
+  .rpVbSluit{display:block}
+}
 </style>
 </head>
 <body>
@@ -6636,8 +6659,8 @@ function euroTekst(n){ return '€' + (+n || 0).toFixed(2).replace('.', ',').rep
    dezelfde indeling gebruikt als de app. */
 const RP_STANDAARD = {
   naam: KLANT.naam || '',
-  logo: KLANT.id === 'lecirque' ? '/assets/le-cirque-logo.png' : '',
-  logoWit: true,
+  logo: '',          // eigen logo naast de naam; het Kevora-logo staat altijd vast linksboven
+  logoWit: false,
   kleur: { kop: '#0c1624', accent: '#265be8' },
   eyebrow: 'EEN PLEK AAN TAFEL',
   titel: 'Reserveer een tafel',
@@ -6780,6 +6803,89 @@ setInterval(() => {
   db.ref(syncPad + '/publiek/zaal').once('value').then(sn => { _rpZaalLaatst = JSON.stringify(sn.val() || ''); publiceerZaal(); }).catch(() => {});
 }, 3000);
 
+/* ===== Live voorbeeld naast Instellingen > Reserveringspagina =====
+   De echte reserveringspagina in een frame, in voorbeeldmodus. Elke wijziging
+   gaat er meteen heen, ook tijdens het typen. Het frame blijft staan als de
+   instellingen opnieuw getekend worden, zodat het niet knippert. */
+let _rpVb = null;            // { doos, frame, klaar, modus }
+let _rpVbData = null;        // { p, fotos } zoals nu in de instellingen
+function rpVoorbeeldUrl(){
+  let basis = 'https://restaurantct.web.app', slug = KLANT.sleutel || KLANT.id || 'lecirque';
+  try{
+    const u = rpSiteUrl();
+    if(u){ const x = new URL(u); basis = x.origin; const eerste = x.pathname.split('/').filter(Boolean)[0]; if(eerste && !/\.html?$/.test(eerste)) slug = eerste; }
+  }catch(_){}
+  return basis + '/' + encodeURIComponent(slug) + '?voorbeeld=1';
+}
+function rpStuurVoorbeeld(){
+  if(!_rpVb || !_rpVb.klaar || !_rpVbData) return;
+  try{ _rpVb.frame.contentWindow.postMessage({ type: 'kevora-voorbeeld', pagina: _rpVbData.p, fotos: _rpVbData.fotos }, '*'); }catch(_){}
+}
+window.addEventListener('message', (e) => {
+  if(!_rpVb || e.source !== _rpVb.frame.contentWindow || !e.data || e.data.type !== 'kevora-voorbeeld-klaar') return;
+  _rpVb.klaar = true;
+  rpStuurVoorbeeld();
+});
+function rpSchaalVoorbeeld(){
+  if(!_rpVb) return;
+  const vak = _rpVb.doos.querySelector('.rpVbVak');
+  const f = _rpVb.frame;
+  const breed = _rpVb.modus === 'pc' ? 1100 : 390;
+  const hoog = _rpVb.modus === 'pc' ? 860 : 800;
+  const s = Math.min((vak.clientWidth - 8) / breed, (vak.clientHeight - 8) / hoog, 1);
+  f.style.width = breed + 'px'; f.style.height = hoog + 'px';
+  f.style.transform = 'scale(' + s + ')';
+  _rpVb.doos.querySelector('.rpVbToestel').style.width = Math.round(breed * s) + 'px';
+  _rpVb.doos.querySelector('.rpVbToestel').style.height = Math.round(hoog * s) + 'px';
+}
+function rpToonVoorbeeld(p, fotos){
+  _rpVbData = { p, fotos };
+  const pagina = document.querySelector('.instPage');
+  if(!pagina) return;
+  if(!_rpVb){
+    const doos = document.createElement('aside');
+    doos.className = 'rpVb';
+    doos.innerHTML = `
+      <div class="rpVbKop">
+        <b>Live voorbeeld</b>
+        <div class="otSeg rpVbModus"><button type="button" data-m="tel" class="on">Telefoon</button><button type="button" data-m="pc">Computer</button></div>
+        <button type="button" class="rpVbSluit" aria-label="Voorbeeld sluiten">&#215;</button>
+      </div>
+      <div class="rpVbVak"><div class="rpVbToestel"><iframe title="Voorbeeld reserveringspagina" loading="eager"></iframe></div></div>
+      <div class="rpVbVoet">Zo ziet de gast je pagina. Boeken kan niet in het voorbeeld.</div>`;
+    document.body.appendChild(doos);
+    const frame = doos.querySelector('iframe');
+    _rpVb = { doos, frame, klaar: false, modus: 'tel' };
+    frame.src = rpVoorbeeldUrl();
+    doos.querySelectorAll('.rpVbModus button').forEach(b => b.onclick = () => {
+      _rpVb.modus = b.dataset.m;
+      doos.querySelectorAll('.rpVbModus button').forEach(x => x.classList.toggle('on', x === b));
+      rpSchaalVoorbeeld();
+    });
+    doos.querySelector('.rpVbSluit').onclick = () => document.body.classList.remove('rpVbOpen');
+    window.addEventListener('resize', rpSchaalVoorbeeld);
+    // Weg met het voorbeeld zodra je de pagina verlaat
+    const wacht = setInterval(() => {
+      if(document.getElementById('rpPagina')) return;
+      clearInterval(wacht);
+      window.removeEventListener('resize', rpSchaalVoorbeeld);
+      doos.remove(); _rpVb = null;
+      document.body.classList.remove('rpVbOpen', 'rpVbAan');
+    }, 400);
+  }
+  document.body.classList.add('rpVbAan');
+  // Knop om het voorbeeld te openen op een smal scherm
+  const card = document.getElementById('rpPagina');
+  if(card && !card.querySelector('.rpVbKnop')){
+    const k = document.createElement('button');
+    k.type = 'button'; k.className = 'btn primary rpVbKnop'; k.textContent = 'Voorbeeld bekijken';
+    k.onclick = () => { document.body.classList.add('rpVbOpen'); setTimeout(rpSchaalVoorbeeld, 30); };
+    card.querySelector('.rpLink').after(k);
+  }
+  setTimeout(rpSchaalVoorbeeld, 0);
+  rpStuurVoorbeeld();
+}
+
 async function instPaginaWeb(){
   const kruimel = [{n:'Instellingen', ga:toonInstellingen},{n:'Reserveringspagina', ga:instPaginaWeb}];
   let p = null, fotos = {};
@@ -6797,6 +6903,7 @@ async function instPaginaWeb(){
       }catch(e){ console.warn('Reserveringspagina ophalen mislukt', e); }
     }
     p = Object.assign(rpKopie(RP_STANDAARD), p || {});
+    if(p.logo === '/assets/le-cirque-logo.png'){ p.logo = ''; p.logoWit = false; }
     p.kleur = Object.assign({}, RP_STANDAARD.kleur, p.kleur || {});
     p.categorieen = (Array.isArray(p.categorieen) ? p.categorieen : Object.values(p.categorieen || {})).map(c => Object.assign({}, c, { menus: Array.isArray(c.menus) ? c.menus : Object.values(c.menus || {}) }));
   }
@@ -6804,6 +6911,8 @@ async function instPaginaWeb(){
 
   let _bewaarTimer = null;
   const bewaar = (melding, direct) => {
+    if(_rpVbData) _rpVbData.p = p;
+    rpStuurVoorbeeld();
     store.set('ct_pagina', p);
     rpMenusInKeuzelijst(p);
     clearTimeout(_bewaarTimer);
@@ -6818,6 +6927,8 @@ async function instPaginaWeb(){
   };
   const bewaarFoto = (id, data) => {
     if(data) fotos[id] = data; else delete fotos[id];
+    if(_rpVbData) _rpVbData.fotos = fotos;
+    rpStuurVoorbeeld();
     if(!db || !syncPad) return Promise.resolve();
     return db.ref(syncPad + '/publiek/fotos/' + id).set(data || null);
   };
@@ -6847,11 +6958,12 @@ async function instPaginaWeb(){
     <div class="otLijst gbLijst"><div class="gbExtra gbRaster" style="border:0">
       <div style="grid-column:1/-1">${tveld('naam', 'Naam restaurant', 'Le Cirque', 60)}</div>
       <div class="rpLogoVak" style="grid-column:1/-1">
-        <div class="rpLogoVoorbeeld" style="background:${esc(p.kleur.kop)}">${logoSrc ? `<img src="${esc(logoSrc)}" alt="" class="${p.logoWit ? 'wit' : ''}">` : '<i>Geen logo</i>'}<b>${esc(p.naam || '')}</b></div>
+        <span class="rpLab" style="flex-basis:100%;margin:0">Eigen logo <small style="font-weight:500">komt naast je naam, het Kevora-logo blijft linksboven</small></span>
+        <div class="rpLogoVoorbeeld" style="background:${esc(p.kleur.kop)}"><img src="${KEVORA_LOGO_WIT}" alt="" class="rpKv"><span class="rpLogoMidden">${logoSrc ? `<img src="${esc(logoSrc)}" alt="" class="${p.logoWit ? 'wit' : ''}">` : ''}<b>${esc(p.naam || '')}</b></span></div>
         <div class="rpLogoKnoppen">
           <input type="file" accept="image/*" id="rpLogoBestand" hidden><button type="button" class="btn" id="rpLogoKies">${logoSrc ? 'Ander logo' : 'Logo kiezen'}</button>
           ${logoSrc ? '<button type="button" class="btn ghost" id="rpLogoWeg">Weghalen</button>' : ''}
-          <label class="otSchakel"><input type="checkbox" id="rpLogoWit" ${p.logoWit ? 'checked' : ''}><span></span><i>Wit maken</i></label>
+          ${logoSrc ? `<label class="otSchakel"><input type="checkbox" id="rpLogoWit" ${p.logoWit ? 'checked' : ''}><span></span><i>Wit maken</i></label>` : ''}
         </div>
       </div>
       <div class="otVeld" style="grid-column:1/-1"><span class="rpLab">Kleur bovenbalk</span>${kleurRij('kop', RP_KLEUREN_KOP)}</div>
@@ -6903,13 +7015,21 @@ async function instPaginaWeb(){
     </div>`);
 
   const deel = (s) => s.split(':').map(Number);
+  rpToonVoorbeeld(p, fotos);
+  // Tijdens het typen meteen in het voorbeeld (opslaan gebeurt bij verlaten van het veld)
+  const live = (sel, zet) => pg.querySelectorAll(sel).forEach(inp => inp.addEventListener('input', () => { zet(inp); rpStuurVoorbeeld(); }));
+  live('input[data-t]', inp => { p[inp.dataset.t] = inp.value; if(inp.dataset.t === 'naam'){ const n = pg.querySelector('.rpLogoMidden b'); if(n) n.textContent = inp.value; } });
+  live('input[data-cnaam]', inp => { const c = p.categorieen[+inp.dataset.cnaam]; if(inp.value.trim()) c.tab = c.naam = inp.value; });
+  live('input[data-mnaam]', inp => { const [ci, mi] = deel(inp.dataset.mnaam); if(inp.value.trim()) p.categorieen[ci].menus[mi].naam = inp.value; });
+  live('input[data-mtekst]', inp => { const [ci, mi] = deel(inp.dataset.mtekst); p.categorieen[ci].menus[mi].tekst = inp.value; });
+  live('input[data-kleur-eigen]', inp => { p.kleur[inp.dataset.kleurEigen] = inp.value.toLowerCase(); });
   pg.querySelector('#rpNaarBerichten')?.addEventListener('click', instBerichten);
-  pg.querySelectorAll('input[data-t]').forEach(inp => inp.onchange = () => { p[inp.dataset.t] = inp.value.trim(); bewaar('Opgeslagen'); if(inp.dataset.t === 'naam') teken(); });
+  pg.querySelectorAll('input[data-t]').forEach(inp => inp.onchange = () => { p[inp.dataset.t] = inp.value.trim(); bewaar('Opgeslagen'); });
   pg.querySelectorAll('.rpKleur[data-kleur]').forEach(k => k.onclick = () => { p.kleur[k.dataset.kleur] = k.dataset.w; bewaar('Kleur opgeslagen'); teken(); });
   pg.querySelectorAll('input[data-kleur-eigen]').forEach(inp => inp.onchange = () => { p.kleur[inp.dataset.kleurEigen] = inp.value.toLowerCase(); bewaar('Kleur opgeslagen'); teken(); });
   pg.querySelectorAll('.otSeg[data-zaal] button').forEach(b => b.onclick = () => { p.zaal = b.dataset.w; bewaar('Opgeslagen', true); publiceerZaal(); teken(); });
   pg.querySelector('#rpLogoKies').onclick = () => pg.querySelector('#rpLogoBestand').click();
-  pg.querySelector('#rpLogoWit').onchange = (e) => { p.logoWit = e.target.checked; bewaar('Opgeslagen'); teken(); };
+  pg.querySelector('#rpLogoWit')?.addEventListener('change', (e) => { p.logoWit = e.target.checked; bewaar('Opgeslagen'); teken(); });
   pg.querySelector('#rpLogoBestand').onchange = async (e) => {
     const f = e.target.files && e.target.files[0]; if(!f) return;
     try{ const d = await rpVerklein(f, 'logo'); await bewaarFoto('logo', d); p.logo = ''; bewaar('Logo opgeslagen', true); teken(); }
