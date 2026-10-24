@@ -2381,6 +2381,17 @@ a.ki:hover{color:var(--txt)}
 .kt-all{color:#ff8a95;background:rgba(229,48,77,.12);border:1px solid rgba(229,48,77,.35)}
 .kt-bijz{color:#8ab4ff;background:rgba(77,141,255,.12);border:1px solid rgba(77,141,255,.35)}
 .chip.chipWeb{background:transparent!important;color:#9fb3d1;border:1px solid rgba(159,179,209,.4)}
+
+/* Vraagteken bij instellingen */
+.instHulp{width:26px;height:26px;flex:none;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--muted);font-size:13px;font-weight:800;padding:0;display:grid;place-items:center;transition:all .15s}
+.instHulp:hover{color:var(--txt);border-color:var(--accent);background:color-mix(in srgb,var(--accent) 18%,transparent)}
+.instHulpOv{z-index:200}
+.instHulpBox{text-align:left!important;width:min(380px,92vw)}
+.instHulpKop{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.instHulpKop b{font-size:16px}
+.instHulpIco{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px;flex:none}
+.instHulpBox p{color:var(--txt);opacity:.85;font-size:14px;line-height:1.55;margin:0 0 8px}
+.instHulpBox .instHulpLet{opacity:1;color:var(--muted);font-size:13px;padding:9px 11px;border-radius:10px;background:var(--panel2);border:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -5655,6 +5666,34 @@ function instPagina(kruimels, inhoud){
 }
 window.sluitInstellingen = ()=>{ isEigenaar = false; const p = document.querySelector('.instPage'); if(p) p.remove(); };
 
+/* Uitleg bij elke instelling, voor collega's die niet weten wat iets doet */
+const INST_HULP = {
+  rTijden: ['Openingstijden', 'Hier staat op welke dagen en tijden gasten online kunnen reserveren, voor lunch en diner. Ook stel je hier sluitingsdagen in, bijvoorbeeld een feestdag.', 'Pas je iets aan, dan zien gasten dat meteen op de reserveringspagina.'],
+  rCijfers: ['Cijfers', 'Een overzicht van hoe druk het was: hoeveel gasten, welke dagen en tijden het drukst zijn, welke menu\'s gekozen worden en hoeveel gasten niet kwamen opdagen.', 'Alleen om te bekijken. Je kunt hier niets kapotmaken.'],
+  rBerichten: ['Gastberichten', 'De mails die gasten automatisch krijgen: de bevestiging na het boeken, een herinnering de dag ervoor en eventueel een vraag om een review. Ook de wachtlijst staat hier.', 'Je kiest welke mails er weggaan en hoe laat. De rest stelt de eigenaar in.'],
+  rPagina: ['Reserveringspagina', 'Hoe de website eruitziet waar gasten online een tafel boeken: de teksten, de menu\'s en de foto\'s. Rechts zie je meteen een voorbeeld.', 'Wat je hier opslaat, staat direct online voor gasten. Twijfel je, laat het dan staan.'],
+  rArchief: ['Dagarchief', 'Eerdere dagen terugkijken. Handig als je wilt weten hoe een dag eruitzag, of als je iets wilt vergelijken.', 'Oude reserveringen worden na 60 dagen automatisch verwijderd.'],
+  rZalen: ['Zalen & Tafels', 'De indeling van de zaal: welke tafels er zijn, hoeveel stoelen erbij staan en waar ze staan. De app en de website gebruiken dit om tafels te kiezen.', 'Een wijziging geldt op alle apparaten en ook op de website. Verander alleen iets als de zaal echt anders staat.'],
+  rBackup: ['Reservekopie', 'De app bewaart gedurende de dag kopieën van de reserveringen. Is er per ongeluk iets weg of verkeerd, dan zet je hier een eerdere stand terug.', 'Terugzetten vervangt de lijst van die dag. Vraag het bij twijfel eerst aan de eigenaar.'],
+  rManagers: ['Managers', 'De codes waarmee collega\'s in de instellingen kunnen. Hier voeg je iemand toe of haal je een code weg als iemand vertrekt.', 'Alleen voor de eigenaar.'],
+  rVangnet: ['Extern vangnet', 'Een tweede kopie van de reserveringen, op een andere plek dan de gewone database. Mocht de hoofdverbinding uitvallen, dan zijn de gegevens niet weg.', 'Alleen voor de eigenaar. Laat dit aan staan.']
+};
+function toonHulp(id){
+  const h = INST_HULP[id]; if(!h) return;
+  const ov = document.createElement('div');
+  ov.className = 'mcalOv instHulpOv';
+  ov.innerHTML = `<div class="vraagBox instHulpBox" role="dialog" aria-label="Uitleg ${esc(h[0])}">
+    <div class="instHulpKop"><span class="instHulpIco">?</span><b>${esc(h[0])}</b></div>
+    <p>${esc(h[1])}</p>
+    ${h[2] ? `<p class="instHulpLet">${esc(h[2])}</p>` : ''}
+    <div class="sheetBtns" style="margin-top:14px"><button class="btn primary" id="instHulpOk">Begrepen</button></div>
+  </div>`;
+  document.body.appendChild(ov);
+  const weg = ()=> ov.remove();
+  ov.onclick = (e)=>{ if(e.target === ov) weg(); };
+  ov.querySelector('#instHulpOk').onclick = weg;
+}
+
 function toonInstellingen(){
   const ico = {
     archief:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/>',
@@ -5674,6 +5713,7 @@ function toonInstellingen(){
       <span class="instIco"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${teken}</svg></span>
       <span class="instTxt"><b>${naam}</b><small>${uitleg}</small></span>
       ${nu ? `<span class="instNu" id="${nu}"></span>` : ''}
+      <button type="button" class="instHulp" data-hulp="${id}" aria-label="Wat doet ${naam.replace(/"/g,'')}?">?</button>
       <span class="instChev">&#8250;</span>
     </div>`;
 
@@ -5708,6 +5748,8 @@ function toonInstellingen(){
     </div>`);
 
   const bind = (id, fn)=>{ const el = pg.querySelector(id); if(el) el.onclick = fn; };
+  // Vraagteken: uitleg in gewone taal, zonder de pagina te openen
+  pg.querySelectorAll('.instHulp').forEach(k => k.onclick = (e)=>{ e.stopPropagation(); toonHulp(k.dataset.hulp); });
   bind('#rTijden', instTijden);
   bind('#rZalen', instZalen);
   bind('#rArchief', instArchief);
