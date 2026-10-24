@@ -2310,7 +2310,7 @@ html body #filterInner .fltReset{height:34px;padding:0 14px;border-radius:9px;fo
 .rpLogoVak{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .rpLogoVoorbeeld{flex:1;min-width:220px;height:58px;border-radius:12px;display:flex;align-items:center;gap:14px;padding:0 16px;color:#fff;border:1px solid rgba(255,255,255,.1)}
 .rpLogoVoorbeeld .rpKv{width:26px;height:26px;object-fit:contain;flex:none}
-.rpLogoMidden{flex:1;display:flex;align-items:center;justify-content:center;gap:9px;padding-right:26px;min-width:0}
+.rpLogoMidden{flex:1;display:flex;align-items:center;justify-content:center;gap:9px;min-width:0}
 .rpLogoMidden img{height:28px;max-width:80px;object-fit:contain}
 .rpLogoMidden img.wit{filter:brightness(0) invert(1)}
 .rpLogoMidden b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -2339,14 +2339,15 @@ html body #filterInner .fltReset{height:34px;padding:0 14px;border-radius:9px;fo
 
 /* Live voorbeeld */
 .rpVb{display:none}
-body.rpVbAan .rpVb{display:flex;position:fixed;z-index:85;top:70px;right:16px;bottom:16px;width:min(440px,36vw);flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.45);overflow:hidden;animation:kishRise .25s ease-out}
-body.rpVbAan .instPage .instWrap{padding-right:min(470px,calc(36vw + 30px))}
+body.rpVbAan .rpVb{display:flex;position:fixed;z-index:85;top:78px;left:calc(50% + 8px);right:16px;bottom:16px;width:auto;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.45);overflow:hidden;animation:kishRise .25s ease-out}
+body.rpVbAan .instPage .instWrap{padding-right:calc(50% + 8px);padding-left:16px}
+body.rpVbAan .instPage .instCrumb{max-width:min(760px,calc(50% - 24px));margin-left:max(16px,calc(25% - 380px))}
 .rpVbKop{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line)}
 .rpVbKop b{font-size:13px;font-weight:800;flex:1;display:flex;align-items:center;gap:7px}
 .rpVbKop b::before{content:'';width:8px;height:8px;border-radius:50%;background:#22c08a;box-shadow:0 0 8px #22c08a}
 .rpVbModus{height:34px;width:190px}
 .rpVbSluit{display:none;width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--panel2);color:var(--txt);font-size:18px;padding:0}
-.rpVbVak{flex:1;min-height:0;display:flex;align-items:flex-start;justify-content:center;padding:14px 4px;overflow:hidden;background:radial-gradient(circle at 50% 0,rgba(255,255,255,.05),transparent 70%)}
+.rpVbVak{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:18px 12px;overflow:hidden;background:radial-gradient(circle at 50% 0,rgba(255,255,255,.05),transparent 70%)}
 .rpVbToestel{position:relative;border-radius:22px;overflow:hidden;box-shadow:0 0 0 6px #0b0e14,0 0 0 7px rgba(255,255,255,.12),0 18px 40px rgba(0,0,0,.5);background:#edf0f5;flex:none}
 .rpVbToestel iframe{position:absolute;top:0;left:0;border:0;transform-origin:0 0;background:#edf0f5}
 .rpVbVoet{padding:9px 12px;font-size:11.5px;color:var(--muted);border-top:1px solid var(--line);text-align:center}
@@ -2358,6 +2359,8 @@ body.rpVbAan .instPage .instWrap{padding-right:min(470px,calc(36vw + 30px))}
   body.rpVbAan.rpVbOpen .rpVb{display:flex;inset:0;width:auto;top:0;right:0;bottom:0;border-radius:0;z-index:95}
   .rpVbSluit{display:block}
 }
+.rpVeldKop{display:flex;justify-content:space-between;gap:8px}
+.rpTeller{font-style:normal;font-weight:600;opacity:.7;font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
@@ -6832,7 +6835,7 @@ function rpSchaalVoorbeeld(){
   const f = _rpVb.frame;
   const breed = _rpVb.modus === 'pc' ? 1100 : 390;
   const hoog = _rpVb.modus === 'pc' ? 860 : 800;
-  const s = Math.min((vak.clientWidth - 8) / breed, (vak.clientHeight - 8) / hoog, 1);
+  const s = Math.min((vak.clientWidth - 40) / breed, (vak.clientHeight - 40) / hoog, 1);
   f.style.width = breed + 'px'; f.style.height = hoog + 'px';
   f.style.transform = 'scale(' + s + ')';
   _rpVb.doos.querySelector('.rpVbToestel').style.width = Math.round(breed * s) + 'px';
@@ -6938,7 +6941,7 @@ async function instPaginaWeb(){
   const fotoVan = (id, standaard) => fotos[id] || rpFotoSrc(standaard);
   const kleurRij = (welk, lijst) => `<div class="rpKleuren">${lijst.map(k => `<button type="button" class="rpKleur ${p.kleur[welk].toLowerCase() === k ? 'on' : ''}" data-kleur="${welk}" data-w="${k}" style="background:${k}" aria-label="Kleur ${k}"></button>`).join('')}
       <label class="rpKleur rpEigen" style="background:${esc(p.kleur[welk])}" title="Eigen kleur"><input type="color" data-kleur-eigen="${welk}" value="${esc(p.kleur[welk])}"><span>+</span></label></div>`;
-  const tveld = (k, label, ph, max) => `<label class="gbVeld"><span>${label}</span><input type="text" data-t="${k}" value="${esc(p[k] || '')}" placeholder="${esc(ph || '')}" maxlength="${max || 80}" autocomplete="off"></label>`;
+  const tveld = (k, label, ph, max) => `<label class="gbVeld"><span class="rpVeldKop">${label}<em class="rpTeller" data-teller="${k}">${String(p[k] || '').length}/${max || 80}</em></span><input type="text" data-t="${k}" value="${esc(p[k] || '')}" placeholder="${esc(ph || '')}" maxlength="${max || 80}" autocomplete="off"></label>`;
   const logoSrc = fotos.logo || rpFotoSrc(p.logo);
   const aantalMenus = p.categorieen.reduce((n, c) => n + c.menus.length, 0);
 
@@ -6958,8 +6961,8 @@ async function instPaginaWeb(){
     <div class="otLijst gbLijst"><div class="gbExtra gbRaster" style="border:0">
       <div style="grid-column:1/-1">${tveld('naam', 'Naam restaurant', 'Le Cirque', 60)}</div>
       <div class="rpLogoVak" style="grid-column:1/-1">
-        <span class="rpLab" style="flex-basis:100%;margin:0">Eigen logo <small style="font-weight:500">komt naast je naam, het Kevora-logo blijft linksboven</small></span>
-        <div class="rpLogoVoorbeeld" style="background:${esc(p.kleur.kop)}"><img src="${KEVORA_LOGO_WIT}" alt="" class="rpKv"><span class="rpLogoMidden">${logoSrc ? `<img src="${esc(logoSrc)}" alt="" class="${p.logoWit ? 'wit' : ''}">` : ''}<b>${esc(p.naam || '')}</b></span></div>
+        <span class="rpLab" style="flex-basis:100%;margin:0">Eigen logo <small style="font-weight:500">komt naast je naam in de bovenbalk, onderaan staat "Mogelijk gemaakt door Kevora"</small></span>
+        <div class="rpLogoVoorbeeld" style="background:${esc(p.kleur.kop)}"><span class="rpLogoMidden">${logoSrc ? `<img src="${esc(logoSrc)}" alt="" class="${p.logoWit ? 'wit' : ''}">` : ''}<b>${esc(p.naam || '')}</b></span></div>
         <div class="rpLogoKnoppen">
           <input type="file" accept="image/*" id="rpLogoBestand" hidden><button type="button" class="btn" id="rpLogoKies">${logoSrc ? 'Ander logo' : 'Logo kiezen'}</button>
           ${logoSrc ? '<button type="button" class="btn ghost" id="rpLogoWeg">Weghalen</button>' : ''}
@@ -6974,8 +6977,8 @@ async function instPaginaWeb(){
 
     <div class="otKop">Teksten</div>
     <div class="otLijst gbLijst"><div class="gbExtra gbRaster" style="border:0">
-      ${tveld('eyebrow', 'Kleine regel boven de titel', 'EEN PLEK AAN TAFEL', 60)}
-      ${tveld('titel', 'Titel', 'Reserveer een tafel', 80)}
+      ${tveld('eyebrow', 'Kleine regel boven de titel', 'EEN PLEK AAN TAFEL', 40)}
+      ${tveld('titel', 'Titel', 'Reserveer een tafel', 40)}
       <div style="grid-column:1/-1">${tveld('intro', 'Uitleg onder de titel', 'Kies je gezelschap, je moment en je menu.', 240)}</div>
       <div style="grid-column:1/-1">${tveld('voet', 'Tekst onderaan', 'We kijken uit naar je komst.', 120)}</div>
     </div></div>
@@ -7018,7 +7021,7 @@ async function instPaginaWeb(){
   rpToonVoorbeeld(p, fotos);
   // Tijdens het typen meteen in het voorbeeld (opslaan gebeurt bij verlaten van het veld)
   const live = (sel, zet) => pg.querySelectorAll(sel).forEach(inp => inp.addEventListener('input', () => { zet(inp); rpStuurVoorbeeld(); }));
-  live('input[data-t]', inp => { p[inp.dataset.t] = inp.value; if(inp.dataset.t === 'naam'){ const n = pg.querySelector('.rpLogoMidden b'); if(n) n.textContent = inp.value; } });
+  live('input[data-t]', inp => { p[inp.dataset.t] = inp.value; const t = pg.querySelector(`[data-teller="${inp.dataset.t}"]`); if(t) t.textContent = inp.value.length + '/' + inp.maxLength; if(inp.dataset.t === 'naam'){ const n = pg.querySelector('.rpLogoMidden b'); if(n) n.textContent = inp.value; } });
   live('input[data-cnaam]', inp => { const c = p.categorieen[+inp.dataset.cnaam]; if(inp.value.trim()) c.tab = c.naam = inp.value; });
   live('input[data-mnaam]', inp => { const [ci, mi] = deel(inp.dataset.mnaam); if(inp.value.trim()) p.categorieen[ci].menus[mi].naam = inp.value; });
   live('input[data-mtekst]', inp => { const [ci, mi] = deel(inp.dataset.mtekst); p.categorieen[ci].menus[mi].tekst = inp.value; });
