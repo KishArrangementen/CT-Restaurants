@@ -3219,7 +3219,12 @@ function startSync(){
           firebase.database().ref('toegang/'+user.uid).once('value')
             .then(snap=>{
               bezigMetCheck = false;
-              if(snap.val() === true){ verbergLogin(); klaar(); }
+              // Toegang geldt per restaurant: toegang/<uid>/ct_lecirque = true.
+              // Een los 'true' is de oude manier en geldt alleen voor Le Cirque.
+              const v = snap.val();
+              const mijnPad = 'ct_' + (cfg.sleutel || 'team').replace(/[^A-Za-z0-9_-]/g,'');
+              const mag = (v === true && mijnPad === 'ct_lecirque') || (v && typeof v === 'object' && v[mijnPad] === true);
+              if(mag){ verbergLogin(); klaar(); }
               else toonGeenToegang();
             })
             .catch(e=>{
