@@ -2365,6 +2365,22 @@ body.rpVbAan .instPage .instCrumb{max-width:min(760px,calc(50% - 24px));margin-l
 .gbVast{height:42px;display:flex;align-items:center;border-radius:10px;border:1px dashed var(--vlakRand);color:var(--muted);font-size:14px;padding:0 12px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .gbStatusVast{font-size:12.5px;font-weight:800;padding:6px 12px;border-radius:999px;background:var(--balk,var(--bg));color:var(--muted);border:1px solid var(--vlakRand)}
 .gbStatusVast.aan{color:#6ee7b7;border-color:rgba(110,231,183,.4)}
+
+/* Kaart: gegevens netjes onder elkaar */
+.kinfo{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:6px;font-size:12.5px;color:var(--muted);min-width:0}
+.ki{display:inline-flex;align-items:center;gap:5px;min-width:0;max-width:100%;color:inherit;text-decoration:none;white-space:nowrap}
+.ki svg,.knoot svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;opacity:.75}
+a.ki:hover{color:var(--txt)}
+.ki-mail{overflow:hidden;text-overflow:ellipsis;display:inline-block;line-height:1.5}
+.ki-mail svg{vertical-align:-2px;margin-right:5px}
+.knoot{display:flex;gap:6px;align-items:flex-start;margin-top:5px;font-size:13px;color:#d4d8e2;line-height:1.45}
+.knoot svg{margin-top:3px;opacity:.6}
+.knoot span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-width:0}
+.ktags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.kt{font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.kt-all{color:#ff8a95;background:rgba(229,48,77,.12);border:1px solid rgba(229,48,77,.35)}
+.kt-bijz{color:#8ab4ff;background:rgba(77,141,255,.12);border:1px solid rgba(77,141,255,.35)}
+.chip.chipWeb{background:transparent!important;color:#9fb3d1;border:1px solid rgba(159,179,209,.4)}
 </style>
 </head>
 <body>
@@ -8087,6 +8103,24 @@ function bijzTekst(r){
   return Object.entries(b).filter(([,n])=>n>0).map(([k,n])=>n+'x '+k).join(', ');
 }
 
+// Gegevens op de kaart netjes onder elkaar: contact, opmerking, allergieën
+const KI_TEL = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>';
+const KI_MAIL = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>';
+const KI_NOOT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+const KI_KLOK = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+function kaartInfoHTML(r, metTijd){
+  const contact = [];
+  if(metTijd && r.tijd) contact.push(`<span class="ki">${KI_KLOK}${esc(r.tijd)}</span>`);
+  if(r.tel) contact.push(`<a class="ki" href="tel:${esc(String(r.tel).replace(/[^\d+]/g,''))}" onclick="event.stopPropagation()">${KI_TEL}${esc(r.tel)}</a>`);
+  if(r.email) contact.push(`<span class="ki ki-mail">${KI_MAIL}${esc(r.email)}</span>`);
+  const tags = [];
+  Object.entries(r.allergie || {}).filter(([,n])=>n>0).forEach(([k,n])=> tags.push(`<span class="kt kt-all">\u26a0 ${n}x ${esc(k)}</span>`));
+  Object.entries(r.bijz || {}).filter(([,n])=>n>0).forEach(([k,n])=> tags.push(`<span class="kt kt-bijz">\u267F ${n}x ${esc(k)}</span>`));
+  return (contact.length ? `<div class="kinfo">${contact.join('')}</div>` : '')
+    + (r.notitie ? `<div class="knoot">${KI_NOOT}<span>${drankRegelHTML(r.notitie)}</span></div>` : '')
+    + (tags.length ? `<div class="ktags">${tags.join('')}</div>` : '');
+}
+
 function cardHTML(r, metTijd){
   const st = STATUS[r.status]||STATUS.res;
   const tfs = getTafels(r);
@@ -8095,9 +8129,8 @@ function cardHTML(r, metTijd){
     <div class="cpax">${r.pax}<small>p.</small></div>
     <div class="cnaam">${esc(r.naam)}</div>
     <div class="cmid">
-      <div>${Object.entries((r.combi)||{}).filter(([,n])=>n>0).map(([k,n])=>`<span class="chip" style="background:${arrKleur(k)}">${n}x ${esc(k)}</span>`).join('') || (ARRS.length>1?`<span class="chip" style="background:${arrKleur(r.arr)}">${esc(r.arr)}</span>`:'')}${r.walkin?'<span class="chip" style="background:#5ad0a5">Walk-in</span>':''}${isVerkocht(r)?'<span class="chip" style="background:#8b5cf6">Verkocht</span>':''}</div>
-      ${(metTijd||r.notitie||r.email||r.tel)?`<div class="cnote">${metTijd?esc(r.tijd):''}${metTijd&&(r.notitie||r.email||r.tel)?' &middot; ':''}${[r.tel?esc(r.tel):'', r.email?esc(r.email):''].filter(Boolean).join(' &middot; ')}${(r.email||r.tel)&&r.notitie?' &middot; ':''}${r.notitie?drankRegelHTML(r.notitie):''}</div>`:''}
-      ${(allergieTekst(r)||bijzTekst(r))?`<div class="cnote">${allergieTekst(r)?`<span style="color:#e5304d">\u26a0 ${esc(allergieTekst(r))}</span>`:''}${allergieTekst(r)&&bijzTekst(r)?' &middot; ':''}${bijzTekst(r)?`<span style="color:#4d8dff">\u267F ${esc(bijzTekst(r))}</span>`:''}</div>`:''}
+      <div>${Object.entries((r.combi)||{}).filter(([,n])=>n>0).map(([k,n])=>`<span class="chip" style="background:${arrKleur(k)}">${n}x ${esc(k)}</span>`).join('') || (ARRS.length>1?`<span class="chip" style="background:${arrKleur(r.arr)}">${esc(r.arr)}</span>`:'')}${r.walkin?'<span class="chip" style="background:#5ad0a5">Walk-in</span>':''}${r.bron==='web'?'<span class="chip chipWeb">Online</span>':''}${isVerkocht(r)?'<span class="chip" style="background:#8b5cf6">Verkocht</span>':''}</div>
+      ${kaartInfoHTML(r, metTijd)}
     </div>
     <div class="ctafel"${dayConflicts.has(r.id)?' style="color:#e5304d"':''}>${tfs.length?tfs.map(esc).join(', '):'-'}<small>${esc(r.loc)}</small></div>
     <button class="stBtn" style="background:${st.c}" onclick="openStatusMenu('${r.id}',event)">${st.naam.toUpperCase()}</button>
