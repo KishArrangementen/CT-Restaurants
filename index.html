@@ -2361,6 +2361,10 @@ body.rpVbAan .instPage .instCrumb{max-width:min(760px,calc(50% - 24px));margin-l
 }
 .rpVeldKop{display:flex;justify-content:space-between;gap:8px}
 .rpTeller{font-style:normal;font-weight:600;opacity:.7;font-variant-numeric:tabular-nums}
+.rpLinkTekst input{display:block;width:100%;box-sizing:border-box;margin-top:5px;height:40px;border-radius:9px;border:1px solid var(--vlakRand);background:var(--balk,var(--bg));color:var(--txt);font-size:14px;font-weight:700;padding:0 11px}
+.gbVast{height:42px;display:flex;align-items:center;border-radius:10px;border:1px dashed var(--vlakRand);color:var(--muted);font-size:14px;padding:0 12px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.gbStatusVast{font-size:12.5px;font-weight:800;padding:6px 12px;border-radius:999px;background:var(--balk,var(--bg));color:var(--muted);border:1px solid var(--vlakRand)}
+.gbStatusVast.aan{color:#6ee7b7;border-color:rgba(110,231,183,.4)}
 </style>
 </head>
 <body>
@@ -6571,16 +6575,16 @@ async function instBerichten(){
 
     <div class="gbHoofd ${b.aan ? 'aan' : ''}">
       <div><b>Mails naar gasten</b><small>${b.aan ? 'Staat aan. Gasten met een mailadres krijgen de mails hieronder.' : 'Staat uit. Er gaat niets naar gasten.'}</small></div>
-      ${schakel('aan', b.aan, b.aan ? 'Aan' : 'Uit')}
+      ${isEigenaar ? schakel('aan', b.aan, b.aan ? 'Aan' : 'Uit') : `<span class="gbStatusVast ${b.aan ? 'aan' : ''}">${b.aan ? 'Aan' : 'Uit'}</span>`}
     </div>
-    ${!klaarVoor ? `<div class="gbLet">Vul eerst het mailadres van de afzender en het adres van de website in. Zonder die twee kan er niets verstuurd worden.</div>` : ''}
+    ${!klaarVoor && isEigenaar ? `<div class="gbLet">Vul eerst het mailadres van de afzender en het adres van de website in. Zonder die twee kan er niets verstuurd worden.</div>` : ''}
 
     <div class="otKop">Welke mails</div>
     <div class="otLijst gbLijst">
       ${mailRij('bevestiging', 'Bevestiging', 'Direct na het boeken, met een link om te bekijken of te annuleren')}
       ${mailRij('herinnering', 'Herinnering', 'De dag van tevoren', '<span class="gbLab">Versturen om</span>' + uurSeg('herinneringUur'))}
       ${mailRij('review', 'Review vragen', 'De dag na het bezoek, met een link naar je reviewpagina',
-        veld('reviewLink', 'Link naar je reviewpagina', 'url', 'https://g.page/r/...', 'In Google Bedrijfsprofiel: Reviews vragen, link kopiëren') + '<span class="gbLab">Versturen om</span>' + uurSeg('reviewUur'))}
+        (isEigenaar ? veld('reviewLink', 'Link naar je reviewpagina', 'url', 'https://g.page/r/...', 'In Google Bedrijfsprofiel: Reviews vragen, link kopiëren') : '') + '<span class="gbLab">Versturen om</span>' + uurSeg('reviewUur'))}
       ${mailRij('wachtlijst', 'Wachtlijst', 'Is het vol, dan kan de gast zich aanmelden. Komt er plek vrij, dan krijgt iedereen op de wachtlijst voor die dienst een mail.')}
     </div>
 
@@ -6599,7 +6603,7 @@ async function instBerichten(){
       </div>` : ''}
     </div>` : ''}
 
-    <div class="otKop">Afzender en gegevens <small>Staat in elke mail</small></div>
+    ${isEigenaar ? `<div class="otKop">Afzender en gegevens <small>Staat in elke mail</small></div>
     <div class="otLijst gbLijst"><div class="gbExtra gbRaster" style="border:0">
       ${veld('restaurantNaam', 'Naam restaurant', 'text', 'Le Cirque')}
       ${veld('afzenderNaam', 'Naam afzender', 'text', 'Le Cirque reserveringen')}
@@ -6607,12 +6611,13 @@ async function instBerichten(){
       ${veld('antwoordEmail', 'Antwoorden naar', 'email', 'info@...', 'Als een gast op de mail antwoordt')}
       ${veld('telefoon', 'Telefoonnummer', 'tel', '070 ...')}
       ${veld('adres', 'Adres', 'text', 'Straat 1, Den Haag')}
-      <div style="grid-column:1/-1">${veld('siteUrl', 'Adres van de reserveringspagina', 'url', 'https://...', 'De map waar index.html en mijn-reservering.html staan')}</div>
+      <div style="grid-column:1/-1">${isEigenaar ? veld('siteUrl', 'Adres van de reserveringspagina', 'url', 'https://...', 'Bijvoorbeeld https://reserveringen.kevora.nl/' + esc(KLANT.sleutel || 'lecirque') + ', met de naam van je restaurant erachter')
+        : ''}</div>
     </div></div>
 
     <div class="otKop">Testmail</div>
     <div class="gbTest"><span class="gbTestTekst">Gaat naar het mailadres van de afzender${b.afzenderEmail ? ': <b>' + esc(b.afzenderEmail) + '</b>' : ''}</span><button type="button" class="btn primary" id="gbTestKnop">Stuur testmail</button></div>
-    <div class="instSub" id="gbTestUit" style="margin-top:8px"></div>
+    <div class="instSub" id="gbTestUit" style="margin-top:8px"></div>` : ''}
     </div>`);
 
   function instBerichtenTeken(){ const w = document.querySelector('.instPage .instWrap'); const y = w ? w.scrollTop : 0; instBerichten.zonderLaden = { b, a, y }; instBerichten(); }
@@ -6637,7 +6642,7 @@ async function instBerichten(){
   pg.querySelectorAll('[data-a-stap] button').forEach(knop => knop.onclick = ()=>{ a.vanafPax = Math.max(2, Math.min(40, (+a.vanafPax || 8) + (+knop.dataset.plus))); bewaar(); instBerichtenTeken(); });
   pg.querySelectorAll('input[data-a-num]').forEach(inp => inp.onchange = ()=>{ a.bedragPP = Math.max(1, Math.min(500, Math.round((+inp.value || 10) * 2) / 2)); bewaar('Opgeslagen'); instBerichtenTeken(); });
   const testKnop = pg.querySelector('#gbTestKnop');
-  testKnop.onclick = async ()=>{
+  if(testKnop) testKnop.onclick = async ()=>{
     const uit = pg.querySelector('#gbTestUit');
     const gebruiker = window.firebase && firebase.auth && firebase.auth().currentUser;
     if(!gebruiker){ uit.textContent = 'Log eerst in met je personeelsaccount.'; return; }
@@ -6951,13 +6956,13 @@ async function instPaginaWeb(){
     <div class="instSub">Wat de gast ziet als hij online een tafel boekt. Wijzigingen staan meteen online.</div>
 
     <div class="rpLink">
-      ${site ? `<div class="rpLinkTekst"><small>Jouw pagina</small><b>${esc(site)}</b></div>
-        <a class="btn primary" href="${esc(site)}" target="_blank" rel="noopener">Bekijk</a>`
-      : `<div class="rpLinkTekst"><small>Nog geen adres</small><b>Vul het adres van je pagina in bij Gastberichten</b></div>
-        <button type="button" class="btn" id="rpNaarBerichten">Gastberichten</button>`}
+      ${isEigenaar ? `<label class="rpLinkTekst"><small>Adres van je pagina <span style="font-weight:500">(staat ook in de mails aan gasten)</span></small>
+        <input type="url" id="rpSite" value="${esc(site)}" placeholder="https://reserveringen.kevora.nl/${esc(KLANT.sleutel || '')}" autocomplete="off" spellcheck="false"></label>`
+      : `<div class="rpLinkTekst"><small>Jouw reserveringspagina</small><b>Bekijk hoe gasten je pagina zien</b></div>`}
+      ${site ? `<a class="btn primary" href="${esc(site)}" target="_blank" rel="noopener">Bekijk</a>` : ''}
     </div>
 
-    <div class="otKop">Uiterlijk</div>
+    ${isEigenaar ? `<div class="otKop">Uiterlijk</div>
     <div class="otLijst gbLijst"><div class="gbExtra gbRaster" style="border:0">
       <div style="grid-column:1/-1">${tveld('naam', 'Naam restaurant', 'Le Cirque', 60)}</div>
       <div class="rpLogoVak" style="grid-column:1/-1">
@@ -6973,7 +6978,7 @@ async function instPaginaWeb(){
       <div class="otVeld" style="grid-column:1/-1"><span class="rpLab">Kleur knoppen</span>${kleurRij('accent', RP_KLEUREN_ACCENT)}</div>
       ${LOCS.length > 1 ? `<div class="otVeld" style="grid-column:1/-1"><span class="rpLab">Zaal voor online boekingen</span>
         <div class="otSeg" data-zaal>${LOCS.map(l => `<button type="button" data-w="${esc(l)}" class="${(p.zaal || LOCS[0]) === l ? 'on' : ''}">${esc(l)}</button>`).join('')}</div></div>` : ''}
-    </div></div>
+    </div></div>` : ''}
 
     <div class="otKop">Teksten</div>
     <div class="otLijst gbLijst"><div class="gbExtra gbRaster" style="border:0">
@@ -7014,7 +7019,7 @@ async function instPaginaWeb(){
     <button type="button" class="rpErbij rpErbijGroot" id="rpCatNieuw">+ Tabblad toevoegen</button>
 
     <div class="instSub" style="margin-top:18px">Tip: foto's worden vanzelf verkleind en staand bijgesneden. De tafels voor de website komen uit Zalen &amp; Tafels.</div>
-    <div style="margin:10px 0 30px"><button type="button" class="btn ghost" id="rpHerstel">Terug naar de standaard</button></div>
+    ${isEigenaar ? '<div style="margin:10px 0 30px"><button type="button" class="btn ghost" id="rpHerstel">Terug naar de standaard</button></div>' : '<div style="height:24px"></div>'}
     </div>`);
 
   const deel = (s) => s.split(':').map(Number);
@@ -7026,14 +7031,22 @@ async function instPaginaWeb(){
   live('input[data-mnaam]', inp => { const [ci, mi] = deel(inp.dataset.mnaam); if(inp.value.trim()) p.categorieen[ci].menus[mi].naam = inp.value; });
   live('input[data-mtekst]', inp => { const [ci, mi] = deel(inp.dataset.mtekst); p.categorieen[ci].menus[mi].tekst = inp.value; });
   live('input[data-kleur-eigen]', inp => { p.kleur[inp.dataset.kleurEigen] = inp.value.toLowerCase(); });
-  pg.querySelector('#rpNaarBerichten')?.addEventListener('click', instBerichten);
+  if(pg.querySelector('#rpSite')) pg.querySelector('#rpSite').onchange = (e) => {
+    let v = e.target.value.trim().replace(/\/+$/, '');
+    if(v && !/^https?:\/\//.test(v)) v = 'https://' + v;
+    const b = Object.assign({}, store.get('ct_berichten', {}) || {}, { siteUrl: v });
+    store.set('ct_berichten', b);
+    if(db && syncPad) db.ref(syncPad + '/instel/berichten/siteUrl').set(v).then(() => toast('Adres opgeslagen')).catch(() => toast('Opslaan in de database lukte niet'));
+    else toast('Adres opgeslagen (alleen op dit apparaat)');
+    teken();
+  };
   pg.querySelectorAll('input[data-t]').forEach(inp => inp.onchange = () => { p[inp.dataset.t] = inp.value.trim(); bewaar('Opgeslagen'); });
   pg.querySelectorAll('.rpKleur[data-kleur]').forEach(k => k.onclick = () => { p.kleur[k.dataset.kleur] = k.dataset.w; bewaar('Kleur opgeslagen'); teken(); });
   pg.querySelectorAll('input[data-kleur-eigen]').forEach(inp => inp.onchange = () => { p.kleur[inp.dataset.kleurEigen] = inp.value.toLowerCase(); bewaar('Kleur opgeslagen'); teken(); });
   pg.querySelectorAll('.otSeg[data-zaal] button').forEach(b => b.onclick = () => { p.zaal = b.dataset.w; bewaar('Opgeslagen', true); publiceerZaal(); teken(); });
-  pg.querySelector('#rpLogoKies').onclick = () => pg.querySelector('#rpLogoBestand').click();
+  if(pg.querySelector('#rpLogoKies')) pg.querySelector('#rpLogoKies').onclick = () => pg.querySelector('#rpLogoBestand').click();
   pg.querySelector('#rpLogoWit')?.addEventListener('change', (e) => { p.logoWit = e.target.checked; bewaar('Opgeslagen'); teken(); });
-  pg.querySelector('#rpLogoBestand').onchange = async (e) => {
+  if(pg.querySelector('#rpLogoBestand')) pg.querySelector('#rpLogoBestand').onchange = async (e) => {
     const f = e.target.files && e.target.files[0]; if(!f) return;
     try{ const d = await rpVerklein(f, 'logo'); await bewaarFoto('logo', d); p.logo = ''; bewaar('Logo opgeslagen', true); teken(); }
     catch(err){ toast(err.message || 'Logo opslaan lukte niet'); }
@@ -7073,7 +7086,7 @@ async function instPaginaWeb(){
     try{ const d = await rpVerklein(f, 'foto'); await bewaarFoto(m.id, d); m.foto = ''; bewaar('Foto opgeslagen', true); teken(); }
     catch(err){ toast(err.message || 'Foto opslaan lukte niet'); }
   });
-  pg.querySelector('#rpHerstel').onclick = () => vraag('Alles terugzetten naar de standaardpagina? Je eigen foto\'s en teksten gaan weg.', async () => {
+  if(pg.querySelector('#rpHerstel')) pg.querySelector('#rpHerstel').onclick = () => vraag('Alles terugzetten naar de standaardpagina? Je eigen foto\'s en teksten gaan weg.', async () => {
     for(const id of Object.keys(fotos)) await bewaarFoto(id, null);
     p = rpKopie(RP_STANDAARD); bewaar('Teruggezet naar de standaard', true); teken();
   });
