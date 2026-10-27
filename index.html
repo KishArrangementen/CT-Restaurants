@@ -7,7 +7,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Kevora">
-<meta name="theme-color" content="#2563eb">
+<meta name="theme-color" content="#CD1C18">
 <link rel="manifest" href="manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -23,7 +23,7 @@
 :root{
   --bg:#12141a;--panel:#1a1d26;--panel2:#222633;--line:#2e3342;
   --txt:#e8eaf0;--muted:#8b92a5;
-  --accent:#2563eb;--accent2:#7ca6f5;
+  --accent:#CD1C18;--accent2:#FFA896;
   --green:#22a06b;--red:#e5484d;--blue:#4d8dff;--yellow:#fbbf24;
   --radius:12px;
   font-size:16px;
@@ -97,7 +97,7 @@ label{font-size:12px;color:var(--muted);display:block;margin:12px 0 5px;font-wei
 
 /* Countbar */
 #countbar{display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);gap:16px;flex-wrap:wrap;row-gap:10px;backdrop-filter:blur(10px) saturate(130%);-webkit-backdrop-filter:blur(10px) saturate(130%)}
-#tafelsToolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:1 1 100%;order:5;padding:10px 16px 0;margin:2px -16px 0;border-top:1px solid rgba(120,150,200,.16)}
+#tafelsToolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:1 1 100%;order:5;padding:10px 16px 0;margin:2px -16px 0;border-top:1px solid rgba(120,135,165,.16)}
 #tafelsToolbar:empty{display:none}
 #countbar .nums{flex:1;font-size:12px;line-height:1.6}
 #countbar .nums b{font-size:13px}
@@ -107,7 +107,7 @@ label{font-size:12px;color:var(--muted);display:block;margin:12px 0 5px;font-wei
 }
 .statChip b{font-size:13px; font-weight:800; color:var(--txt)}
 .statDot{width:6px; height:6px; border-radius:50%; flex:0 0 auto}
-.statDotRes{background:#4d8dff}
+.statDotRes{background:#FFA896}
 .statDotTaf{background:#2ec08a}
 .statDotGast{background:#f5a623}
 #countbar .ic{font-size:20px;padding:9px;border-radius:9px;color:#e2e6f0;display:flex;align-items:center;justify-content:center}
@@ -223,8 +223,8 @@ html body #countbar .ic svg{width:19px;height:19px}
 html body #countbar .ic:hover{color:var(--txt);border-color:var(--accent)}
 html body #countbar .ic.actief{background:var(--accent);border-color:var(--accent);color:#fff}
 html body #countbar #btnWisPA{color:#e5484d}
-html body.themaGlas #countbar .ic{background:rgba(20,32,56,.5);border-color:rgba(120,150,200,.18)}
-html body.themaGlas #countbar .ic:not(#btnWisPA){color:#aec2e0}
+html body.themaGlas #countbar .ic{background:rgba(21,26,36,.5);border-color:rgba(120,135,165,.18)}
+html body.themaGlas #countbar .ic:not(#btnWisPA){color:#a9b1c4}
 html body.themaGlas #countbar .ic.actief{background:linear-gradient(180deg,rgba(var(--gl1),.9),rgba(var(--gl2),.7));color:#fff}
 #countbar .cbTools{gap:8px!important}
 body.viewTafels #countbar{padding-top:10px;padding-bottom:10px;row-gap:0}
@@ -591,11 +591,11 @@ body.themaGlas .dkBox{background:rgba(12,20,38,.96);backdrop-filter:blur(14px)}
 .instVoet{margin-top:24px;padding-top:16px;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:11.5px;line-height:1.7}
 /* --- Instellingenscherm mee in het thema --- */
 body.themaGlas .instPage{background:radial-gradient(55% 45% at 18% 8%, rgba(40,90,180,.30), transparent 70%),
-    radial-gradient(50% 50% at 88% 88%, rgba(20,110,120,.22), transparent 70%),
-    linear-gradient(150deg,#070c16 0%,#0a1220 45%,#0a1424 100%);background-attachment:fixed}
-body.themaGlas .instCard,body.themaGlas .boxKaart{background:rgba(12,22,42,.72);border:1px solid rgba(120,150,200,.18);backdrop-filter:blur(10px) saturate(130%);-webkit-backdrop-filter:blur(10px) saturate(130%);box-shadow:0 4px 18px rgba(0,0,0,.28)}
-body.themaGlas .instRow,body.themaGlas .instKopRij{border-bottom-color:rgba(120,150,200,.14)}
-body.themaGlas .instRow:active{background:rgba(24,40,72,.75)}
+    radial-gradient(50% 50% at 88% 88%, rgba(0,0,0,0), transparent 70%),
+    linear-gradient(150deg,#0e1117 0%,#0e1117 45%,#0e1117 100%);background-attachment:fixed}
+body.themaGlas .instCard,body.themaGlas .boxKaart{background:rgba(20,25,36,.72);border:1px solid rgba(120,135,165,.18);backdrop-filter:blur(10px) saturate(130%);-webkit-backdrop-filter:blur(10px) saturate(130%);box-shadow:0 4px 18px rgba(0,0,0,.28)}
+body.themaGlas .instRow,body.themaGlas .instKopRij{border-bottom-color:rgba(120,135,165,.14)}
+body.themaGlas .instRow:active{background:rgba(28,35,51,.75)}
 body.themaGob.themaGlas .instPage{background:radial-gradient(55% 45% at 18% 8%, rgba(30,110,55,.3), transparent 70%),
     radial-gradient(50% 50% at 88% 88%, rgba(30,110,55,.22), transparent 70%),
     linear-gradient(150deg,#08180e 0%,#0a1c12 45%,#0e2416 100%);background-attachment:fixed}
@@ -609,32 +609,32 @@ body.themaHu.themaGlas .instCard,body.themaHu.themaGlas .boxKaart{background:rgb
 body.themaHu.themaGlas .instRow,body.themaHu.themaGlas .instKopRij{border-bottom-color:rgba(200,140,150,.14)}
 body.themaHu.themaGlas .instRow:active{background:rgba(64,22,28,.75)}
 body.themaGlas{
-  --gl1:59,130,246; --gl2:37,99,235; --gl3:40,90,180; --gl4:50,110,210; --gl5:120,160,255;
-  --glA:#3b82f6; --glB:#2563d0; --glC:#2563eb;
+  --gl1:205,28,24; --gl2:155,19,19; --gl3:110,10,18; --gl4:170,22,22; --gl5:255,168,150;
+  --glA:#e2443f; --glB:#9B1313; --glC:#CD1C18;
   background:
     radial-gradient(55% 45% at 18% 8%, rgba(var(--gl3),.30), transparent 70%),
-    radial-gradient(50% 50% at 88% 88%, rgba(20,110,120,.22), transparent 70%),
-    linear-gradient(150deg,#070c16 0%,#0a1220 45%,#0a1424 100%);
+    radial-gradient(50% 50% at 88% 88%, rgba(0,0,0,0), transparent 70%),
+    linear-gradient(150deg,#0e1117 0%,#0e1117 45%,#0e1117 100%);
   background-attachment:fixed;
 }
 body.themaGlas::before,body.themaGlas::after{content:'';position:fixed;border-radius:50%;filter:blur(12px);z-index:-1;pointer-events:none}
 body.themaGlas::before{width:280px;height:280px;top:60px;right:6%;background:radial-gradient(circle,rgba(var(--gl4),.26),transparent 70%)}
-body.themaGlas::after{width:220px;height:220px;bottom:80px;left:5%;background:radial-gradient(circle,rgba(20,140,150,.22),transparent 70%)}
+body.themaGlas::after{width:220px;height:220px;bottom:80px;left:5%;background:radial-gradient(circle,rgba(0,0,0,0),transparent 70%)}
 /* Reserveringskaarten laten de blauwe achtergrond doorschemeren */
 body.themaGlas .card{
-  background:rgba(12,22,42,.72);
-  border:1px solid rgba(120,150,200,.18);
+  background:rgba(20,25,36,.72);
+  border:1px solid rgba(120,135,165,.18);
   border-radius:14px;
   margin:0 12px 10px;
   backdrop-filter:blur(10px) saturate(130%);-webkit-backdrop-filter:blur(10px) saturate(130%);
   box-shadow:0 4px 16px rgba(0,0,0,.22)
 }
-body.themaGlas .card:active{background:rgba(24,40,72,.75)}
+body.themaGlas .card:active{background:rgba(28,35,51,.75)}
 /* wat lucht boven de eerste kaart */
 body.themaGlas #content{padding-top:10px}
 body.kaartVol #content{padding-top:0}
 /* Tijdlijn: tafelnummer-kolom en urenbalk mee in het blauw */
-body.themaGlas .tlLabel{background:rgba(14,24,42,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-right:1px solid rgba(120,150,200,.16)}
+body.themaGlas .tlLabel{background:rgba(20,25,36,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-right:1px solid rgba(120,135,165,.16)}
 /* De hoekcel linksboven vast en dekkend, zodat het eerste uur er niet achter verdwijnt */
 body.themaGlas .dlKnop{display:inline-flex;align-items:center;gap:6px;margin-left:12px;padding:4px 10px;
   border-radius:8px;border:1px solid var(--line);background:var(--panel2);color:var(--muted);
@@ -674,19 +674,19 @@ body.themaGlas .tlRow{border-top:1.5px solid rgba(140,175,230,.3)}
 body.themaGlas #sheet{
   background:rgba(16,26,46,.9);
   backdrop-filter:blur(22px) saturate(140%);-webkit-backdrop-filter:blur(22px) saturate(140%);
-  border:1px solid rgba(120,150,200,.2)
+  border:1px solid rgba(120,135,165,.2)
 }
 body.themaGlas .stMenu,body.themaGlas .tafelPop,body.themaGlas .vraagBox,body.themaGlas .loginBox,body.themaGlas #drankOv .dkPaneel{
   background:rgba(18,28,50,.92);
   backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);
-  border:1px solid rgba(120,150,200,.2)
+  border:1px solid rgba(120,135,165,.2)
 }
 /* Drankjes-tegels doorschijnend */
 /* Drankmenu in blauw thema: fraaiere glazen tegels */
 body.themaGlas #drankOv{
   background:
     radial-gradient(60% 50% at 20% 10%, rgba(var(--gl3),.28), transparent 70%),
-    linear-gradient(160deg,#070c16,#0a1424)
+    linear-gradient(160deg,#0e1117,#0e1117)
 }
 body.themaGlas .dkPaneel{background:rgba(12,20,38,.72)}
 body.themaGlas .drankTegel{
@@ -705,31 +705,31 @@ body.themaGlas .dkTelBadge{
   box-shadow:0 2px 8px rgba(var(--gl2),.6),inset 0 1px 0 rgba(255,255,255,.3)
 }
 /* Filter- en tabbalken */
-body.themaGlas #filterbar{background:rgba(14,24,42,.4);border-bottom:1px solid rgba(120,150,200,.14)}
+body.themaGlas #filterbar{background:rgba(20,25,36,.4);border-bottom:1px solid rgba(120,135,165,.14)}
 body #filterbar.dicht{border-bottom-width:0}
 body #filterbar.dicht #filterInner{padding-top:0;padding-bottom:0;border-bottom-width:0}
-body.themaGlas #locTabs{background:rgba(14,24,42,.5);border-bottom:1px solid rgba(120,150,200,.14)}
+body.themaGlas #locTabs{background:rgba(20,25,36,.5);border-bottom:1px solid rgba(120,135,165,.14)}
 body.themaGlas .drankTabs{background:transparent}
 /* Invoervelden subtiel doorschijnend */
-body.themaGlas input,body.themaGlas select,body.themaGlas textarea{background:rgba(20,32,56,.6);border:1px solid rgba(120,150,200,.2)}
-body.themaGlas #countbar{background:rgba(14,24,42,.5);border-bottom:1px solid rgba(120,150,200,.14)}
-body.themaGlas .tlBlock.verwacht{background:rgba(45,70,120,.72);color:#eaf1fb}
+body.themaGlas input,body.themaGlas select,body.themaGlas textarea{background:rgba(21,26,36,.6);border:1px solid rgba(120,135,165,.2)}
+body.themaGlas #countbar{background:rgba(20,25,36,.5);border-bottom:1px solid rgba(120,135,165,.14)}
+body.themaGlas .tlBlock.verwacht{background:rgba(42,51,70,.72);color:#eaf1fb}
 body.themaGlas .sectionH span{background:rgba(var(--gl1),.22);border-color:rgba(var(--gl5),.4);color:#eaf1fb}
-body.themaGlas .sectionH::after{background:rgba(120,150,200,.22)}
+body.themaGlas .sectionH::after{background:rgba(120,135,165,.22)}
 body.themaGlas .empty,body.themaGlas #content .leeg{color:#9fb3d4}
 /* Zijmenu en uitklapmenu met glaslook */
 body.themaGlas #sideRail{
-  background:rgba(8,15,30,.78);
+  background:rgba(11,13,18,.78);
   backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);
-  border-right:1px solid rgba(120,150,200,.18)
+  border-right:1px solid rgba(120,135,165,.18)
 }
 body.themaGlas #drawer{
-  background:rgba(8,15,30,.9);
+  background:rgba(11,13,18,.9);
   backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);
-  border-right:1px solid rgba(120,150,200,.2)
+  border-right:1px solid rgba(120,135,165,.2)
 }
-body.themaGlas #drawer nav button{color:#dbe8fb}
-body.themaGlas #sideRail button{color:#adc0dc}
+body.themaGlas #drawer nav button{color:#e8ebf2}
+body.themaGlas #sideRail button{color:#a9b1c4}
 body.themaGlas #sideRail button.on{
   background:linear-gradient(180deg,rgba(var(--gl1),.28),rgba(var(--gl2),.18));
   color:#fff;box-shadow:inset 3px 0 0 var(--accent)
@@ -797,10 +797,10 @@ body.themaGlas.railOpen #railMenu:hover{background:linear-gradient(180deg,rgba(v
 .drankTabs button{background:var(--panel2);border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:13px;font-weight:700;padding:8px 16px;white-space:nowrap;min-height:auto;transition:all .16s ease}
 .drankTabs button:hover{color:var(--txt);border-color:var(--accent)}
 .drankTabs button.on{background:linear-gradient(180deg,var(--accent),color-mix(in srgb,var(--accent) 80%,#000));border-color:transparent;color:#fff;box-shadow:0 2px 10px color-mix(in srgb,var(--accent) 50%,transparent)}
-body.themaGlas .drankTabs{background:rgba(10,18,34,.5);border-bottom:1px solid rgba(120,150,200,.14)}
-body.themaGlas .drankTabs button{background:rgba(20,32,56,.5);border:1px solid rgba(120,150,200,.18);color:#aec2e0}
+body.themaGlas .drankTabs{background:rgba(10,18,34,.5);border-bottom:1px solid rgba(120,135,165,.14)}
+body.themaGlas .drankTabs button{background:rgba(21,26,36,.5);border:1px solid rgba(120,135,165,.18);color:#a9b1c4}
 body.themaGlas .drankTabs button.on{background:linear-gradient(180deg,rgba(var(--gl1),.9),rgba(var(--gl2),.7));border-color:rgba(255,255,255,.2);color:#fff;box-shadow:0 2px 12px rgba(var(--gl2),.5)}
-body.themaGlas #locTabs button, body.themaGlas #tafelsToolbar button{background:rgba(20,32,56,.5);border:1px solid rgba(120,150,200,.18);color:#aec2e0}
+body.themaGlas #locTabs button, body.themaGlas #tafelsToolbar button{background:rgba(21,26,36,.5);border:1px solid rgba(120,135,165,.18);color:#a9b1c4}
 body.themaGlas #locTabs button.on, body.themaGlas #tafelsToolbar button.on{background:linear-gradient(180deg,rgba(var(--gl1),.9),rgba(var(--gl2),.7));border-color:rgba(255,255,255,.2);color:#fff;box-shadow:0 2px 12px rgba(var(--gl2),.5)}
 body.themaGlas #locTabs button.drankTop, body.themaGlas #tafelsToolbar button.drankTop{background:linear-gradient(180deg,rgba(var(--gl1),.9),rgba(var(--gl2),.7));border-color:rgba(255,255,255,.2);color:#fff;box-shadow:0 2px 12px rgba(var(--gl2),.4)}
 /* Drankmenu-kop niet grijs maar in de blauwe glasstijl */
@@ -862,8 +862,8 @@ body.themaGlas .drankVoet{
 .instH{font-size:18px;font-weight:800;color:var(--accent2)}
 .instSub{color:var(--muted);font-size:13px;margin:5px 0 12px}
 .tlWrap{position:relative;overflow:auto;overscroll-behavior-x:contain;width:100%;max-width:100%;height:calc(100dvh - var(--kopHoogte, 120px));background:var(--bg)}
-.tlKop{display:flex;width:max-content;min-width:100%;position:sticky;top:0;z-index:9;background:rgba(14,24,42,.92);backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%);border-bottom:1px solid rgba(120,150,200,.16)}
-.tlHoek{position:sticky;left:0;z-index:10;flex:0 0 62px;display:flex;align-items:center;justify-content:center;background:#1b2b4d;border-right:1.5px solid #0d1a33;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.7);font-weight:800}
+.tlKop{display:flex;width:max-content;min-width:100%;position:sticky;top:0;z-index:9;background:rgba(20,25,36,.92);backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%);border-bottom:1px solid rgba(120,135,165,.16)}
+.tlHoek{position:sticky;left:0;z-index:10;flex:0 0 62px;display:flex;align-items:center;justify-content:center;background:#1b2b4d;border-right:1.5px solid #0b0d12;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.7);font-weight:800}
 .tlUren{position:relative;height:40px;flex:none}
 .tlUren span{position:absolute;top:13px;transform:translateX(-50%);font-size:11.5px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
 .tlBody{min-height:100%;width:max-content;min-width:100%}
@@ -871,7 +871,7 @@ body.themaGlas .drankVoet{
 .tlRij{display:flex;border-top:1.5px solid color-mix(in srgb, var(--accent) 45%, transparent);width:max-content;min-width:100%}
 .tlRij:nth-child(even){background:rgba(255,255,255,.028)}
 .tlRij .tlLabel{position:sticky;left:0;z-index:2;flex:0 0 62px;cursor:pointer}
-.tlSpoor{position:relative;flex:none;min-height:calc(46px * var(--tlS,1));background-image:linear-gradient(90deg,rgba(120,150,200,.16) 1px,transparent 1px);background-repeat:repeat-x}
+.tlSpoor{position:relative;flex:none;min-height:calc(46px * var(--tlS,1));background-image:linear-gradient(90deg,rgba(120,135,165,.16) 1px,transparent 1px);background-repeat:repeat-x}
 .tlRij.tlGeen .tlLabel{cursor:default}
 .tlNu{position:absolute;top:0;bottom:0;width:2px;background:var(--red);box-shadow:0 0 8px var(--red);pointer-events:none;z-index:3}
 .tlTitel{font-size:13px;font-weight:700;padding:0 4px}
@@ -901,7 +901,7 @@ body.themaGlas .drankVoet{
 .themaKaart.op{border-color:var(--accent)}
 .themaVb{width:100%;height:60px;border-radius:9px;margin-bottom:4px;border:1px solid var(--line)}
 .standaardVb{background:linear-gradient(180deg,var(--glC) 0 30%,#1a1d26 30% 100%)}
-.glasVb{background:linear-gradient(150deg,#0a1220,#123e9e 70%,#0e7ab0)}
+.glasVb{background:linear-gradient(150deg,#0e1117,#123e9e 70%,#0e7ab0)}
 
 .instRow .instChev{color:var(--muted);font-size:20px}
 .instRow .instMove{color:var(--muted);font-size:15px}
@@ -989,9 +989,9 @@ body.themaGlas .drankVoet{
 .tbl.nm{background:#f87171;border-color:#dc2626;color:#fff}
 .chair.nm{background:#b91c1c;border-color:#ff8095}.chair.nm::before{background:#ff8095}
 .tbl.nm small{color:#ffe4e4;background:none}
-.tbl.verwacht{background:#3d55f0;border-color:#2439c9;color:#fff}
-.chair.verwacht{background:#2439c9;border-color:#6c80ff}.chair.verwacht::before{background:#6c80ff}
-.tbl.verwacht small{color:#dbe2ff;background:none}
+.tbl.verwacht{background:#9B1313;border-color:#6e0c0f;color:#fff}
+.chair.verwacht{background:#6e0c0f;border-color:#FFA896}.chair.verwacht::before{background:#FFA896}
+.tbl.verwacht small{color:#ffe2dd;background:none}
 .tbl.res{background:var(--accent2);border-color:var(--accent);color:#2b1105}
 .chair.res{background:var(--accent);border-color:var(--accent2)}.chair.res::before{background:var(--accent2)}
 .tbl.res small{color:#ffd9c4;background:none}
@@ -1246,9 +1246,9 @@ input[type="checkbox"]{width:18px;height:18px;accent-color:var(--accent)}
 
 .tlLocRow{position:sticky;top:0;left:0;z-index:8;width:100%;max-width:100%;display:flex;align-items:center;gap:10px;
   padding:11px 16px;font-size:12.5px;font-weight:800;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--txt);background:rgba(14,24,42,.55);
+  text-transform:uppercase;color:var(--txt);background:rgba(20,25,36,.55);
   backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%);
-  border-top:1px solid rgba(120,150,200,.16);border-bottom:1px solid rgba(120,150,200,.16);
+  border-top:1px solid rgba(120,135,165,.16);border-bottom:1px solid rgba(120,135,165,.16);
   box-shadow:0 6px 14px rgba(0,0,0,.35)}
 .tlLocRow::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--accent);flex:0 0 auto;box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent)}
 .tlLocAant{margin-left:auto;font-size:11px;font-weight:700;letter-spacing:.03em;
@@ -1259,7 +1259,7 @@ input[type="checkbox"]{width:18px;height:18px;accent-color:var(--accent)}
 .tlRow.sleepDoel{background:rgba(34,192,138,.14)}
 .tlBlock.sleepbaar{touch-action:none;cursor:grab}
 
-.tlLabel{flex:0 0 62px;min-height:calc(46px * var(--tlS,1));display:flex;align-items:center;justify-content:center;position:relative;z-index:1;color:#fff;font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;transition:filter .15s;border-right:1.5px solid #0d1a33}
+.tlLabel{flex:0 0 62px;min-height:calc(46px * var(--tlS,1));display:flex;align-items:center;justify-content:center;position:relative;z-index:1;color:#fff;font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;transition:filter .15s;border-right:1.5px solid #0b0d12}
 /* Modern en plat, rand tot rand: geen los vakje meer binnen de cel, de
    kleur vult de hele kolom. Om en om een duidelijk andere blauwtint. */
 .tlRow:hover .tlLabel{filter:brightness(1.1)}
@@ -1271,7 +1271,7 @@ input[type="checkbox"]{width:18px;height:18px;accent-color:var(--accent)}
 .tlBlock.in{background:#04785a;border-left-color:#02503b;color:#fff}
 .tlBlock.arr{background:#04785a;border-left-color:#02503b;color:#fff}
 .tlBlock.nm{background:#f87171;border-left-color:#dc2626;color:#fff}
-.tlBlock.verwacht{background:#3d55f0;border-left-color:#2439c9;color:#fff}
+.tlBlock.verwacht{background:#9B1313;border-left-color:#6e0c0f;color:#fff}
 .tlBlock.verwacht .tlNote{opacity:1}
 .tlBlock:not(.in):not(.arr):not(.nm):not(.verwacht):not(.noshow) .tlNote{background:rgba(0,0,0,.14);color:rgba(0,0,0,.82)}
 .tlBlock b{font-size:15px}
@@ -1464,8 +1464,8 @@ body.themaGlas #sheet select,
 body.themaGlas #sheet textarea,
 body.themaGlas #sheet .ddBtn,
 body.themaGlas #sheet .tafelPickBtn{
-  background:rgba(20,32,56,.55);
-  border-color:rgba(120,150,200,.22);
+  background:rgba(21,26,36,.55);
+  border-color:rgba(120,135,165,.22);
 }
 body.themaGlas #sheet input[readonly]:hover,
 body.themaGlas #sheet .tafelPickBtn:hover{border-color:rgba(150,180,230,.42)}
@@ -1566,9 +1566,9 @@ body.themaGlas #sheet .tafelPickBtn:hover{border-color:rgba(150,180,230,.42)}
   font-size:10.5px;
 }
 
-body.themaGlas .drankBlok{background:rgba(20,32,56,.4);border-color:rgba(120,150,200,.22)}
+body.themaGlas .drankBlok{background:rgba(21,26,36,.4);border-color:rgba(120,135,165,.22)}
 body.themaGlas #sheet .drankBlok .drankKop,
-body.themaGlas #sheet .drankBlok .drankVk{background:rgba(0,0,0,.2);border-color:rgba(120,150,200,.22)}
+body.themaGlas #sheet .drankBlok .drankVk{background:rgba(0,0,0,.2);border-color:rgba(120,135,165,.22)}
 
 /* ---- Het reserveringsscherm begint onder de balk van de app ---- */
 
@@ -1632,7 +1632,7 @@ body.sheetOpen:not(.sheetNaast){
 /* ===== Nieuwe look zij- en bovenbalk, zoals demo A ===== */
 /* Bovenbalk: donker met een lijn eronder, datum in een blok links */
 html body #topbar{background:var(--bg)!important;border-bottom:1px solid var(--line)!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;gap:10px;padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top));min-height:70px}
-html body.themaGlas #topbar{background:rgba(8,12,20,.72)!important;backdrop-filter:blur(18px) saturate(140%)!important;-webkit-backdrop-filter:blur(18px) saturate(140%)!important}
+html body.themaGlas #topbar{background:rgba(11,13,18,.72)!important;backdrop-filter:blur(18px) saturate(140%)!important;-webkit-backdrop-filter:blur(18px) saturate(140%)!important}
 #dateNav{position:static!important;transform:none!important;display:flex;align-items:center;gap:2px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:3px}
 #dateNav .dateMid{display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.2;cursor:pointer;min-width:128px;padding:0 6px}
 #dateNav #dateLabel{font-size:15px;min-width:0;padding:0}
@@ -1650,7 +1650,7 @@ html body.themaGlas #topbar{background:rgba(8,12,20,.72)!important;backdrop-filt
 @media (min-width:768px){
   #brand{display:none!important}
   #sideRail{top:0!important;width:76px;padding:calc(14px + env(safe-area-inset-top)) 0 10px;z-index:45;background:var(--bg)}
-  body.themaGlas #sideRail{background:rgba(8,12,20,.72)}
+  body.themaGlas #sideRail{background:rgba(11,13,18,.72)}
   body{padding-left:76px}
   #topbar{margin-left:0!important}
   .railLogo{display:flex;width:42px;height:42px;flex:0 0 auto;border-radius:12px;background:var(--accent);color:#fff;font-weight:900;font-size:20px;align-items:center;justify-content:center;margin:0 auto 16px;font-family:Arial,sans-serif}
@@ -1704,9 +1704,9 @@ html body #dateNav,html body #topbar #zoekWrap,html body #btnScan,html body #btn
 html body #countbar .statChip,html body.themaGlas #countbar .statChip{background:var(--vlak);border-color:var(--vlakRand)}
 html body #countbar .statChip .sbMeter{background:var(--vlakRand)}
 html body #countbar .ic,html body.themaGlas #countbar .ic{background:var(--vlak);border-color:var(--vlakRand)}
-html body #countbar .ic:not(#btnWisPA){color:#dbe4f3}
+html body #countbar .ic:not(#btnWisPA){color:#e8ebf2}
 html body #countbar .ic.actief,html body.themaGlas #countbar .ic.actief{background:var(--accent);border-color:var(--accent);color:#fff}
-#btnPrev,#btnNext{color:#dbe4f3!important}
+#btnPrev,#btnNext{color:#e8ebf2!important}
 html body #tafelsToolbar button:not(.drankTop):not(.on),html body.themaGlas #tafelsToolbar button:not(.drankTop):not(.on){background:var(--vlak);border-color:var(--vlakRand)}
 #dateSub{color:color-mix(in srgb, var(--accent) 35%, #c9d2e3)}
 
@@ -1718,7 +1718,7 @@ html body .mapBar:not(:has(#mAlign)) .tijdKnoppen{flex:1 1 auto!important;flex-b
 html body .mapBar .tijdKnoppen::-webkit-scrollbar{display:none}
 html body .mapBar .tijdLeeg{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12.5px;color:var(--muted);min-width:0}
 html body .mapBar .btn{height:36px;min-height:36px;padding:0 14px;border-radius:999px;font-size:13px;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center}
-html body .mapBar .btn.ghost{background:var(--vlak);border:1px solid var(--vlakRand);color:#dbe4f3}
+html body .mapBar .btn.ghost{background:var(--vlak);border:1px solid var(--vlakRand);color:#e8ebf2}
 html body .mapBar #mZoomOut,html body .mapBar #mZoomIn{width:40px;padding:0}
 html body .mapBar #mZoomLbl{min-width:58px;padding:0 10px;font-variant-numeric:tabular-nums}
 
@@ -1828,7 +1828,7 @@ html body #drankOv .drankTegel.aan{
   box-shadow:0 0 0 1px var(--accent),0 10px 26px color-mix(in srgb, var(--accent) 40%, transparent),inset 0 1px 0 rgba(255,255,255,.14)}
 html body #drankOv .drankTegel.aan .dkFoto{transform:scale(1.05) rotate(-3deg)}
 html body #drankOv .dkTelBadge{top:6px;left:6px;min-width:26px;height:26px;font-size:13.5px;z-index:2;background:linear-gradient(180deg, color-mix(in srgb, var(--accent) 70%, #fff), var(--accent));box-shadow:0 4px 10px color-mix(in srgb, var(--accent) 55%, transparent);font-weight:800}
-html body #drankOv .dkMin{top:6px;right:6px;width:28px;height:26px;z-index:2;background:rgba(8,12,20,.65);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+html body #drankOv .dkMin{top:6px;right:6px;width:28px;height:26px;z-index:2;background:rgba(11,13,18,.65);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
 html body #drankOv.losAan .drankTegel.aan{border-color:#a86bff;
   background:radial-gradient(120% 80% at 50% 0%, rgba(168,107,255,.5), transparent 75%),linear-gradient(180deg,#2a1a48,#140c26);
   box-shadow:0 0 0 1px #a86bff,0 10px 26px rgba(139,63,240,.4),inset 0 1px 0 rgba(255,255,255,.14)}
@@ -1861,11 +1861,11 @@ html body .mapLocWrap .ddBtn,html body .mapLocWrap select{
   background:var(--vlak);color:var(--txt);font-size:15px;font-weight:800;line-height:1;justify-content:space-between;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.05);transition:border-color .16s ease,background .16s ease}
 html body .mapLocWrap .ddBtn:hover{border-color:var(--accent)}
-html body .mapLocWrap .ddBtn .ddArr{width:28px;height:28px;margin-left:auto;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#dbe4f3;background:rgba(255,255,255,.08)}
+html body .mapLocWrap .ddBtn .ddArr{width:28px;height:28px;margin-left:auto;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#e8ebf2;background:rgba(255,255,255,.08)}
 html body .mapLocWrap .ddBtn::before{content:'';width:9px;height:9px;border-radius:50%;flex:0 0 auto;background:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb, var(--accent) 25%, transparent)}
 
 /* ===== Kalender in de nieuwe stijl, schuift de app opzij zoals het reserveringspaneel ===== */
-html body #calPanel{width:340px;max-width:92vw;padding:0 18px 24px;background:color-mix(in srgb, var(--accent) 5%, #081227);border-left:1px solid var(--vlakRand);box-shadow:-18px 0 40px rgba(0,0,0,.35);transition:transform .3s cubic-bezier(.22,.9,.28,1);z-index:60}
+html body #calPanel{width:340px;max-width:92vw;padding:0 18px 24px;background:color-mix(in srgb, var(--accent) 5%, #0b0d12);border-left:1px solid var(--vlakRand);box-shadow:-18px 0 40px rgba(0,0,0,.35);transition:transform .3s cubic-bezier(.22,.9,.28,1);z-index:60}
 #calPanel .calKop{display:flex;align-items:center;justify-content:space-between;padding:calc(16px + env(safe-area-inset-top)) 0 12px;position:sticky;top:0;background:inherit;z-index:2}
 #calPanel .calKop b{font-size:18px;font-weight:800}
 #calSluit{width:40px;height:40px;border-radius:12px;background:var(--vlak);border:1px solid var(--vlakRand);color:var(--txt);font-size:14px;display:flex;align-items:center;justify-content:center}
@@ -1966,7 +1966,7 @@ html body .instPage:has(.tzKaart) .instCrumb{max-width:1400px}
 .p-deur span{position:absolute;top:100%;margin-top:3px;font-size:10px;color:#f3c37a}
 .p-raam{background:#7cc4ff;border-radius:3px;box-shadow:0 0 8px rgba(124,196,255,.6)}
 .p-tekst{background:transparent}
-.p-tekst span{font-size:15px;color:#dbe4f3}
+.p-tekst span{font-size:15px;color:#e8ebf2}
 .tzCanvas .prop{cursor:grab}
 .tzCanvas .prop.tzGekozen{outline:3px solid var(--accent);outline-offset:4px}
 .tzProps{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:10px 12px;border-radius:14px;background:var(--vlak);border:1px solid var(--vlakRand)}
@@ -1998,7 +1998,7 @@ html body .instPage:has(.tzKaart) .instCrumb{max-width:1400px}
 }
 
 /* ===== Thema-kleuren overal door laten lopen (geen blauw meer in Kata en Goblin) ===== */
-body{--donker:#070d18;--zij:#081227;--tlA:#233863;--tlB:#32538f}
+body{--donker:#0e1117;--zij:#0b0d12;--tlA:#233863;--tlB:#32538f}
 /* Kata: roze */
 body.themaHu{--accent:#e75a9e;--accent2:#f8b4d6;--donker:#12080e;--zij:#1b0b16;--tlA:#5a2342;--tlB:#7a3159}
 body.themaHu.themaGlas{--gl1:236,72,153;--gl2:219,39,119;--gl3:160,40,110;--gl4:200,60,140;--gl5:249,168,212;--glA:#f472b6;--glB:#db2777;--glC:#e75a9e}
@@ -2041,7 +2041,7 @@ html body #sheet,html body.themaGlas #sheet,html body.themaHu.themaGlas #sheet,h
 /* Zaalkop op de tafelpagina: plakt alleen binnen zijn eigen zaal, en is dicht
    (iPad Safari laat doorzichtige plakkende koppen anders over elkaar heen zien) */
 .tlZaalSectie{position:relative}
-html body .tlLocRow,html body.themaHu .tlLocRow,html body.themaGob .tlLocRow{background:color-mix(in srgb, var(--accent) 8%, var(--donker,#070d18))!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;-webkit-transform:translateZ(0);transform:translateZ(0)}
+html body .tlLocRow,html body.themaHu .tlLocRow,html body.themaGob .tlLocRow{background:color-mix(in srgb, var(--accent) 8%, var(--donker,#0e1117))!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;-webkit-transform:translateZ(0);transform:translateZ(0)}
 
 /* ===== Overal de nieuwe stijl: knoppen, popups, filter, menu, lijstkaarten ===== */
 body{--paneelKleur:color-mix(in srgb, var(--accent) 5%, var(--zij))}
@@ -2380,7 +2380,7 @@ a.ki:hover{color:var(--txt)}
 .kt{font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
 .kt-all{color:#ff8a95;background:rgba(229,48,77,.12);border:1px solid rgba(229,48,77,.35)}
 .kt-bijz{color:#8ab4ff;background:rgba(77,141,255,.12);border:1px solid rgba(77,141,255,.35)}
-.chip.chipWeb{background:transparent!important;color:#9fb3d1;border:1px solid rgba(159,179,209,.4)}
+.chip.chipWeb{background:transparent!important;color:#8890a4;border:1px solid rgba(136,144,164,.4)}
 
 /* Vraagteken bij instellingen */
 .instHulp{width:26px;height:26px;flex:none;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--muted);font-size:13px;font-weight:800;padding:0;display:grid;place-items:center;transition:all .15s}
@@ -2523,6 +2523,11 @@ a.ki:hover{color:var(--txt)}
   </div>
   <div id="zoekWrap"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg><input id="zoekInp" placeholder="Zoek naam..." autocomplete="off"><button id="zoekX" style="display:none">&#10005;</button></div>
   <div class="cbTools">
+  <button class="nieuwKnop" id="btnNieuw" type="button" hidden title="Nieuwe online reserveringen tonen"><i></i><span>Nieuw online</span><b id="nieuwAantal">0</b></button>
+  <button class="ic" id="btnOnline" title="Online reserveren open of dicht">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18"/></svg>
+    <i class="onlineStip"></i>
+  </button>
   <button class="ic" id="btnWisPA" title="PA's wissen (deze dag)">
     <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
   </button>
@@ -2613,6 +2618,17 @@ const KLANT = {
     thema:     { kata: '1122', gob: '2222' }
   },
   sleutel:     'lecirque',
+  // Eigen kleurenpalet, zodat de restaurantversie niet op KISH lijkt
+  palet:       'rood',
+  // Dagen die in de vaste week altijd dicht zijn (0 = zondag, 1 = maandag, ...)
+  vastDicht:   [1],
+  // Volgorde waarin tafels vol gaan bij nieuwe reserveringen (online en "Automatisch"):
+  // eerst 1 t/m 13, dan het voorste blok, als laatste achterin.
+  tafelVolgorde: [
+    ['1','2','3','4','5','6','7','8','9','10','11','12','13'],
+    ['14','15','16','17','18','19','20','21','22','23','30','31','32','33','34','35','36'],
+    ['24','25','26','27','28','29','37','38','39','40']
+  ],
   firebase: {
     apiKey:            "AIzaSyBAe4_J98STZAZvAefrDohQ4zKYGS6OOnc",
     authDomain:        "restaurantct.firebaseapp.com",
@@ -2654,6 +2670,7 @@ function pasKleurToe(){
 // Merknaam overal doorvoeren waar hij in beeld staat
 function pasMerkToe(){
   pasKleurToe();
+  if(KLANT.palet === 'rood') document.body.classList.add('kvRood');
   document.title = KLANT.merk + ' \u00b7 ' + KLANT.naam;
   /* Kevora-logo in plaats van een letter: wit op de accentkleur */
   const logoImg = '<img src="' + KEVORA_LOGO_WIT + '" alt="" class="kvLogo">';
@@ -2671,7 +2688,7 @@ function pasMerkToe(){
 const LOCS = KLANT.zalen;
 // Labels met kleuren zoals in DISH
 const ARRS = [
-  {n:'2 gangen', c:'#4d8dff'},
+  {n:'2 gangen', c:'#c084fc'},
   {n:'3 gangen', c:'#f5a623'},
   {n:'À la carte', c:'#2ec08a'},
   // Kindermenu's van de reserveringspagina, zodat een boeking met kinderen
@@ -2682,6 +2699,13 @@ const ARRS = [
 ];
 // De website stuurt namen als "Diner · 2 gangen" of "Kids diner · 3 gangen".
 // Voor de kleur zoeken we de kale menunaam op, met het kindermenu apart.
+// Menukeuzes in het formulier: de vaste labels, plus het eigen label van
+// deze reservering, zodat dat niet verdwijnt als je hem later opent.
+function arrOptiesVoor(huidig){
+  const lijst = ARRS.map(a => a.n);
+  if(huidig && !lijst.includes(huidig)) lijst.push(huidig);
+  return lijst;
+}
 const arrKleur = naam => {
   const s = String(naam || '');
   if(!s) return '#8b92a5';
@@ -2710,7 +2734,7 @@ const STATUS = {
   in:{naam:'Aan tafel', kort:'aan tafel', c:'#059669'},
   arr:{naam:'Gearriveerd', kort:'gearriveerd', c:'#059669'},
   weg:{naam:'Vertrokken', kort:'vertrokken', c:'#6b7186'},
-  bev:{naam:'Bevestigd', kort:'bevestigd', c:'#4d8dff'},
+  bev:{naam:'Bevestigd', kort:'bevestigd', c:'#FFA896'},
   opt:{naam:'In optie', kort:'optie', c:'#e04ad6'},
   wacht:{naam:'Wachtlijst', kort:'wachtlijst', c:'#6b2d8f'},
   ann:{naam:'Geannuleerd', kort:'geannuleerd', c:'#e5304d'},
@@ -3421,6 +3445,12 @@ function startSync(){
         const v = sn.val();
         if(v) store.set('ct_tijden', v);
       });
+      // Eigen labels van de menukeuze: overal dezelfde lijst
+      db.ref(syncPad + '/instel/labels').on('value', sn=>{
+        const v = sn.val();
+        store.set('ct_labels', Array.isArray(v) ? v.filter(Boolean) : (v ? Object.values(v) : []));
+        eigenLabelsInArrs();
+      });
       syncSubDatum = null;
       render();
     })
@@ -3794,9 +3824,9 @@ function getTijden(){
     const wd = new Date(dt + 'T12:00:00').getDay();
     if(zelfde(uit.dagen[dt], uit.week[wd])) delete uit.dagen[dt];
   });
-  // Maandag en dinsdag blijven in het weekschema altijd dicht. Een losse dag
-  // mag daar wel van afwijken, dat is juist de bedoeling.
-  [1,2].forEach(d=>{
+  // Vaste sluitingsdagen (KLANT.vastDicht) blijven in het weekschema dicht.
+  // Een losse datum mag daar wel van afwijken, dat is juist de bedoeling.
+  (KLANT.vastDicht || []).forEach(d=>{
     if(uit.week[d]){
       if(uit.week[d].lunch) uit.week[d].lunch.aan = false;
       if(uit.week[d].diner) uit.week[d].diner.aan = false;
@@ -4979,7 +5009,7 @@ function openForm(existing, walkin){
     <label>Notities</label><textarea id="fNot" rows="4">${esc(r.notitie)}</textarea>
     <div class="row2">
       <div><label>Status</label><select id="fStatus">${(['res','arr','nm','no'].includes(r.status)?['res','arr','nm','no']:[r.status,'res','arr','nm','no']).map(k=>`<option value="${k}" ${k===r.status?'selected':''}>${(STATUS[k]||STATUS.res).naam}</option>`).join('')}</select></div>
-      <div><label>Menukeuze</label><select id="fArr">${ARRS.map(a=>`<option ${a.n===r.arr?'selected':''}>${a.n}</option>`).join('')}</select></div>
+      <div><label>Menukeuze</label><select id="fArr">${arrOptiesVoor(existing && existing.id ? r.arr : null).map(n=>`<option ${n===r.arr?'selected':''}>${esc(n)}</option>`).join('')}</select></div>
     </div>
     <label>Allergenen</label>
     <button type="button" class="tafelPickBtn" id="fAllBtn"></button>
@@ -5087,7 +5117,8 @@ function openForm(existing, walkin){
     const vrij = tafelsVoor(locSel.value).filter(t=>!conf.has(t.nr) && !andereTafelClaim(locSel.value, t.nr));
     const past = vrij.filter(t=>(t.cap||2) >= paxN)
       .sort((a,b)=>(HOGE_TAFELS.has(String(a.nr))?1:0) - (HOGE_TAFELS.has(String(b.nr))?1:0)
-        || ((a.cap||2)-(b.cap||2)) || ((+a.nr||0)-(+b.nr||0)));
+        || (tafelZone(a.nr) - tafelZone(b.nr))
+        || ((a.cap||2)-(b.cap||2)) || (tafelRang(a.nr) - tafelRang(b.nr)));
     if(past.length) return [past[0].nr];
     const vrijMap = {};
     vrij.forEach(t=>{ vrijMap[String(t.nr)] = t.cap || 2; });
@@ -5100,8 +5131,9 @@ function openForm(existing, walkin){
           if(!(reeks[j] in vrijMap)) break; // bezette tafel breekt de keten
           groep.push(reeks[j]); som += vrijMap[reeks[j]];
           if(som >= paxN){
-            if(!beste || groep.length < beste.groep.length || (groep.length === beste.groep.length && som < beste.som)){
-              beste = { groep: groep.slice(), som };
+            const zone = Math.max(...groep.map(tafelZone));
+            if(!beste || zone < beste.zone || (zone === beste.zone && (groep.length < beste.groep.length || (groep.length === beste.groep.length && som < beste.som)))){
+              beste = { groep: groep.slice(), som, zone };
             }
             break;
           }
@@ -5629,6 +5661,7 @@ function applyFilter(list){
     // dan blijft alleen die specifieke show over.
     if(filt.begin && r.tijd !== filt.begin) return false;
     if(filt.zoek && !String(r.naam||'').toLowerCase().includes(filt.zoek)) return false;
+    if(filt.nieuw && !(typeof isNieuwOnline === 'function' && isNieuwOnline(r))) return false;
     return true;
   });
 }
@@ -5656,21 +5689,72 @@ function maakDropdown(sel){
     const menu = document.createElement('div');
     menu.className = 'stMenu';
     menu.innerHTML = [...sel.options].map(o=>
-      `<button data-v="${o.value}" class="${o.value===sel.value?'on':''}"><span>${esc(o.text)}</span>${dotHTML(o.value)?`<i style="background:${(sel.id==='fStatus'||sel.id==='fltStatus')?(STATUS[o.value]||{}).c:arrKleur(o.value)}"></i>`:''}</button>`).join('');
+      `<button data-v="${esc(o.value)}" class="${o.value===sel.value?'on':''}"><span>${esc(o.text)}</span>${dotHTML(o.value)?`<i style="background:${(sel.id==='fStatus'||sel.id==='fltStatus')?(STATUS[o.value]||{}).c:arrKleur(o.value)}"></i>`:''}${sel.id==='fArr' && !ARRS.some(a => !a.eigen && a.n === o.value) ? `<span class="ddWis" role="button" tabindex="0" data-wis="${esc(o.value)}" aria-label="Label ${esc(o.value)} verwijderen"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></span>` : ''}</button>`).join('')
+      + (sel.id==='fArr' ? `<div class="aantalEigen ddEigen"><span class="ddKleurKnop" role="button" tabindex="0" title="Kleur kiezen" aria-label="Kleur van het label kiezen" style="background:${EIGEN_LABEL_KLEUREN[eigenLabels().length % EIGEN_LABEL_KLEUREN.length]}"><input type="hidden" data-kleur-in="1" value="${EIGEN_LABEL_KLEUREN[eigenLabels().length % EIGEN_LABEL_KLEUREN.length]}"></span><input type="text" data-eigen-in="1" placeholder="Zelf invullen" maxlength="40" autocomplete="off"><button type="button" class="btn primary" data-eigen="1" aria-label="Label toevoegen"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div>` : '');
     ov.appendChild(menu);
     document.body.appendChild(ov);
     const b = btn.getBoundingClientRect();
-    menu.style.width = Math.max(210, b.width)+'px';
-    menu.style.left = Math.max(8, Math.min(window.innerWidth - Math.max(210,b.width) - 8, b.left))+'px';
+    const breedte = Math.min(window.innerWidth - 16, Math.max(sel.id === 'fArr' ? 260 : 210, b.width));
+    menu.style.width = breedte+'px';
+    menu.style.left = Math.max(8, Math.min(window.innerWidth - breedte - 8, b.left))+'px';
     menu.style.top = Math.max(8, Math.min(window.innerHeight - menu.offsetHeight - 8, b.bottom + 4))+'px';
     ov.onclick = (e)=>{ if(e.target===ov) ov.remove(); };
-    menu.querySelectorAll('button').forEach(bt=>{
-      bt.onclick = ()=>{
+    menu.querySelectorAll('button[data-v]').forEach(bt=>{
+      bt.onclick = (e)=>{
+        // Prullenbakje: eerst vragen of het echt weg moet
+        const wis = e.target.closest('[data-wis]');
+        if(wis){
+          e.stopPropagation();
+          const naam = wis.dataset.wis;
+          vraag(`<b>Label "${esc(naam)}" verwijderen?</b><br><br>Weet je het zeker? Het label verdwijnt uit de lijst op alle apparaten. Andere reserveringen die dit label al hebben, houden het.`, ()=>{
+            zetEigenLabels(eigenLabels().filter(x => x.n.toLowerCase() !== naam.toLowerCase()));
+            // Helemaal uit de keuzelijst. Stond hij bij deze reservering gekozen,
+            // dan valt de keuze terug op het eerste menu.
+            const wasGekozen = sel.value === naam;
+            [...sel.options].forEach(o => { if(o.value === naam) o.remove(); });
+            if(wasGekozen && sel.options.length){ sel.selectedIndex = 0; sel.dispatchEvent(new Event('change', { bubbles: true })); }
+            toast('Label verwijderd');
+            ov.remove();
+          });
+          const vo = [...document.querySelectorAll('.mcalOv')].pop(); if(vo) vo.style.zIndex = 140;
+          return;
+        }
         sel.value = bt.dataset.v;
         sel.dispatchEvent(new Event('change', { bubbles: true }));
         ov.remove();
       };
     });
+    // Zelf een label intikken: komt in de lijst en wordt meteen gekozen
+    const ei = menu.querySelector('[data-eigen-in]'), eb = menu.querySelector('[data-eigen]');
+    if(ei && eb){
+      const voegToe = ()=>{
+        const t = ei.value.trim().replace(/\s+/g,' ');
+        if(!t){ ei.focus(); return; }
+        const naam = t.charAt(0).toUpperCase() + t.slice(1);
+        const kleur = (menu.querySelector('[data-kleur-in]') || {}).value || '#8b92a5';
+        // Bewaren als het nog geen vast label is, zodat het de volgende keer klaarstaat
+        if(!ARRS.some(a => !a.eigen && a.n.toLowerCase() === naam.toLowerCase())){
+          const lijst = eigenLabels().filter(x => x.n.toLowerCase() !== naam.toLowerCase());
+          lijst.push({ n: naam, c: kleur });
+          zetEigenLabels(lijst);
+          toast('Label "' + naam + '" bewaard');
+        }
+        let o = [...sel.options].find(x => x.value.toLowerCase() === naam.toLowerCase());
+        if(!o){ o = document.createElement('option'); o.textContent = naam; o.value = naam; sel.appendChild(o); }
+        sel.value = o.value;
+        sel.dispatchEvent(new Event('change', { bubbles: true }));
+        ov.remove();
+      };
+      eb.onclick = voegToe;
+      const ki = menu.querySelector('[data-kleur-in]');
+      const kk = menu.querySelector('.ddKleurKnop');
+      if(ki && kk) kk.onclick = (e)=>{
+        e.stopPropagation();
+        openKleurKiezer(kk, ki.value, (kleur)=>{ ki.value = kleur; kk.style.background = kleur; });
+      };
+      ei.onkeydown = (e)=>{ if(e.key === 'Enter'){ e.preventDefault(); voegToe(); } };
+      ei.onclick = (e)=> e.stopPropagation();
+    }
   };
   sel.insertAdjacentElement('afterend', btn);
   sel.addEventListener('change', upd);
@@ -5780,20 +5864,16 @@ function toonInstellingen(){
   const rij = (id, naam, uitleg, teken, nu) => `
     <div class="instMenuRow" id="${id}">
       <span class="instIco"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${teken}</svg></span>
-      <span class="instTxt"><b>${naam}</b><small>${uitleg}</small></span>
+      <span class="instTxt"><b>${naam}</b></span>
       ${nu ? `<span class="instNu" id="${nu}"></span>` : ''}
       <button type="button" class="instHulp" data-hulp="${id}" aria-label="Wat doet ${naam.replace(/"/g,'')}?">?</button>
       <span class="instChev">&#8250;</span>
     </div>`;
 
   const pg = instPagina([{n:'Instellingen', ga:toonInstellingen}], `
-    <div class="instHero">
-      <div class="instHeroIco"><img src="${KEVORA_LOGO_WIT}" alt="" class="kvLogo"></div>
-      <div style="min-width:0">
-        <div class="instHeroT">Instellingen</div>
-        <div class="instHeroS">${isEigenaar ? 'Je bent binnen met de eigenaarscode, alles staat open.' : ('Welkom ' + esc(naamManager || 'manager') + ', alles staat voor je klaar.')}</div>
-      </div>
-      <span class="instRol">${isEigenaar ? 'Eigenaar' : 'Manager'}</span>
+    <div class="instKop2">
+      <span class="instH" style="flex:1">Instellingen</span>
+      <span class="instWie">${isEigenaar ? 'Eigenaar' : esc(naamManager || 'Manager')}</span>
     </div>
 
     <div class="instGroep">Dagelijks</div>
@@ -5806,20 +5886,16 @@ function toonInstellingen(){
     ${rij('rBackup','Reservekopie','Een eerdere stand van de dag terugzetten', ico.backup)}
 
     ${isEigenaar ? `
-    <div class="instGroep">Alleen voor de eigenaar</div>
+    <div class="instGroep">Eigenaar</div>
     ${rij('rManagers','Managers','Codes van collega\'s toevoegen of intrekken', ico.managers)}
     ${rij('rVangnet','Extern vangnet','Tweede kopie buiten de hoofdverbinding om', ico.vangnet, 'rVangnetNu')}` : ''}
 
-    <div class="instVoet">
-      <b style="color:var(--txt);letter-spacing:.04em">${esc(KLANT.merk)}&trade;</b><br>
-      ${esc(KLANT.ondertitel)}<br>
-      &copy; ${new Date().getFullYear()} Kevin Kiene &middot; alle rechten voorbehouden
-    </div>`);
+    <div class="instVoet">${esc(KLANT.merk)} &copy; ${new Date().getFullYear()}</div>`);
 
   const bind = (id, fn)=>{ const el = pg.querySelector(id); if(el) el.onclick = fn; };
   // Vraagteken: uitleg in gewone taal, zonder de pagina te openen
   pg.querySelectorAll('.instHulp').forEach(k => k.onclick = (e)=>{ e.stopPropagation(); toonHulp(k.dataset.hulp); });
-  bind('#rTijden', instTijden);
+  bind('#rTijden', ()=>{ _weekOffset = 0; instTijden(); });
   bind('#rZalen', instZalen);
   bind('#rArchief', instArchief);
   bind('#rCijfers', instCijfers);
@@ -5852,12 +5928,13 @@ function instTijden(){
      Er wordt gevraagd naar de eerste en de laatste tafel. Dat is precies
      wat de gast ziet, zonder sluitingstijd en marge om uit te rekenen. */
   const t = getTijden();
-  const VAST_DICHT = [1,2];                                  // maandag en dinsdag
+  const VAST_DICHT = KLANT.vastDicht || [];                  // vaste sluitingsdagen
   const VOLGORDE = [1,2,3,4,5,6,0];
   const DIENSTEN = [['lunch','Lunch'],['diner','Diner']];
   const MAAND = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
   const kopie = o => JSON.parse(JSON.stringify(o));
-  let open = null;            // welke dag of datum is opengeklapt: 'w3' of 'd2026-12-24'
+  let open = null;            // welke vaste dag is opengeklapt: 'w3'
+  let dagKeuze = null;        // gekozen datum in de weekplanner
 
   const laatsteVan = d => { const l = tijdenUit(d); return l.length ? l[l.length-1] : ''; };
   const dienstTekst = d => {
@@ -5878,7 +5955,7 @@ function instTijden(){
     ? `<span class="otPil aan"><em>${naam}</em>${esc(dienstTekst(d))}</span>`
     : `<span class="otPil"><em>${naam}</em>gesloten</span>`;
 
-  const editor = (k) => {
+  const editor = (k, zonderVoet) => {
     const s = schemaVan(k);
     return `<div class="otEditor" data-k="${k}">
       ${DIENSTEN.map(([dn, naam]) => {
@@ -5893,12 +5970,12 @@ function instTijden(){
             <label><span>Eerste tafel</span><input type="text" inputmode="none" readonly data-veld="start" data-klok="1" value="${esc(d.start)}"></label>
             <label><span>Laatste tafel</span><input type="text" inputmode="none" readonly data-veld="laatste" data-klok="1" value="${esc(laatsteVan(d) || d.eind)}"></label>
             <div class="otVeld"><span>Elke</span><div class="otSeg" data-veld="stap">${[15,30,60].concat([15,30,60].includes(+d.stap) ? [] : [+d.stap||15]).sort((a,b)=>a-b).map(m => `<button type="button" data-m="${m}" class="${(+d.stap||15) === m ? 'on' : ''}">${m} min</button>`).join('')}</div></div>
-            <div class="otVeld"><span>Maximaal gasten</span><div class="otStap" data-veld="max"><button type="button" data-plus="-5" aria-label="Minder">&minus;</button><b>${(+d.max||0) ? +d.max : 'Geen max'}</b><button type="button" data-plus="5" aria-label="Meer">+</button></div></div>
+            <div class="otVeld"><span>Maximaal gasten</span><div class="otStap" data-veld="max"><button type="button" data-plus="-5" aria-label="Minder">&minus;</button><input type="text" inputmode="numeric" pattern="[0-9]*" class="otMaxVeld" maxlength="3" value="${(+d.max||0) ? +d.max : ''}" placeholder="Geen max" aria-label="Maximaal gasten"><button type="button" data-plus="5" aria-label="Meer">+</button></div></div>
           </div>
           <div class="otTijden">${lijst.length ? lijst.map(x => `<span>${esc(x)}</span>`).join('') : '<small>Geen tijden, kijk of de laatste tafel na de eerste ligt</small>'}</div>
         </div>`;
       }).join('')}
-      ${k[0] === 'w'
+      ${zonderVoet ? '' : k[0] === 'w'
         ? `<div class="otEditorVoet"><button type="button" class="otLink" data-kopieer="${k}">Deze tijden ook op de andere open dagen zetten</button></div>`
         : `<div class="otEditorVoet"><button type="button" class="otLink rood" data-wis="${k.slice(1)}">Uitzondering verwijderen</button></div>`}
     </div>`;
@@ -5938,43 +6015,95 @@ function instTijden(){
         </button>
         <button type="button" class="otWeg" data-wis="${u.iso}" aria-label="Uitzondering verwijderen" title="Verwijderen">&times;</button>
       </div>
-      ${isNu && !u.dicht ? editor(k) : ''}
     </div>`;
   };
 
-  const komendeDagen = () => {
-    let html = '';
-    const d = new Date(vandaag + 'T12:00:00');
-    for(let i = 0; i < 7; i++){
+  // ---------- Weekplanner: maandag t/m zondag ----------
+  const maandagVan = (iso) => { const d = new Date(iso + 'T12:00:00'); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return d; };
+  const weekStart = () => { const d = maandagVan(vandaag); d.setDate(d.getDate() + _weekOffset * 7); return d; };
+  const weekNr = (d) => { const x = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())); const dag = x.getUTCDay() || 7; x.setUTCDate(x.getUTCDate() + 4 - dag); const j = new Date(Date.UTC(x.getUTCFullYear(),0,1)); return Math.ceil(((x - j) / 86400000 + 1) / 7); };
+  const soortVan = (iso) => (t.dicht||[]).includes(iso) ? 'dicht' : (t.dagen[iso] ? 'eigen' : 'vast');
+  const bereik = (d) => { const l = tijdenUit(d); return l.length ? l[0] + ' - ' + l[l.length-1] : ''; };
+
+  let gekozenIdx = -1;
+  const weekDagen = () => {
+    const d = weekStart(); let html = ''; gekozenIdx = -1;
+    for(let j = 0; j < 7; j++){
       const iso = lokaleDatum(d);
       const s = schemaVoorDatum(iso);
       const op = isOpen(s);
-      const regels = op ? DIENSTEN.filter(([dn]) => s[dn] && s[dn].aan && tijdenUit(s[dn]).length).map(([dn, naam]) => `<small>${naam} ${esc(tijdenUit(s[dn])[0])}</small>`).join('') : '<small>Gesloten</small>';
-      const afwijkend = (t.dicht||[]).includes(iso) || !!t.dagen[iso];
-      html += `<div class="otKomend ${op ? '' : 'dicht'}">
-        <b>${i === 0 ? 'Vandaag' : i === 1 ? 'Morgen' : DAGKORT[d.getDay()] + ' ' + d.getDate()}</b>${regels}${afwijkend ? '<i title="Uitzondering">&#9679;</i>' : ''}
-      </div>`;
+      const voorbij = iso < vandaag;
+      const soort = soortVan(iso);
+      const regels = op
+        ? DIENSTEN.map(([dn, naam]) => s[dn] && s[dn].aan && tijdenUit(s[dn]).length ? `<span class="otWkDienst"><em>${naam}</em><span>${esc(tijdenUit(s[dn])[0])}<span class="otWkTot">-${esc(tijdenUit(s[dn]).slice(-1)[0])}</span></span></span>` : '').join('')
+        : `<span class="otWkDicht">${soort === 'dicht' ? 'Uitzondering: dicht' : 'Gesloten'}</span>`;
+      if(dagKeuze === iso) gekozenIdx = j;
+      html += `<button type="button" style="order:${j*2}" class="otWkDag ${op ? '' : 'dicht'} ${voorbij ? 'voorbij' : ''} ${iso === vandaag ? 'nu' : ''} ${dagKeuze === iso ? 'gekozen' : ''} ${soort !== 'vast' ? 'afwijkend' : ''}" data-iso="${iso}">
+        <span class="otWkNaam">${DAGKORT[d.getDay()]} <b>${d.getDate()}</b>${iso === vandaag ? '<i>vandaag</i>' : ''}</span>
+        ${regels}
+        ${soort === 'eigen' ? '<span class="otWkLabel">eigen tijden</span>' : ''}
+        <span class="otWkPijl">&#8250;</span>
+      </button>`;
       d.setDate(d.getDate() + 1);
     }
     return html;
+  };
+
+  const weekTitel = () => {
+    const a = weekStart(); const b = new Date(a); b.setDate(b.getDate() + 6);
+    const f = x => x.getDate() + ' ' + MAAND[x.getMonth()];
+    return `<b>Week ${weekNr(a)}</b><span>${f(a)} t/m ${f(b)}${_weekOffset === 0 ? ' &middot; deze week' : _weekOffset === 1 ? ' &middot; volgende week' : ''}</span>`;
+  };
+
+  // Paneel onder de week voor de gekozen dag
+  const dagPaneel = () => {
+    if(!dagKeuze) return '<div class="otWkHint">Tik op een dag om die dag aan te passen.</div>';
+    const iso = dagKeuze, soort = soortVan(iso), wd = new Date(iso + 'T12:00:00').getDay();
+    const kop = `<div class="otDagKop"><b>${esc(datumLang(iso))}</b><button type="button" class="otDagSluit" aria-label="Sluiten">&times;</button></div>`;
+    if(iso < vandaag) return `<div class="otDagPaneel">${kop}<div class="otWkHint">Deze dag is al geweest.</div></div>`;
+    const vastDicht = VAST_DICHT.includes(wd);
+    const knop = (k, tekst) => `<button type="button" data-soort="${k}" class="${soort === k ? 'on' : ''}">${tekst}</button>`;
+    let body = '';
+    if(soort === 'vast'){
+      const s = t.week[wd];
+      body = `<div class="otDagVast">${vastDicht || !isOpen(s) ? 'Volgens de vaste week is het deze dag dicht.'
+        : 'Volgens de vaste week: ' + DIENSTEN.filter(([dn]) => s[dn] && s[dn].aan && tijdenUit(s[dn]).length).map(([dn, naam]) => naam.toLowerCase() + ' ' + esc(bereik(s[dn]))).join(', ') + '.'}</div>`;
+    } else if(soort === 'dicht'){
+      body = '<div class="otDagVast">Deze dag kan niemand online boeken. Bestaande reserveringen blijven staan.</div>';
+    } else {
+      body = editor('d' + iso, true);
+    }
+    return `<div class="otDagPaneel">${kop}
+      <div class="otSeg otDagSoort">${knop('vast','Vaste week')}${knop('eigen','Eigen tijden')}${knop('dicht','Dicht')}</div>
+      ${body}</div>`;
   };
 
   const inhoud = () => {
     const uz = uitzonderingen();
     return `
     <div class="instH">Openingstijden</div>
-    <div class="instSub">Wanneer gasten via de website een tafel kunnen boeken. Wijzigingen staan meteen online.</div>
+    <div class="instSub">Wanneer gasten online kunnen boeken. Aanpassingen staan meteen live.</div>
 
-    <div class="otKop">Zo ziet de website het de komende week</div>
-    <div class="otKomende">${komendeDagen()}</div>
+    <div class="otPlanner">
+      <div class="otWeekKop">
+        <span class="otWkTitel">${weekTitel()}</span>
+        <span class="otWeekNav">
+          <button type="button" id="otWkTerug" aria-label="Vorige week" ${_weekOffset <= 0 ? 'disabled' : ''}>&#8249;</button>
+          ${_weekOffset > 0 ? '<button type="button" id="otWkNu" class="otWkNu">Deze week</button>' : ''}
+          <button type="button" id="otWkVerder" aria-label="Volgende week" ${_weekOffset >= 52 ? 'disabled' : ''}>&#8250;</button>
+        </span>
+      </div>
+      <div class="otWkGrid">${weekDagen()}${dagKeuze && gekozenIdx >= 0 ? `<div class="otWkPaneelPlek" style="--o:${gekozenIdx*2+1}">${dagPaneel()}</div>` : ''}</div>
+      ${dagKeuze && gekozenIdx >= 0 ? '' : dagPaneel()}
+    </div>
 
-    <div class="otKop">Vaste week <small>Tik op een dag om de tijden aan te passen</small></div>
+    <div class="otKop">Vaste week <small>Geldt voor elke week, tenzij je een dag hierboven aanpast</small></div>
     <div class="otLijst">${VOLGORDE.map(weekRij).join('')}</div>
-    <div class="otNoot">Maandag en dinsdag zijn vaste sluitingsdagen. Wil je een keer op zo'n dag open, voeg die datum dan hieronder toe.</div>
+    ${VAST_DICHT.length ? `<div class="otNoot">${VAST_DICHT.map(d => DAGNAMEN[d]).join(' en ')} ${VAST_DICHT.length > 1 ? 'zijn' : 'is'} vast dicht. Een keer open? Kies die datum in de week hierboven.</div>` : ''}
 
-    <div class="otKop">Uitzonderingen <small>Een datum die dicht is of andere tijden heeft</small></div>
-    <div class="otLijst">${uz.length ? uz.map(uitzRij).join('') : '<div class="otLeeg">Geen uitzonderingen. Elke dag volgt de vaste week.</div>'}</div>
-    <button type="button" class="otToevoegen" id="otNieuw">+ Uitzondering toevoegen</button>`;
+    <div class="otKop">Aangepaste dagen <small>Tik om die dag te openen</small></div>
+    <div class="otLijst">${uz.length ? uz.map(uitzRij).join('') : '<div class="otLeeg">Geen aangepaste dagen. Elke dag volgt de vaste week.</div>'}</div>
+    <button type="button" class="otToevoegen" id="otNieuw">+ Datum ver vooruit aanpassen</button>`;
   };
 
   const pg = instPagina([{n:'Instellingen', ga:toonInstellingen},{n:'Openingstijden', ga:instTijden}], '<div id="otPagina"></div>');
@@ -6021,9 +6150,21 @@ function instTijden(){
         opslaan('Opgeslagen'); teken();
       });
       blok.querySelectorAll('.otStap button').forEach(b => b.onclick = () => {
-        d.max = Math.max(0, Math.min(995, (+d.max||0) + (+b.dataset.plus)));
+        d.max = Math.max(0, Math.min(999, (+d.max||0) + (+b.dataset.plus)));
         opslaan(); teken();
       });
+      // Zelf een aantal intikken. Leeg of 0 = geen maximum.
+      const maxVeld = blok.querySelector('.otMaxVeld');
+      if(maxVeld){
+        maxVeld.oninput = () => { maxVeld.value = maxVeld.value.replace(/\D/g, '').slice(0, 3); };
+        const bewaar = () => {
+          const n = Math.max(0, Math.min(999, parseInt(maxVeld.value, 10) || 0));
+          if(n === (+d.max||0)) return;
+          d.max = n; opslaan(n ? 'Maximaal ' + n + ' gasten' : 'Geen maximum'); teken();
+        };
+        maxVeld.onchange = bewaar;
+        maxVeld.onkeydown = (e) => { if(e.key === 'Enter'){ e.preventDefault(); maxVeld.blur(); } };
+      }
     });
     const kop = ed.querySelector('[data-kopieer]');
     if(kop) kop.onclick = () => {
@@ -6042,7 +6183,27 @@ function instTijden(){
   }
 
   function koppel(){
-    doos.querySelectorAll('.otRijKop:not(.otUitzKop), .otUitzKnop').forEach(knop => knop.onclick = () => {
+    const wk = (n) => { _weekOffset = Math.max(0, Math.min(52, n)); dagKeuze = null; teken(); };
+    doos.querySelectorAll('.otWkDag').forEach(b => b.onclick = () => { dagKeuze = dagKeuze === b.dataset.iso ? null : b.dataset.iso; teken(); });
+    const sluit = doos.querySelector('.otDagSluit'); if(sluit) sluit.onclick = () => { dagKeuze = null; teken(); };
+    doos.querySelectorAll('.otDagSoort button').forEach(b => b.onclick = () => {
+      const iso = dagKeuze, nieuw = b.dataset.soort, was = soortVan(iso);
+      if(nieuw === was) return;
+      const doe = () => {
+        if(nieuw === 'vast'){ delete t.dagen[iso]; t.dicht = (t.dicht||[]).filter(x => x !== iso); opslaan(datumKort(iso) + ' volgt weer de vaste week'); }
+        else if(nieuw === 'dicht'){ delete t.dagen[iso]; t.dicht = [...new Set([...(t.dicht||[]), iso])]; opslaan(datumKort(iso) + ' is dicht'); }
+        else { t.dicht = (t.dicht||[]).filter(x => x !== iso); t.dagen[iso] = nieuweDag(iso); opslaan('Stel de tijden van ' + datumKort(iso) + ' in'); }
+        teken();
+      };
+      if(nieuw === 'dicht') vraag(`<b>${esc(datumLang(iso))} dicht?</b><br><br>Gasten kunnen die dag niet meer online boeken. Bestaande reserveringen blijven staan.`, doe);
+      else doe();
+    });
+    const kT = doos.querySelector('#otWkTerug'), kV = doos.querySelector('#otWkVerder'), kN = doos.querySelector('#otWkNu');
+    if(kT) kT.onclick = () => wk(_weekOffset - 1);
+    if(kV) kV.onclick = () => wk(_weekOffset + 1);
+    if(kN) kN.onclick = () => wk(0);
+    doos.querySelectorAll('.otUitzKnop').forEach(knop => knop.onclick = () => naarDag(knop.closest('.otRij').dataset.k.slice(1)));
+    doos.querySelectorAll('.otRijKop:not(.otUitzKop)').forEach(knop => knop.onclick = () => {
       const k = knop.closest('.otRij').dataset.k;
       if(knop.dataset.vast){ toast('Vaste sluitingsdag. Voeg onderaan een datum toe om een keer open te gaan.'); return; }
       if(knop.dataset.dichtrij){
@@ -6071,6 +6232,15 @@ function instTijden(){
     doos.querySelectorAll('.otEditor').forEach(koppelEditor);
     const nieuw = doos.querySelector('#otNieuw');
     if(nieuw) nieuw.onclick = nieuweUitzondering;
+  }
+
+  // Spring in de weekplanner naar een datum en open die dag
+  function naarDag(iso){
+    const a = maandagVan(vandaag), b = maandagVan(iso);
+    _weekOffset = Math.max(0, Math.round((b - a) / (7 * 86400000)));
+    dagKeuze = iso;
+    teken();
+    const w = pg.querySelector('.instWrap'); if(w) w.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   // Een nieuwe losse dag begint met de tijden van die weekdag. Is die
@@ -6121,11 +6291,10 @@ function instTijden(){
       } else {
         t.dicht = (t.dicht||[]).filter(x => x !== iso);
         if(!t.dagen[iso]) t.dagen[iso] = nieuweDag(iso);
-        open = 'd' + iso;
         opslaan('Stel nu de tijden van ' + datumKort(iso) + ' in');
       }
       ov.remove();
-      teken();
+      naarDag(iso);
     };
     setTimeout(() => inp.click(), 50);
   }
@@ -6136,7 +6305,7 @@ function instTijden(){
 function instZalen(){
   const pg = instPagina([{n:'Instellingen', ga:toonInstellingen},{n:'Zalen & Tafels', ga:instZalen}], `
     <div class="instH">Zalen &amp; Tafels</div>
-    <div class="instSub">Kies een zaal om de indeling te maken: tafels toevoegen, verslepen, zitplaatsen en vorm aanpassen.</div>
+    <div class="instSub">Kies een zaal om de tafels aan te passen.</div>
     <div class="tzZalen">
     ${LOCS.map(l=>{ const t = tafelsVoor(l); const plek = t.reduce((a,x)=>a+(+x.cap||2),0); return `<button class="tzZaal" data-loc="${esc(l)}">
       <span class="tzZaalIco"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><rect x="6.2" y="7.6" width="4.2" height="3.4" rx="1"/><rect x="13.6" y="7.6" width="4.2" height="3.4" rx="1"/><rect x="6.2" y="13" width="4.2" height="3.4" rx="1"/><rect x="13.6" y="13" width="4.2" height="3.4" rx="1"/></svg></span>
@@ -6174,7 +6343,7 @@ function instTafels(loc){
       <div class="tzKop">
         <div style="flex:1;min-width:0">
           <div class="instH">${esc(loc)}</div>
-          <div class="instSub" style="margin:4px 0 0">Sleep tafels naar hun plek, tik op een tafel om hem aan te passen. Wijzigingen gelden direct op alle apparaten.</div>
+          <div class="instSub" style="margin:4px 0 0">Sleep tafels naar hun plek. Tik op een tafel om hem aan te passen.</div>
         </div>
         <button class="tzKnop" id="tzIndelingen">Indelingen</button>
         <button class="tzKnop" id="tzUitlijnen">Uitlijnen</button>
@@ -6639,7 +6808,7 @@ async function instCijfers(){
   const kruimel = [{n:'Instellingen', ga:toonInstellingen},{n:'Cijfers', ga:instCijfers}];
   const PER = [['7','7 dagen'],['30','30 dagen'],['90','90 dagen'],['jaar','Dit jaar']];
   const kop = `<div class="instH">Cijfers</div>
-    <div class="instSub">Hoe druk het was, op welke momenten, en wat gasten kozen. Geannuleerde reserveringen en de wachtlijst tellen niet mee.</div>
+    <div class="instSub">Zonder geannuleerde reserveringen en de wachtlijst.</div>
     <div class="cfPer">${PER.map(([k,n]) => `<button type="button" data-p="${k}" class="${k===_cfPeriode?'on':''}">${n}</button>`).join('')}</div>`;
   let pg = instPagina(kruimel, kop + '<div class="instSub" style="padding:24px 0;text-align:center">Cijfers ophalen...</div>');
   const zetKnoppen = ()=> pg.querySelectorAll('.cfPer button').forEach(b => b.onclick = ()=>{ _cfPeriode = b.dataset.p; instCijfers(); });
@@ -6768,7 +6937,7 @@ async function instBerichten(){
   pg = instPagina(kruimel, `
     <div id="gbPagina">
     <div class="instH">Gastberichten</div>
-    <div class="instSub">Mails die gasten automatisch krijgen en de wachtlijst op de website.</div>
+    <div class="instSub">Automatische mails aan gasten en de wachtlijst.</div>
 
     <div class="gbHoofd ${b.aan ? 'aan' : ''}">
       <div><b>Mails naar gasten</b><small>${b.aan ? 'Staat aan. Gasten met een mailadres krijgen de mails hieronder.' : 'Staat uit. Er gaat niets naar gasten.'}</small></div>
@@ -6927,6 +7096,28 @@ function rpMenusInKeuzelijst(p){
 }
 rpMenusInKeuzelijst(store.get('ct_pagina', null));
 
+/* ===== Eigen labels (menukeuze) =====
+   Zelf toegevoegde labels met eigen kleur. Bewaard op alle apparaten via
+   de database (instel/labels), zodat je ze niet steeds opnieuw hoeft te typen. */
+const EIGEN_LABEL_KLEUREN = ['#e5557a','#f97316','#facc15','#a3e635','#2ec08a','#14b8c4','#60a5fa','#c084fc','#f472b6','#8b92a5'];
+function eigenLabels(){ const l = store.get('ct_labels', []); return Array.isArray(l) ? l.filter(x => x && x.n) : []; }
+function isEigenLabel(n){ return eigenLabels().some(x => x.n.toLowerCase() === String(n||'').toLowerCase()); }
+function eigenLabelsInArrs(){
+  // Eerst oude eigen labels uit de lijst halen, dan de huidige erachter zetten
+  for(let i = ARRS.length - 1; i >= 0; i--) if(ARRS[i].eigen) ARRS.splice(i, 1);
+  eigenLabels().forEach(x => {
+    const al = ARRS.find(a => a.n.toLowerCase() === x.n.toLowerCase());
+    if(al){ if(al.eigen) al.c = x.c; return; }
+    ARRS.push({ n: x.n, c: x.c || '#8b92a5', eigen: true });
+  });
+}
+function zetEigenLabels(lijst){
+  store.set('ct_labels', lijst);
+  eigenLabelsInArrs();
+  try{ if(db && syncPad) db.ref(syncPad + '/instel/labels').set(lijst.length ? lijst : null); }catch(_){}
+}
+eigenLabelsInArrs();
+
 // Verkleinen voor de website: menufoto's staand 2:3, logo klein met transparantie
 function rpVerklein(bestand, soort){
   return new Promise((klaar, fout) => {
@@ -6971,7 +7162,7 @@ function rpZaalVoorWebsite(){
   const posities = {};
   const lay = Object.assign({}, DEFAULT_LAYOUT[loc] || {}, (layout && layout[loc]) || {});
   Object.entries(lay).forEach(([nr, v]) => { if(v && isFinite(v.x) && isFinite(v.y) && tafels[nr]) posities[nr] = { x: +(+v.x).toFixed(2), y: +(+v.y).toFixed(2) }; });
-  return { naam: loc, tafels, groepen: (KOPPEL_GROEPEN[loc] || []).map(g => g.map(String)), rond, hoog: (KLANT.hogeTafels || []).map(String), posities };
+  return { naam: loc, tafels, groepen: (KOPPEL_GROEPEN[loc] || []).map(g => g.map(String)), rond, hoog: (KLANT.hogeTafels || []).map(String), posities, volgorde: (KLANT.tafelVolgorde || []).map(z => z.map(String)) };
 }
 let _rpZaalLaatst = '', _rpZaalTimer = null;
 function publiceerZaal(){
@@ -7152,7 +7343,7 @@ async function instPaginaWeb(){
   pg = instPagina(kruimel, `
     <div id="rpPagina">
     <div class="instH">Reserveringspagina</div>
-    <div class="instSub">Wat de gast ziet als hij online een tafel boekt. Wijzigingen staan meteen online.</div>
+    <div class="instSub">Wat de gast ziet als hij online boekt. Aanpassingen staan meteen live.</div>
 
     <div class="rpLink">
       ${isEigenaar ? `<label class="rpLinkTekst"><small>Adres van je pagina <span style="font-weight:500">(staat ook in de mails aan gasten)</span></small>
@@ -7217,7 +7408,7 @@ async function instPaginaWeb(){
       </div>`).join('')}
     <button type="button" class="rpErbij rpErbijGroot" id="rpCatNieuw">+ Tabblad toevoegen</button>
 
-    <div class="instSub" style="margin-top:18px">Tip: foto's worden vanzelf verkleind en staand bijgesneden. De tafels voor de website komen uit Zalen &amp; Tafels.</div>
+    <div class="instSub" style="margin-top:18px">Foto's worden vanzelf verkleind en bijgesneden. De tafels komen uit Zalen &amp; Tafels.</div>
     ${isEigenaar ? '<div style="margin:10px 0 30px"><button type="button" class="btn ghost" id="rpHerstel">Terug naar de standaard</button></div>' : '<div style="height:24px"></div>'}
     </div>`);
 
@@ -7358,7 +7549,7 @@ function instArchief(){
 
   const pg = instPagina([{n:'Instellingen', ga:toonInstellingen},{n:'Dagarchief', ga:instArchief}], `
     <div class="instH">Dagarchief</div>
-    <div class="instSub">Samenvatting per dag: reserveringen, gasten, verkocht aan de deur en no-shows. Tik op een dag om die meteen te openen.</div>
+    <div class="instSub">Per dag. Tik op een dag om hem te openen.</div>
     ${dagen.length ? `
     <div class="archTabel">
       <div class="archKop">
@@ -7554,7 +7745,7 @@ function instThemaKeuze(){
   if(!isEigenaar){ toonInstellingen(); return; }
   const glasAan = store.get('ct_themaGlas', true);
   const pg = instPagina([{n:'Instellingen', ga:toonInstellingen},{n:'Weergave', ga:instThemaKeuze}], `
-    <div class="instSub">Kies hoe de app eruitziet op dit apparaat. De keuze geldt alleen hier, niet voor je collega's.</div>
+    <div class="instSub">Geldt alleen op dit apparaat.</div>
     <div class="themaKeus">
       <button class="themaKaart ${glasAan?'':'op'}" data-glas="0">
         <span class="themaVb standaardVb"></span>
@@ -7592,7 +7783,7 @@ function instVangnet(){
   const pg = instPagina([{n:'Instellingen', ga:toonInstellingen},{n:'Extern vangnet', ga:instVangnet}], `
     <div class="instH">Extern vangnet</div>
     <div class="instRow" style="cursor:default;margin-top:4px"><b style="flex:1">Vangnet</b><span id="rsvKort" style="color:var(--muted);font-size:12.5px"></span></div>
-    <div class="instSub">Extra beveiliging: elke 5 minuten wordt de dag apart weggeschreven op een tweede plek. Valt de gewone verbinding weg, dan schakelt de app vanzelf over zodat alle apparaten elkaar blijven zien, en weer terug zodra alles normaal is. Vul alleen het wachtwoord in, de rest staat al goed.</div>
+    <div class="instSub">Elke 5 minuten een kopie op een tweede plek. Valt de verbinding weg, dan schakelt de app daar zelf naar over.</div>
     <div id="rsvStatus" class="instSub" style="padding:0 0 8px"></div>
     <label style="text-transform:none;font-size:11.5px;color:var(--muted)">Adres vangnet</label>
     <input id="rsvUrl" placeholder="https://xxxx.supabase.co" style="width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px;margin:2px 0 8px" autocomplete="off">
@@ -7600,7 +7791,7 @@ function instVangnet(){
     <input id="rsvKey" placeholder="eyJ..." style="width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px;margin:2px 0 8px" autocomplete="off">
     <label style="text-transform:none;font-size:11.5px;color:var(--muted)">Wachtwoord versleuteling</label>
     <input id="rsvWw" type="password" placeholder="op elk apparaat hetzelfde" style="width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px;margin:2px 0 4px" autocomplete="off">
-    <div class="instSub" style="margin:0 0 10px;font-size:11.5px">Hiermee wordt de kopie onleesbaar gemaakt. Zonder dit wachtwoord is een teruggezette kopie niet te lezen, dus bewaar het goed.</div>
+    <div class="instSub" style="margin:0 0 10px;font-size:11.5px">Zonder dit wachtwoord is de kopie niet te lezen. Goed bewaren dus.</div>
     <div class="instKnoppen" style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px">
       <button class="btn primary" id="rsvOpslaan">Opslaan &amp; aanzetten</button>
       <button class="btn ghost" id="rsvNu">Nu kopie maken</button>
@@ -7679,7 +7870,7 @@ function instBackup(){
 
   const pg = instPagina([{n:'Instellingen', ga:toonInstellingen},{n:'Reservekopie', ga:instBackup}], `
     <div class="instH">Reservekopie</div>
-    <div class="instSub">Elke 10 minuten wordt automatisch een kopie van vandaag bewaard, alleen als er iets is gewijzigd. Terugzetten herstelt de reserveringen, statussen en tafelindeling op alle apparaten tegelijk.</div>
+    <div class="instSub">Elke 10 minuten een kopie als er iets veranderd is. Terugzetten geldt voor alle apparaten.</div>
     <div class="instKnoppen" style="display:flex;gap:8px;margin:4px 0 14px">
       <button class="btn ghost" id="bkDownload">Download vandaag als bestand</button>
       <label class="btn ghost instLabelKnop" style="cursor:pointer">Bestand terugzetten<input type="file" id="bkUpload" accept=".json" style="display:none"></label>
@@ -7762,7 +7953,7 @@ function instManagers(){
     <div class="instKopKnop" style="display:flex;align-items:flex-start;gap:12px">
       <div style="flex:1">
         <div class="instH">Managers</div>
-        <div class="instSub">De hoofdcode blijft altijd werken. Geef collega's hier een eigen managercode. Tik op het oogje om een code te bekijken.</div>
+        <div class="instSub">Eigen codes voor collega's. De hoofdcode blijft altijd werken.</div>
       </div>
       <button class="btn primary" id="pinAdd" style="white-space:nowrap">+ Toevoegen</button>
     </div>
@@ -8206,7 +8397,7 @@ function aantalPop(anchor, titel, opties, sel, klaar){
     const eigen = (vrij ? Object.keys(sel) : []).filter(k => sel[k] > 0 && !opties.some(o => o.n === k))
       .map(k => ({ n:k, c:(vrij && vrij.c) || '#8b92a5' }));
     pop.innerHTML = `<div class="kop">${esc(titel)}</div>` + vast.map(rij).join('') + eigen.map(rij).join('')
-      + (vrij ? `<div class="aantalEigen"><input type="text" data-vrij-in="1" placeholder="${esc(vrij.n)}, zelf invullen" maxlength="40" autocomplete="off"><button type="button" class="btn primary" data-vrij="1">+</button></div>` : '');
+      + (vrij ? `<div class="aantalEigen"><input type="text" data-vrij-in="1" placeholder="Zelf invullen" maxlength="40" autocomplete="off"><button type="button" class="btn primary" data-vrij="1" aria-label="Toevoegen"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div>` : '');
     pop.querySelectorAll('.stepper').forEach(st=>{
       const o = st.dataset.o;
       st.querySelectorAll('button').forEach(bt=>{
@@ -8291,7 +8482,7 @@ const KI_TEL = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-
 const KI_MAIL = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>';
 const KI_NOOT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
 const KI_KLOK = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
-function kaartInfoHTML(r, metTijd){
+function kaartInfoHTML(r, metTijd, zonderNoot){
   const contact = [];
   if(metTijd && r.tijd) contact.push(`<span class="ki">${KI_KLOK}${esc(r.tijd)}</span>`);
   if(r.tel) contact.push(`<a class="ki" href="tel:${esc(String(r.tel).replace(/[^\d+]/g,''))}" onclick="event.stopPropagation()">${KI_TEL}${esc(r.tel)}</a>`);
@@ -8300,23 +8491,41 @@ function kaartInfoHTML(r, metTijd){
   Object.entries(r.allergie || {}).filter(([,n])=>n>0).forEach(([k,n])=> tags.push(`<span class="kt kt-all">\u26a0 ${n}x ${esc(k)}</span>`));
   Object.entries(r.bijz || {}).filter(([,n])=>n>0).forEach(([k,n])=> tags.push(`<span class="kt kt-bijz">\u267F ${n}x ${esc(k)}</span>`));
   return (contact.length ? `<div class="kinfo">${contact.join('')}</div>` : '')
-    + (r.notitie ? `<div class="knoot">${KI_NOOT}<span>${drankRegelHTML(r.notitie)}</span></div>` : '')
+    + (r.notitie && !zonderNoot ? `<div class="knoot">${KI_NOOT}<span>${drankRegelHTML(r.notitie)}</span></div>` : '')
     + (tags.length ? `<div class="ktags">${tags.join('')}</div>` : '');
 }
 
 function cardHTML(r, metTijd){
   const st = STATUS[r.status]||STATUS.res;
   const tfs = getTafels(r);
-  const dim = INACTIVE.has(r.status) ? 'opacity:.55' : '';
-  return `<div class="card" style="${dim}" onclick="openFormById('${r.id}')">
-    <div class="cpax">${r.pax}<small>p.</small></div>
-    <div class="cnaam">${esc(r.naam)}</div>
-    <div class="cmid">
-      <div>${Object.entries((r.combi)||{}).filter(([,n])=>n>0).map(([k,n])=>`<span class="chip" style="background:${arrKleur(k)}">${n}x ${esc(k)}</span>`).join('') || (ARRS.length>1?`<span class="chip" style="background:${arrKleur(r.arr)}">${esc(r.arr)}</span>`:'')}${r.walkin?'<span class="chip" style="background:#5ad0a5">Walk-in</span>':''}${r.bron==='web'?'<span class="chip chipWeb">Online</span>':''}${isVerkocht(r)?'<span class="chip" style="background:#8b5cf6">Verkocht</span>':''}</div>
-      ${kaartInfoHTML(r, metTijd)}
+  const dim = INACTIVE.has(r.status) ? ' kvDim' : '';
+  const combi = Object.entries((r.combi)||{}).filter(([,n])=>n>0);
+  const hoofdKleur = combi.length ? arrKleur(combi[0][0]) : arrKleur(r.arr);
+  // Labels, allergieën en bijzonderheden op één rij
+  const chips = [];
+  if(combi.length) combi.forEach(([k,n])=> chips.push(`<span class="chip" style="background:${arrKleur(k)}">${n}x ${esc(k)}</span>`));
+  else if(ARRS.length > 1 && r.arr) chips.push(`<span class="chip" style="background:${arrKleur(r.arr)}">${esc(r.arr)}</span>`);
+  if(typeof isNieuwOnline === 'function' && isNieuwOnline(r)) chips.unshift(`<span class="kvNieuw">Nieuw${r.aangemaakt ? ' &middot; ' + new Date(r.aangemaakt).toTimeString().slice(0,5) : ''}</span>`);
+  if(r.walkin) chips.push('<span class="chip" style="background:#5ad0a5">Walk-in</span>');
+  if(isVerkocht(r)) chips.push('<span class="chip" style="background:#8b5cf6">Verkocht</span>');
+  Object.entries(r.allergie || {}).filter(([,n])=>n>0).forEach(([k,n])=> chips.push(`<span class="kvTag kvAll">${n}x ${esc(k)}</span>`));
+  Object.entries(r.bijz || {}).filter(([,n])=>n>0).forEach(([k,n])=> chips.push(`<span class="kvTag kvBijz">${n}x ${esc(k)}</span>`));
+  // Regel onder de naam: tijd (in de tijdlijnweergave), telefoon, online geboekt
+  const onder = [];
+  if(metTijd && r.tijd) onder.push(`<span class="kvDienst">${esc(r.tijd)} &middot; ${dienstVan(r)}</span>`);
+  if(r.tel) onder.push(`<a class="kvTel" href="tel:${esc(String(r.tel).replace(/[^\d+]/g,''))}" onclick="event.stopPropagation()" title="Bellen">${KI_TEL}${esc(r.tel)}</a>`);
+  if(r.bron === 'web') onder.push('<span class="kvOnline">Online gereserveerd</span>');
+  if(LOCS.length > 1 && r.loc) onder.push(esc(r.loc));
+  const conflict = dayConflicts.has(r.id);
+  return `<div class="card kvKaart${dim}" style="--kvStreep:${hoofdKleur};--kvSt:${st.c}" onclick="openFormById('${r.id}')">
+    <div class="kvPax"><b>${r.pax}</b><small>pers.</small></div>
+    <div class="kvNaam"><b>${esc(r.naam)}</b>${onder.length ? `<small class="kvOnder">${onder.join('')}</small>` : ''}</div>
+    <div class="kvMid">
+      ${chips.length ? `<div class="kvChips">${chips.join('')}</div>` : ''}
+      ${r.notitie ? `<div class="kvNoot" title="Notitie">${KI_NOOT}<span>${drankRegelHTML(r.notitie)}</span></div>` : ''}
     </div>
-    <div class="ctafel"${dayConflicts.has(r.id)?' style="color:#e5304d"':''}>${tfs.length?tfs.map(esc).join(', '):'-'}<small>${esc(r.loc)}</small></div>
-    <button class="stBtn" style="background:${st.c}" onclick="openStatusMenu('${r.id}',event)">${st.naam.toUpperCase()}</button>
+    <div class="kvTafel${conflict ? ' conflict' : ''}"><small>${tfs.length > 1 ? 'tafels' : 'tafel'}</small><b class="${tfs.length > 2 ? 'veel' : ''}">${tfs.length ? tfs.map(esc).join('+') : '-'}</b></div>
+    <button class="stBtn kvStatus" style="background:${st.c}" onclick="openStatusMenu('${r.id}',event)">${esc(st.naam.toUpperCase())}</button>
   </div>`;
 }
 window.openFormById = (id)=>{
@@ -8564,6 +8773,21 @@ setInterval(()=>{
 }, 60000);
 
 /* --- Dagoverzicht: gesorteerd op tijd --- */
+// Plek van een tafel in de vulvolgorde (lager = eerder vol). Onbekend = achteraan.
+function tafelRang(nr){
+  const z = KLANT.tafelVolgorde || [];
+  for(let i = 0; i < z.length; i++){ const j = z[i].indexOf(String(nr)); if(j >= 0) return i * 1000 + j; }
+  return 900000 + (+nr || 0);
+}
+function tafelZone(nr){ return Math.floor(tafelRang(nr) / 1000); }
+
+// Lunch of diner? Grens = een half uur voor de eerste dinertijd van die dag, anders 15:00.
+function dienstGrens(datum){
+  try{ const l = tijdenUit((schemaVoorDatum(datum || curDate) || {}).diner || {}); if(l.length) return tijdNaarMin(l[0]) - 30; }catch(_){}
+  return 15*60;
+}
+function dienstVan(r){ return tijdNaarMin(r.tijd) < dienstGrens() ? 'Lunch' : 'Diner'; }
+
 function renderDag(all){
   locTabs.innerHTML = '';
   const list = all.slice().sort((a,b)=> a.tijd.localeCompare(b.tijd) || a.naam.localeCompare(b.naam,'nl'));
@@ -8577,8 +8801,16 @@ function renderDag(all){
     perTijd.get(r.tijd).push(r);
   });
   let html = '<div class="dagTijdlijn">';
+  let huidigeDienst = '';
   perTijd.forEach((groep, tijd)=>{
     const gasten = groep.reduce((s,r)=> s + (+r.pax||0), 0);
+    const dienst = dienstVan(groep[0]);
+    if(dienst !== huidigeDienst){
+      huidigeDienst = dienst;
+      const inDienst = list.filter(r => dienstVan(r) === dienst && !INACTIVE.has(r.status));
+      const g = inDienst.reduce((s,r)=> s + (+r.pax||0), 0);
+      html += `<div class="dienstKop dienst${dienst}"><b>${dienst}</b><span>${inDienst.length} ${inDienst.length === 1 ? 'reservering' : 'reserveringen'} &middot; ${g} ${g === 1 ? 'gast' : 'gasten'}</span></div>`;
+    }
     html += `<div class="tijdBlok">
       <div class="tijdRail"><b>${esc(tijd)}</b><span>${gasten} gast${gasten===1?'':'en'}</span></div>
       <div class="tijdKaarten">${groep.map(r=>cardHTML(r)).join('')}</div>
@@ -8753,18 +8985,33 @@ function renderTijdlijn(all){
   // Van wanneer tot wanneer: het schema van die dag, maar altijd ruim genoeg
   // om alles te tonen wat er daadwerkelijk staat.
   const schema = schemaVoorDatum(curDate);
+  // Welke dienst in beeld: lunch, diner of de hele dag. Grens tussen lunch en
+  // diner = de eerste dinertijd van die dag, anders 15:00.
+  const dinerLijst = tijdenUit(schema.diner || {});
+  const grens = dinerLijst.length ? tijdNaarMin(dinerLijst[0]) - 30 : 15*60;
+  const nuMinT = new Date().getHours()*60 + new Date().getMinutes();
+  const heeftL = res.some(r => tijdNaarMin(r.tijd) < grens), heeftD = res.some(r => tijdNaarMin(r.tijd) >= grens);
+  let bereik = store.get('ct_tlbereik', '');
+  if(!['lunch','diner','dag'].includes(bereik)){
+    // Vanzelf: de dienst die nu loopt (of als eerste komt) en reserveringen heeft
+    bereik = (curDate === todayStr() ? (nuMinT < grens - 30 ? 'lunch' : 'diner') : (heeftL ? 'lunch' : 'diner'));
+    if(bereik === 'lunch' && !heeftL && heeftD) bereik = 'diner';
+    if(bereik === 'diner' && !heeftD && heeftL) bereik = 'lunch';
+  }
+  const inBereik = r => bereik === 'dag' || (bereik === 'lunch' ? tijdNaarMin(r.tijd) < grens : tijdNaarMin(r.tijd) >= grens);
   let van = 24*60, tot = 0;
-  if(res.length){
+  const resB = res.filter(inBereik);
+  if(resB.length){
     // Zijn er reserveringen, houd het venster dan strak om wat er staat.
     // Anders zie je uren lege lunchtijd terwijl alles 's avonds gebeurt.
-    res.forEach(r=>{
+    resB.forEach(r=>{
       const s = tijdNaarMin(r.tijd);
-      van = Math.min(van, s - 60);
-      tot = Math.max(tot, s + (+r.duur || 120) + 60);
+      van = Math.min(van, s - 30);
+      tot = Math.max(tot, s + (+r.duur || 120) + 30);
     });
   } else {
-    // Nog niets geboekt: dan de openingstijden van die dag tonen.
-    ['lunch','diner'].forEach(dn=>{
+    // Nog niets geboekt: dan de openingstijden van die dienst tonen.
+    (bereik === 'dag' ? ['lunch','diner'] : [bereik]).forEach(dn=>{
       const lijst = tijdenUit(schema[dn]);
       if(lijst.length){
         van = Math.min(van, tijdNaarMin(lijst[0]));
@@ -8774,7 +9021,7 @@ function renderTijdlijn(all){
   }
   if(van > tot){ van = 16*60; tot = 23*60; }
   van = Math.max(0, van);
-  if(tot - van < 240) tot = van + 240;      // altijd minstens vier uur breed
+  if(tot - van < 180) tot = van + 180;      // altijd minstens drie uur breed
   van = Math.floor(van/60)*60;
   tot = Math.ceil(tot/60)*60;
   // Niet verder dan nodig: hooguit tot het einde van de nacht, zodat er geen
@@ -8786,8 +9033,17 @@ function renderTijdlijn(all){
   const labelBr = window.innerWidth <= 520 ? 48 : 62;
   const ruimte = Math.max(240, (content.clientWidth || window.innerWidth) - labelBr - 2);
   const passend = store.get('ct_tlfit', true);
+  const tlBereik = bereik;
+  // Passend = zo veel mogelijk in beeld, maar nooit zo smal dat je een
+  // reservering niet meer kunt lezen. Dan liever even opzij schuiven.
+  const duren = res.map(r => +r.duur || 120).sort((a,b) => a-b);
+  const gewoneDuur = duren.length ? duren[Math.floor(duren.length/2)] : 120;
+  const minBlok = window.innerWidth <= 520 ? 260 : 480;   // breed genoeg voor naam, menu en tijd op één regel
+  const minUur = Math.ceil(minBlok / Math.max(0.5, gewoneDuur / 60));
+  const pasBreedte = Math.floor((ruimte / Math.max(1, (tot - van) / 60)) * 100) / 100;
+  // Bij "Hele dag" niet onleesbaar smal: dan liever schuiven
   const uurBreedte = passend
-    ? Math.max(26, Math.floor((ruimte / Math.max(1, (tot - van) / 60)) * 100) / 100)
+    ? Math.max(minUur, pasBreedte)
     : tlPxPerUur;
   const perMin = uurBreedte / 60;
   const breedte = (tot - van) * perMin;
@@ -8800,15 +9056,26 @@ function renderTijdlijn(all){
   balk.innerHTML = `
     <span class="tlTitel">${esc(fmtDate(curDate))} &middot; ${res.length} ${res.length===1?'reservering':'reserveringen'}</span>
     <span style="flex:1"></span>
+    <button data-tlslot="1" class="tlSlot ${tlLock ? 'dicht' : 'open'}" title="${tlLock ? 'Verslepen staat op slot. Tik om te ontgrendelen' : 'Verslepen staat aan. Tik om op slot te zetten'}" aria-label="${tlLock ? 'Verslepen ontgrendelen' : 'Verslepen vergrendelen'}">${tlLock ? '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>' : '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.6-1.7"/></svg>'}</button>
     <button data-tlz="out" title="Smaller">&minus;</button>
     <button data-tlz="in" title="Breder">+</button>
-    <button data-tlfit="1" title="Alles in beeld" class="${passend?'on':''}">Passend</button>
+    <span class="tlDienst">${[['lunch','Lunch'],['diner','Diner'],['dag','Hele dag']].map(([k,t]) => `<button data-tlb="${k}" class="${passend && tlBereik === k ? 'on' : ''}" title="${k === 'dag' ? 'De hele dag in beeld' : t + ' in beeld'}">${t}</button>`).join('')}</span>
     <button data-tlnu="1" title="Naar nu">Nu</button>`;
   balk.querySelectorAll('[data-tlz]').forEach(b=> b.onclick = ()=>{
     const basis = passend ? uurBreedte : tlPxPerUur;
     tlPxPerUur = Math.min(320, Math.max(40, Math.round(basis) + (b.dataset.tlz === 'in' ? 40 : -40)));
     store.set('ct_tlpx', tlPxPerUur);
     store.set('ct_tlfit', false);
+    render();
+  });
+  { const sl = balk.querySelector('[data-tlslot]'); if(sl) sl.onclick = ()=>{
+      tlLock = !tlLock;
+      toast(tlLock ? 'Verslepen staat op slot' : 'Verslepen aan: sleep een blok opzij voor een andere tijd, omhoog of omlaag voor een andere tafel');
+      render();
+    }; }
+  balk.querySelectorAll('[data-tlb]').forEach(k => k.onclick = ()=>{
+    store.set('ct_tlbereik', k.dataset.tlb);
+    store.set('ct_tlfit', true);
     render();
   });
   { const f = balk.querySelector('[data-tlfit]'); if(f) f.onclick = ()=>{
@@ -8823,14 +9090,26 @@ function renderTijdlijn(all){
   // een zaalbalk met stip, en dezelfde statuskleuren in de blokken.
   const blokHTML = (r)=>{
     const s = tijdNaarMin(r.tijd), d = +r.duur || 120;
+    if(s + d <= van || s >= tot) return '';
     const links = Math.max(0, (s - van) * perMin);
-    const br = Math.max(30, d * perMin);
+    const br = Math.max(30, (Math.min(tot, s + d) - Math.max(van, s)) * perMin);
     const st = STATUS[r.status] || STATUS.res;
-    const kls = r.status==='arr' ? 'arr' : (r.status==='nm' ? 'nm' : (r.status==='no' ? 'noshow' : 'verwacht'));
+    const kls = r.status==='arr' ? 'arr' : (r.status==='in' ? 'in' : (r.status==='nm' ? 'nm' : (r.status==='no' ? 'noshow' : 'verwacht')));
     const samen = getTafels(r).length > 1;
-    return `<div class="tlBlock ${kls}" style="left:${links}px;width:${br}px;right:auto;border-left-color:${st.c}"
+    const combi = Object.entries(r.combi || {}).filter(([,n]) => n > 0);
+    const label = combi.length ? combi.map(([k,n]) => `<span class="tlChip" style="background:${arrKleur(k)}">${n}x ${esc(k)}</span>`).join('')
+      : (r.arr && ARRS.length > 1 ? `<span class="tlChip" style="background:${arrKleur(r.arr)}">${esc(r.arr)}</span>` : '');
+    const nieuw = typeof isNieuwOnline === 'function' && isNieuwOnline(r);
+    const allerg = Object.entries(r.allergie || {}).filter(([,n]) => n > 0).map(([k,n]) => `<span class="tlChip tlAll">${n}x ${esc(k)}</span>`).join('');
+    // Later vandaag (nog niet begonnen) iets gedempt, zoals in het ontwerp
+    const later = curDate === todayStr() && kls === 'verwacht' && s > nuMin + 60;
+    return `<div class="tlBlock ${kls}${later ? ' later' : ''}" style="left:${links}px;width:${br}px;right:auto"
       data-id="${esc(r.id)}" title="${esc(r.naam)} &middot; ${esc(r.tijd)} &middot; ${r.pax}p">
-      <b>${r.pax}</b><span class="tlNaam">${esc(r.naam)}</span>${samen ? `<span class="tlTag">${getTafels(r).join('+')}</span>` : ''}
+      <span class="tlIn">
+        <span class="tlR1"><b>${r.pax} <small>pers</small></b><span class="tlStreep">-</span><span class="tlNaam">${esc(r.naam)}</span><span class="tlLab1">${label}${nieuw ? '<span class="tlChip tlNieuw">Nieuw</span>' : ''}${allerg}</span>${r.notitie ? `<span class="tlNoot1">${KI_NOOT}<span>${esc(String(r.notitie).replace(/\s+/g,' '))}</span></span>` : ''}<span class="tlTijd">${esc(r.tijd)}-${minNaarTijd(s + d)}</span></span>
+        ${samen || allerg || r.notitie || label || nieuw ? `<span class="tlR2"><span class="tlLab2">${label}${nieuw ? '<span class="tlChip tlNieuw">Nieuw</span>' : ''}</span>${allerg}${samen ? `<span class="tlTag">${getTafels(r).join('+')}</span>` : ''}${r.notitie ? `<span class="tlNoot">${esc(String(r.notitie).replace(/\s+/g,' '))}</span>` : ''}</span>` : ''}
+        <span class="tlExtra">${r.tel ? `<span class="tlTel">${KI_TEL}${esc(r.tel)}</span>` : ''}${r.bron === 'web' ? '<span class="kvOnline">Online gereserveerd</span>' : ''}${r.notitie ? `<span class="tlNootVak">${KI_NOOT}<span>${esc(r.notitie)}</span></span>` : ''}</span>
+      </span>
     </div>`;
   };
 
@@ -8839,16 +9118,30 @@ function renderTijdlijn(all){
     const tafels = tafelsVoor(loc);
     const bezet = tafels.filter(t => res.some(r => r.loc===loc && getTafels(r).map(String).includes(String(t.nr)))).length;
     const gasten = res.filter(r => r.loc === loc).reduce((s,r)=> s + (+r.pax||0), 0);
-    rijen += `<div class="tlLocRow tlLocTijd">${esc(loc)}<span class="tlLocAant">${bezet} van ${tafels.length} tafels &middot; ${gasten} gasten</span></div>`;
+    // Eén zaal? Dan is de zaalbalk overbodig.
+    if(zalen.length > 1 || LOCS.length > 1) rijen += `<div class="tlLocRow tlLocTijd">${esc(loc)}<span class="tlLocAant">${bezet} van ${tafels.length} tafels &middot; ${gasten} gasten</span></div>`;
     let teller = 0;
+    // Meerdere tafels die onder elkaar staan: één blok over al die rijen,
+    // net als in KISH. Staan ze niet aaneen, dan een blok per aaneengesloten stuk.
+    const volg = tafels.map(t => String(t.nr));
+    const span = {};   // 'id|nr' -> aantal rijen (0 = hoort bij een blok erboven)
+    res.filter(r => r.loc === loc && getTafels(r).length > 1).forEach(r => {
+      const idx = getTafels(r).map(String).map(n => volg.indexOf(n)).filter(i => i >= 0).sort((a,b) => a-b);
+      for(let i = 0; i < idx.length; ){
+        let j = i; while(j + 1 < idx.length && idx[j+1] === idx[j] + 1) j++;
+        span[r.id + '|' + volg[idx[i]]] = j - i + 1;
+        for(let k = i + 1; k <= j; k++) span[r.id + '|' + volg[idx[k]]] = 0;
+        i = j + 1;
+      }
+    });
     tafels.forEach(t=>{
       const nr = String(t.nr);
-      const opTafel = res.filter(r => r.loc === loc && getTafels(r).map(String).includes(nr))
+      const opTafel = res.filter(r => r.loc === loc && getTafels(r).map(String).includes(nr) && span[r.id + '|' + nr] !== 0)
         .sort((a,b)=> tijdNaarMin(a.tijd) - tijdNaarMin(b.tijd));
-      const kleur = (teller++ % 2 === 0) ? '#233863' : '#32538f';
-      rijen += `<div class="tlRij">
+      const kleur = (teller++ % 2 === 0) ? 'var(--tlA)' : 'var(--tlB)';
+      rijen += `<div class="tlRij" data-loc="${esc(loc)}" data-tafel="${esc(nr)}">
         <div class="tlLabel" style="background:${kleur}" data-nieuw="${esc(loc)}|${esc(nr)}" title="${t.cap || 2} zitplaatsen">${esc(nr)}</div>
-        <div class="tlSpoor" style="width:${breedte}px">${opTafel.map(blokHTML).join('')}</div>
+        <div class="tlSpoor" style="width:${breedte}px">${opTafel.map(r => { const n = span[r.id + '|' + nr]; return n > 1 ? blokHTML(r).replace('<div class="tlBlock ', `<div data-span="${n}" class="tlBlock tlSamen `) : blokHTML(r); }).join('')}</div>
       </div>`;
     });
     // Reserveringen zonder tafel mogen niet uit beeld verdwijnen: die krijgen
@@ -8893,6 +9186,21 @@ function renderTijdlijn(all){
     }
   });
   content.querySelectorAll('.tlBlock[data-id]').forEach(b=> b.onclick = ()=> openFormById(b.dataset.id));
+  // Samengevoegde blokken over meerdere rijen laten lopen
+  const zetSamen = ()=> content.querySelectorAll('.tlBlock[data-span]').forEach(b=>{
+    const rij = b.closest('.tlRij'); if(!rij) return;
+    let laatste = rij; for(let i = 1; i < +b.dataset.span; i++){ if(laatste.nextElementSibling) laatste = laatste.nextElementSibling; }
+    const h = laatste.getBoundingClientRect().bottom - rij.getBoundingClientRect().top;
+    const top = parseFloat(getComputedStyle(b).top) || 6;
+    b.style.bottom = 'auto'; b.style.height = (h - top * 2) + 'px';
+  });
+  zetSamen(); requestAnimationFrame(zetSamen);
+  // De tijdlijn loopt altijd door tot de onderkant van het scherm
+  const vulHoogte = ()=>{ const w = content.querySelector('.tlWrap'); if(!w) return;
+    w.style.height = Math.max(200, Math.floor((window.visualViewport ? window.visualViewport.height : window.innerHeight) - w.getBoundingClientRect().top)) + 'px'; };
+  vulHoogte(); requestAnimationFrame(vulHoogte);
+  if(!window._tlVulAan){ window._tlVulAan = true; window.addEventListener('resize', ()=>{ if(curView === 'tijdlijn') requestAnimationFrame(()=>{ const w = document.querySelector('#content .tlWrap'); if(w) w.style.height = Math.max(200, Math.floor(window.innerHeight - w.getBoundingClientRect().top)) + 'px'; }); }); }
+  if(typeof tlSleepKoppelen === 'function') tlSleepKoppelen(content, { van, perMin });
   content.querySelectorAll('.tlLabel[data-nieuw]').forEach(el=> el.onclick = ()=>{
     const [loc, nr] = el.dataset.nieuw.split('|');
     nieuwOpTafel(loc, nr);
@@ -9288,7 +9596,7 @@ function renderMap(all){
         <div id="mapWrap" class="${editMode?'editMode':''}"><div id="mapSizer"><div id="mapCanvas"></div></div></div>
         <div class="legend">
           <span><i style="background:var(--panel2);border:1px solid var(--line)"></i>Vrij</span>
-          <span><i style="background:#3d55f0"></i>Nog niet gemeld</span>
+          <span><i style="background:#9B1313"></i>Nog niet gemeld</span>
           <span><i style="background:#059669"></i>Gemeld</span>
           <span style="margin-left:auto">Sleep om te schuiven</span>
         </div>
@@ -9818,5 +10126,1002 @@ document.addEventListener('pointerdown', (e)=>{
 render();
 startSync();
 </script>
+<style>
+/* ===== Restaurantpalet: rood (#CD1C18, #FFA896, #9B1313, #38000A) ===== */
+body.kvRood:not(.themaHu):not(.themaGob){--accent:#CD1C18;--accent2:#ff8f86;--donker:#0e1117;--zij:#0b0d12;--tlA:#1c2333;--tlB:#262e40;--bg:#0e1117;--panel:#141924;--panel2:#1c2333;--line:#1f2636;--muted:#8890a4;--txt:#e8ebf2;--vlak:#151a24;--vlakRand:#222a3a;--paneelKleur:#141924;--balk:#0e1117}
+body.kvRood.themaGlas:not(.themaHu):not(.themaGob){--gl1:205,28,24;--gl2:155,19,19;--gl3:110,10,18;--gl4:170,22,22;--gl5:255,168,150;--glA:#e2443f;--glB:#9B1313;--glC:#CD1C18}
+html body.kvRood:not(.themaHu):not(.themaGob).themaGlas .btn.primary,html body.kvRood:not(.themaHu):not(.themaGob).themaGlas .drankMenuBtn{background:linear-gradient(180deg,rgba(var(--gl1),.95),rgba(var(--gl2),.85))}
+html body.kvRood:not(.themaHu):not(.themaGob).themaGlas .sectionH span{background:rgba(var(--gl1),.22);border-color:rgba(var(--gl5),.4)}
+html body.kvRood:not(.themaHu):not(.themaGob).themaGlas #locTabs button.on,html body.kvRood:not(.themaHu):not(.themaGob).themaGlas #tafelsToolbar button.on,html body.kvRood:not(.themaHu):not(.themaGob).themaGlas .drankTabs button.on,html body.kvRood:not(.themaHu):not(.themaGob).themaGlas #tafelsToolbar button.drankTop{background:linear-gradient(180deg,rgba(var(--gl1),.9),rgba(var(--gl2),.75));box-shadow:0 2px 12px rgba(var(--gl2),.45)}
+html body.kvRood:not(.themaHu):not(.themaGob).themaGlas .card,html body.kvRood:not(.themaHu):not(.themaGob).themaGlas #content .card{background:rgba(20,25,36,.72)!important;border-color:rgba(var(--gl5),.16)!important}
+html body.kvRood:not(.themaHu):not(.themaGob).themaGlas .stMenu,html body.kvRood:not(.themaHu):not(.themaGob).themaGlas .tafelPop,html body.kvRood:not(.themaHu):not(.themaGob).themaGlas .vraagBox,html body.kvRood:not(.themaHu):not(.themaGob).themaGlas .loginBox,html body.kvRood:not(.themaHu):not(.themaGob).themaGlas .aantalPop{border-color:rgba(var(--gl5),.25)}
+html body.kvRood:not(.themaHu):not(.themaGob) .tlLocRow{background:color-mix(in srgb, var(--accent) 10%, rgba(10,4,6,.6))!important;border-color:rgba(var(--gl5),.18)}
+html body.kvRood:not(.themaHu):not(.themaGob).themaGlas .tlRow{border-top-color:rgba(var(--gl5),.09)}
+html body.kvRood:not(.themaHu):not(.themaGob) .tlLabel{border-right-color:rgba(0,0,0,.35)}
+html body.kvRood:not(.themaHu):not(.themaGob).themaGlas .tlLabel{background:rgba(20,25,36,.78)}
+html body.kvRood:not(.themaHu):not(.themaGob) #tafelsToolbar{border-top-color:rgba(var(--gl5),.16)}
+html body.kvRood:not(.themaHu):not(.themaGob).themaGlas #countbar,html body.kvRood:not(.themaHu):not(.themaGob).themaGlas #filterbar,html body.kvRood:not(.themaHu):not(.themaGob).themaGlas #locTabs{border-bottom-color:rgba(var(--gl5),.14)}
+html body.kvRood:not(.themaHu):not(.themaGob).themaGlas input,html body.kvRood:not(.themaHu):not(.themaGob).themaGlas select,html body.kvRood:not(.themaHu):not(.themaGob).themaGlas textarea{border-color:rgba(var(--gl5),.2)}
+html body.kvRood:not(.themaHu):not(.themaGob).themaGlas #sideRail button.on svg{color:#FFA896}
+html body.kvRood:not(.themaHu):not(.themaGob) #fabAdd{background:linear-gradient(180deg,#d8302b,#9B1313)!important;box-shadow:0 10px 30px rgba(205,28,24,.38)!important}
+html body.kvRood:not(.themaHu):not(.themaGob) .tijdPunt,html body.kvRood:not(.themaHu):not(.themaGob) .tlNu{background:var(--accent)}
+html body.kvRood:not(.themaHu):not(.themaGob) .tlKop,html body.kvRood:not(.themaHu):not(.themaGob) .tlHoek{background:rgba(17,21,29,.97)!important;border-color:rgba(255,168,150,.14)!important}
+html body.kvRood:not(.themaHu):not(.themaGob).themaGlas .tlBlock.verwacht{background:rgba(42,51,70,.78);color:#e8ebf2}
+html body.kvRood:not(.themaHu):not(.themaGob) .tlRij{border-top-color:color-mix(in srgb, var(--accent) 22%, transparent)}
+</style>
+<style>
+.otWeekKop{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.otWeekKop>span:first-child{flex:1;min-width:0}
+.otWeekNav{display:inline-flex;gap:6px;align-items:center}
+.otWeekNav button{min-width:38px;height:34px;border-radius:9px;border:1px solid var(--vlakRand,var(--line));background:var(--vlak,var(--panel2));color:var(--txt);font-size:20px;line-height:1;padding:0 10px}
+.otWeekNav button.otWkNu{font-size:12.5px;font-weight:700}
+.otWeekNav button:disabled{opacity:.35;cursor:default}
+</style>
+<style>
+/* Instellingen: rustiger, minder opsmuk (zelfde als KISH) */
+.instKop2{display:flex;align-items:baseline;gap:10px;padding:0 0 10px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.instPage .instH{color:var(--txt)!important;font-size:19px!important}
+.instWie{color:var(--muted);font-size:13px}
+.instPage .instGroep{text-transform:none!important;letter-spacing:0!important;font-size:13px!important;font-weight:700!important;margin:18px 0 2px!important}
+.instPage .instGroep::after{display:none!important}
+.instPage .instMenuRow{padding:12px 6px!important;border-radius:0!important;border-bottom:1px solid var(--line)}
+.instPage .instMenuRow:last-of-type{border-bottom:none}
+.instPage .instMenuRow .instIco{width:auto!important;height:auto!important;background:none!important;border:none!important;color:var(--muted)!important}
+.instPage .instMenuRow .instTxt b{font-weight:600!important;font-size:15px!important}
+.instPage .instMenuRow .instNu{color:var(--muted)!important;font-weight:500!important;font-size:13px!important}
+.instPage .instVoet{text-align:left!important;border-top:none!important;margin-top:20px!important;padding-top:0!important;font-size:11.5px}
+.instPage .instSub{line-height:1.45}
+.instPage label,.instPage .instKopRij,.instPage .archKop,.instPage .tzPKop span,.instPage .tzProps>span,.instPage .gbStatusLab,.instPage .showKopLabel{
+  text-transform:none!important;letter-spacing:0!important;font-weight:600!important;font-size:12.5px!important}
+.instPage .tzZaal{border-radius:10px!important;background:transparent!important}
+.instPage .tzZaalIco{background:none!important;width:auto!important;height:auto!important;color:var(--muted)!important}
+</style>
+<style>
+/* ===== Openingstijden: weekplanner ===== */
+.otPlanner{border:1px solid var(--vlakRand,var(--line));border-radius:14px;padding:14px;margin:14px 0 6px;background:rgba(0,0,0,.18)}
+.otWeekKop{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.otWkTitel{flex:1;min-width:0;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.otWkTitel b{font-size:17px;color:var(--txt)}
+.otWkTitel span{color:var(--muted);font-size:13px}
+.otWkGrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.otWkDag{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;padding:10px 9px 11px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.035);color:var(--txt);min-height:96px;cursor:pointer;position:relative;transition:border-color .15s,background .15s}
+.otWkDag:hover{border-color:var(--vlakRand,var(--accent))}
+.otWkNaam{font-size:12.5px;color:var(--muted);display:flex;align-items:baseline;gap:5px;flex-wrap:wrap;margin-bottom:2px}
+.otWkNaam b{font-size:17px;color:var(--txt);font-weight:800}
+.otWkNaam i{font-style:normal;font-size:10.5px;color:var(--accent2);font-weight:700}
+.otWkDienst{display:flex;flex-direction:column;font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.25}
+.otWkDienst em{font-style:normal;font-weight:500;color:var(--muted);font-size:11px}
+.otWkDicht{font-size:12px;color:var(--muted)}
+.otWkLabel{margin-top:auto;font-size:10.5px;font-weight:700;color:var(--accent2)}
+.otWkDag.dicht{background:transparent;border-style:dashed}
+.otWkDag.dicht .otWkNaam b{color:var(--muted)}
+.otWkDag.voorbij{opacity:.4}
+.otWkDag.nu{border-color:var(--accent2)}
+.otWkDag.afwijkend::after{content:'';position:absolute;top:9px;right:9px;width:7px;height:7px;border-radius:50%;background:var(--accent2)}
+.otWkDag.gekozen{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 22%,transparent);box-shadow:0 0 0 1px var(--accent) inset}
+.otWkHint{color:var(--muted);font-size:13px;margin-top:12px}
+.otDagPaneel{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.otDagKop{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.otDagKop b{flex:1;font-size:16px}
+.otDagSluit{width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:none;color:var(--muted);font-size:20px;line-height:1}
+.otDagSoort{display:flex;width:100%;max-width:420px;margin-bottom:12px}
+.otDagSoort button{flex:1}
+.otDagVast{color:var(--muted);font-size:14px;line-height:1.5}
+.otDagPaneel .otEditor{margin:0;padding:0;border:none;background:none}
+/* Invulblok lunch/diner: rustiger, en op breed scherm naast elkaar */
+.otEditor{display:grid;grid-template-columns:1fr;gap:10px}
+@media (min-width:760px){ .otEditor{grid-template-columns:1fr 1fr} .otEditor .otEditorVoet{grid-column:1 / -1} }
+.otEditor .otDienst{background:rgba(255,255,255,.03)!important;border:1px solid var(--line)!important;border-radius:12px!important;padding:12px!important;margin:0!important}
+.otEditor .otDienst.uit{opacity:.6}
+.otEditor .otDienst.uit .otVelden,.otEditor .otDienst.uit .otTijden{display:none}
+.otEditor .otDienstKop{margin-bottom:10px}
+.otEditor .otDienstKop b{font-size:15px}
+.otEditor .otVelden{gap:8px 10px!important}
+.otEditor .otVelden input{font-size:17px!important;font-weight:700;font-variant-numeric:tabular-nums;text-align:center;height:44px}
+.otEditor .otVelden span{font-size:12px;color:var(--muted)}
+.otEditor .otTijden{border-top:none!important;padding-top:4px!important;gap:4px!important}
+.otEditor .otTijden span{font-size:11.5px!important;padding:3px 7px!important;background:rgba(255,255,255,.05)!important;border:none!important}
+@media (max-width:700px){
+  .otWkGrid{grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+  .otWkDag{padding:8px 5px;min-height:84px;align-items:center;text-align:center}
+  .otWkNaam{flex-direction:column;align-items:center;gap:0;font-size:11px}
+  .otWkNaam i{display:none}
+  .otWkDienst{align-items:center;font-size:10.5px}
+  .otWkDienst em{font-size:9.5px}
+  .otWkDicht{font-size:10px}
+  .otWkLabel{display:none}
+  .otWkTot{display:none}
+  .otWkDicht{font-size:0}
+  .otWkDicht::after{content:'dicht';font-size:10px}
+  .otWkDag.afwijkend::after{top:5px;right:5px;width:6px;height:6px}
+  .otPlanner{padding:10px}
+}
+</style>
+<style>
+.otStap .otMaxVeld{flex:1;min-width:0;width:100%;background:transparent!important;border:none!important;text-align:center;color:var(--txt);font-size:16px;font-weight:800;font-variant-numeric:tabular-nums;padding:0;height:100%;outline:none}
+.otStap .otMaxVeld::placeholder{color:var(--txt);opacity:.85;font-weight:700;font-size:14px}
+.otStap:focus-within{border-color:var(--accent)!important}
+</style>
+<script>
+/* ===== Snelknop: online reserveren open of dicht voor de getoonde dag =====
+   Zelfde gegevens als Instellingen > Openingstijden, maar zonder de
+   instellingen in te hoeven. Bestaande reserveringen blijven altijd staan. */
+(function(){
+  const DIENSTEN = [['lunch','Lunch'],['diner','Diner']];
+  const kopie = o => JSON.parse(JSON.stringify(o));
+  const heeftTijden = d => !!(d && d.aan && tijdenUit(d).length);
+  // Wat zou er volgens de vaste week open zijn (zonder uitzonderingen)?
+  const vastVan = (t, iso) => { const wd = new Date(iso + 'T12:00:00').getDay(); return t.week[wd] || standaardDienst(false); };
+  // Huidige stand per dienst: 'open', 'dicht' of 'nvt' (die dag nooit open)
+  function stand(iso){
+    const t = getTijden(), nu = schemaVoorDatum(iso), vast = vastVan(t, iso), eigen = t.dagen[iso];
+    const uit = {};
+    DIENSTEN.forEach(([dn]) => {
+      const bron = eigen && eigen[dn] && eigen[dn].start ? eigen[dn] : vast[dn];
+      // Een vaste sluitingsdag (zoals maandag) open je via de instellingen,
+      // elke andere dag kan hier gewoon aan, ook als hij normaal dicht is.
+      const wd = new Date(iso + 'T12:00:00').getDay();
+      const kanOpen = !!(bron && bron.start && tijdenUit(Object.assign({}, bron, { aan:true })).length) && (!(KLANT.vastDicht || []).includes(wd) || !!eigen);
+      uit[dn] = heeftTijden(nu[dn]) ? 'open' : (kanOpen ? 'dicht' : 'nvt');
+    });
+    return uit;
+  }
+  function zet(iso, dn, aan){
+    const t = getTijden(), vast = vastVan(t, iso);
+    let s = t.dagen[iso] ? kopie(t.dagen[iso]) : kopie(vast);
+    if((t.dicht||[]).includes(iso)){
+      // Hele dag stond dicht: begin vanaf de vaste week met alles uit
+      s = kopie(t.dagen[iso] || vast);
+      DIENSTEN.forEach(([x]) => { if(s[x]) s[x].aan = false; });
+      t.dicht = t.dicht.filter(x => x !== iso);
+    }
+    if(!s[dn]) s[dn] = Object.assign({}, standaardDienst(true)[dn]);
+    s[dn].aan = aan;
+    delete s._was;
+    // Alles dicht? Dan als hele dag dicht bewaren, net als in de instellingen
+    if(!DIENSTEN.some(([x]) => heeftTijden(s[x]))){ delete t.dagen[iso]; t.dicht = [...new Set([...(t.dicht||[]), iso])]; }
+    else t.dagen[iso] = s;
+    zetTijden(t);
+  }
+  function heleDag(iso, dicht){
+    const t = getTijden();
+    if(dicht){ t.dicht = [...new Set([...(t.dicht||[]), iso])]; }
+    else { t.dicht = (t.dicht||[]).filter(x => x !== iso); delete t.dagen[iso]; }
+    zetTijden(t);
+  }
+
+  window.werkOnlineKnop = function(){
+    const k = document.getElementById('btnOnline'); if(!k) return;
+    const st = stand(curDate);
+    const vals = Object.values(st).filter(x => x !== 'nvt');
+    const dicht = vals.length && vals.every(x => x === 'dicht');
+    const deels = !dicht && vals.includes('dicht');
+    k.classList.toggle('onlineDicht', !!dicht);
+    k.classList.toggle('onlineDeels', !!deels);
+    k.title = dicht ? 'Online reserveren staat dicht' : deels ? 'Online reserveren deels dicht' : 'Online reserveren staat open';
+  };
+
+  function openPop(){
+    const iso = curDate;
+    const voorbij = iso < todayStr();
+    const ov = document.createElement('div');
+    ov.className = 'mcalOv';
+    const teken = () => {
+      const st = stand(iso);
+      const t = getTijden();
+      const heleDagDicht = (t.dicht||[]).includes(iso) || Object.values(st).every(x => x !== 'open');
+      const s = schemaVoorDatum(iso);
+      const rij = ([dn, naam]) => {
+        const w = st[dn];
+        const lijst = w === 'open' ? tijdenUit(s[dn]) : [];
+        return `<div class="olRij ${w}">
+          <div class="olTxt"><b>${naam}</b><small>${w === 'open' ? 'Open, ' + lijst[0] + ' tot ' + lijst[lijst.length-1] : w === 'dicht' ? 'Dicht voor online boeken' : 'Niet open op deze dag'}</small></div>
+          ${w === 'nvt' ? '' : `<label class="otSchakel"><input type="checkbox" data-dn="${dn}" ${w === 'open' ? 'checked' : ''} ${voorbij ? 'disabled' : ''}><span></span><i>${w === 'open' ? 'Open' : 'Dicht'}</i></label>`}
+        </div>`;
+      };
+      ov.innerHTML = `<div class="vraagBox olBox">
+        <div class="olKop"><b>Online reserveren</b><span>${esc(fmtLang(iso))}</span></div>
+        ${voorbij ? '<div class="olNoot">Deze dag is al geweest.</div>' : ''}
+        ${DIENSTEN.map(rij).join('')}
+        ${voorbij ? '' : `<button type="button" class="btn ${heleDagDicht ? 'ghost' : 'olRood'} wide" id="olHeel">${heleDagDicht ? 'Weer open volgens de vaste week' : 'Hele dag dichtzetten'}</button>`}
+        <div class="olNoot">Bestaande reserveringen blijven gewoon staan. Alleen nieuwe online boekingen worden tegengehouden.</div>
+        <div class="sheetBtns"><button class="btn primary" id="olKlaar">Klaar</button></div>
+      </div>`;
+      ov.querySelectorAll('input[data-dn]').forEach(inp => inp.onchange = () => {
+        zet(iso, inp.dataset.dn, inp.checked);
+        toast((inp.dataset.dn === 'lunch' ? 'Lunch' : 'Diner') + (inp.checked ? ' staat weer open' : ' is dicht voor online boeken'));
+        teken(); werkOnlineKnop();
+      });
+      const heel = ov.querySelector('#olHeel');
+      if(heel) heel.onclick = () => {
+        heleDag(iso, !heleDagDicht);
+        toast(heleDagDicht ? 'Volgt weer de vaste week' : 'Hele dag dicht voor online boeken');
+        teken(); werkOnlineKnop();
+      };
+      ov.querySelector('#olKlaar').onclick = () => ov.remove();
+    };
+    teken();
+    ov.onclick = (e) => { if(e.target === ov) ov.remove(); };
+    document.body.appendChild(ov);
+  }
+
+  const knop = document.getElementById('btnOnline');
+  if(knop) knop.onclick = openPop;
+  // Knop bijwerken bij elke nieuwe weergave (andere dag, sync, enz.)
+  if(typeof render === 'function'){
+    const oudRender = render;
+    window.render = render = function(){ const r = oudRender.apply(this, arguments); try{ werkOnlineKnop(); }catch(_){} return r; };
+  }
+  try{ werkOnlineKnop(); }catch(_){}
+})();
+</script>
+<style>
+#btnOnline{position:relative}
+#btnOnline .onlineStip{position:absolute;top:7px;right:7px;width:8px;height:8px;border-radius:50%;background:#2ec08a;box-shadow:0 0 0 2px var(--donker,#000)}
+#btnOnline.onlineDeels .onlineStip{background:#fbbf24}
+#btnOnline.onlineDicht .onlineStip{background:#e5484d}
+#btnOnline.onlineDicht{border-color:#e5484d!important}
+.olBox{width:min(420px,92vw)}
+.olKop{display:flex;flex-direction:column;gap:2px;margin-bottom:12px}
+.olKop b{font-size:18px}
+.olKop span{color:var(--muted);font-size:13.5px}
+.olRij{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.olRij:last-of-type{border-bottom:1px solid var(--line)}
+.olTxt{flex:1;min-width:0}
+.olTxt b{display:block;font-size:15.5px}
+.olTxt small{color:var(--muted);font-size:12.5px}
+.olRij.dicht .olTxt small{color:#ff8a8a}
+.olRij.nvt{opacity:.55}
+#olHeel{margin-top:14px;width:100%}
+.btn.olRood{background:rgba(229,72,77,.14)!important;border:1px solid rgba(229,72,77,.55)!important;color:#ff9b9b!important}
+.olNoot{color:var(--muted);font-size:12px;line-height:1.45;margin:10px 0 4px}
+</style>
+<style>
+/* Weekplanner dagen: strakker, tijden op een regel */
+.otWkGrid{gap:8px}
+.otWkDag{container-type:inline-size;min-height:118px;padding:10px 10px 12px;gap:7px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+.otWkDag.dicht{border:1px dashed rgba(255,255,255,.12);background:transparent}
+.otWkNaam{width:100%;justify-content:space-between;align-items:center;margin:0}
+.otWkNaam b{font-size:18px}
+.otWkNaam i{order:3;width:100%;margin-top:1px}
+.otWkDienst{width:100%;flex-direction:row;align-items:baseline;justify-content:space-between;gap:6px;padding:5px 7px;border-radius:7px;background:rgba(0,0,0,.25);font-size:12.5px}
+.otWkDienst em{font-size:11px}
+.otWkDienst>span{white-space:nowrap}
+.otWkDicht{margin-top:4px}
+.otWkDag.gekozen{background:color-mix(in srgb,var(--accent) 26%,transparent);border:1px solid var(--accent)}
+.otWkDag.gekozen .otWkDienst{background:rgba(0,0,0,.3)}
+.otWkDag.nu:not(.gekozen){border-color:color-mix(in srgb,var(--accent2) 60%,transparent)}
+@container (max-width:118px){
+  .otWkDienst{flex-direction:column;align-items:flex-start;gap:0}
+}
+@container (max-width:92px){
+  .otWkDienst{align-items:center;padding:4px 3px;font-size:11.5px;letter-spacing:-.2px}
+}
+@container (max-width:64px){
+  .otWkTot{display:none}
+}
+@media (max-width:700px){
+  .otWkGrid{gap:4px}
+  .otWkDag{min-height:92px;padding:7px 4px;gap:4px}
+  .otWkNaam{justify-content:center}
+  .otWkNaam b{font-size:15px}
+  .otWkDienst{background:none;padding:0}
+}
+</style>
+<style>
+/* Paneel van de gekozen dag: op breed scherm onder de week, op mobiel direct onder de dag */
+.otWkPaneelPlek{grid-column:1 / -1;order:99}
+.otWkPijl{display:none}
+@media (max-width:700px){
+  .otWkGrid{display:flex!important;flex-direction:column;gap:6px!important}
+  .otWkPaneelPlek{order:var(--o)}
+  .otWkPaneelPlek .otDagPaneel{margin:0 0 6px;padding:12px;border:1px solid var(--accent);border-top:none;border-radius:0 0 12px 12px;background:rgba(0,0,0,.2)}
+  .otWkDag{flex-direction:row!important;align-items:center!important;text-align:left!important;min-height:0!important;padding:11px 12px!important;gap:10px!important}
+  .otWkDag.gekozen{border-radius:12px 12px 0 0}
+  .otWkNaam{flex:0 0 58px!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;gap:0!important;font-size:12px!important;width:auto!important}
+  .otWkNaam b{font-size:18px!important}
+  .otWkNaam i{display:block!important;font-size:10px!important}
+  .otWkDienst{flex:1 1 0;min-width:0;flex-direction:column!important;align-items:flex-start!important;gap:0!important;background:none!important;padding:0!important;font-size:13.5px!important;letter-spacing:0!important}
+  .otWkDienst em{font-size:11px!important}
+  .otWkTot{display:inline!important}
+  .otWkDicht{flex:1;margin:0!important;font-size:13px!important}
+  .otWkDicht::after{content:none!important}
+  .otWkLabel{display:none!important}
+  .otWkPijl{display:block;flex:none;color:var(--muted);font-size:20px;line-height:1}
+  .otWkDag.gekozen .otWkPijl{transform:rotate(90deg)}
+  .otWkDag.afwijkend::after{top:50%!important;right:30px!important;transform:translateY(-50%)}
+}
+</style>
+<style>
+@media (max-width:700px){
+  .otEditor .otVelden{display:grid!important;grid-template-columns:1fr 1fr!important}
+  .otEditor .otVelden .otVeld{grid-column:1 / -1}
+  .otWkDag.afwijkend::after{top:8px!important;right:8px!important;transform:none!important}
+}
+</style>
+<style>
+@media (max-width:700px){
+  .otPlanner{border:none!important;padding:0!important;background:none!important}
+  .otWkPaneelPlek .otDagPaneel{padding:12px 10px!important}
+  .otWkPaneelPlek .otEditor .otDienst{padding:10px!important}
+}
+</style>
+<style>
+.stMenu .ddEigen{display:flex;gap:6px;padding:8px 6px 4px;margin-top:4px;border-top:1px solid var(--line)}
+.stMenu .ddEigen input{flex:1;min-width:0;height:40px;padding:0 12px;font-size:15px}
+.stMenu .ddEigen .btn{flex:0 0 38px;height:38px;padding:0;font-size:20px;line-height:1}
+</style>
+<style>
+.ddEigen .btn,.aantalEigen .btn{display:inline-flex!important;align-items:center!important;justify-content:center!important;padding:0!important;width:44px;min-width:44px!important;flex:0 0 44px!important;height:40px;text-indent:0;letter-spacing:0}
+.ddEigen .btn svg,.aantalEigen .btn svg{display:block;flex:none}
+</style>
+<style>
+.stMenu .ddWis{margin-left:8px;flex:none;width:30px;height:30px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;color:var(--muted);border:1px solid transparent}
+.stMenu .ddWis:hover,.stMenu .ddWis:active{color:#ff8a8a;border-color:rgba(229,72,77,.5);background:rgba(229,72,77,.12)}
+.stMenu button:has(.ddWis) i{margin-left:auto}
+.stMenu .ddKleuren{display:flex;flex-wrap:wrap;gap:7px;padding:10px 8px 2px;margin-top:4px;border-top:1px solid var(--line)}
+.stMenu .ddKleuren + .ddEigen{border-top:none;margin-top:0}
+.stMenu .ddKleur{width:22px;height:22px;border-radius:50%;cursor:pointer;box-shadow:0 0 0 2px rgba(0,0,0,.3) inset}
+.stMenu .ddKleur.on{outline:2px solid #fff;outline-offset:2px}
+</style>
+<style>
+/* Labelmenu: meer lucht */
+.stMenu .ddKleuren{gap:12px!important;padding:14px 10px 6px!important;margin-top:8px!important}
+.stMenu .ddKleur{width:26px!important;height:26px!important}
+.stMenu .ddKleur.on{outline-offset:3px!important}
+.stMenu .ddEigen{gap:10px!important;padding:12px 8px 6px!important}
+.stMenu .ddWis{margin-left:12px!important}
+.stMenu button:has(.ddWis) i{margin-right:2px}
+</style>
+<style>
+.stMenu .ddEigen{align-items:center}
+.stMenu .ddKleurKnop{position:relative;flex:0 0 34px;width:34px;height:34px;border-radius:50%;cursor:pointer;box-shadow:0 0 0 2px rgba(255,255,255,.85),0 0 0 4px rgba(0,0,0,.35);margin:0 4px 0 3px;overflow:hidden}
+.stMenu .ddKleurKnop::after{content:'';position:absolute;right:-1px;bottom:-1px;width:13px;height:13px;border-radius:50%;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M12 5v14M5 12h14'/%3E%3C/svg%3E") center/9px no-repeat}
+.stMenu .ddKleurKnop input[type=color]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;border:none;padding:0}
+</style>
+<script>
+/* ===== Eigen kleurenkiezer in de stijl van de app =====
+   Vervangt de kleurenkiezer van het toestel, die niet in het thema past.
+   Kleurvlak (verzadiging en helderheid), schuif voor de tint, snelle kleuren
+   en een veld voor de kleurcode. */
+(function(){
+  const hexNaarRgb = h => { h = h.replace('#',''); if(h.length === 3) h = h.split('').map(x=>x+x).join(''); const n = parseInt(h, 16); return [(n>>16)&255, (n>>8)&255, n&255]; };
+  const rgbNaarHex = (r,g,b) => '#' + [r,g,b].map(x => Math.round(x).toString(16).padStart(2,'0')).join('');
+  function rgbNaarHsv(r,g,b){ r/=255; g/=255; b/=255; const mx=Math.max(r,g,b), mn=Math.min(r,g,b), d=mx-mn; let h=0;
+    if(d){ h = mx===r ? ((g-b)/d)%6 : mx===g ? (b-r)/d+2 : (r-g)/d+4; h*=60; if(h<0) h+=360; }
+    return [h, mx ? d/mx : 0, mx]; }
+  function hsvNaarRgb(h,s,v){ const c=v*s, x=c*(1-Math.abs((h/60)%2-1)), m=v-c; let r=0,g=0,b=0;
+    if(h<60){r=c;g=x;} else if(h<120){r=x;g=c;} else if(h<180){g=c;b=x;} else if(h<240){g=x;b=c;} else if(h<300){r=x;b=c;} else {r=c;b=x;}
+    return [(r+m)*255,(g+m)*255,(b+m)*255]; }
+
+  window.openKleurKiezer = function(anker, start, klaar){
+    const geldig = /^#[0-9a-f]{6}$/i.test(start||'') ? start : '#e5557a';
+    let [h, sa, v] = rgbNaarHsv(...hexNaarRgb(geldig));
+    const ov = document.createElement('div');
+    ov.className = 'kpOv';
+    ov.innerHTML = `<div class="kpPaneel" role="dialog" aria-label="Kleur kiezen">
+      <div class="kpVlak"><span class="kpStip"></span></div>
+      <input type="range" class="kpTint" min="0" max="359" step="1" aria-label="Tint">
+      <div class="kpSnel">${(typeof EIGEN_LABEL_KLEUREN !== 'undefined' ? EIGEN_LABEL_KLEUREN : []).map(k=>`<button type="button" data-k="${k}" style="background:${k}" aria-label="${k}"></button>`).join('')}</div>
+      <div class="kpOnder">
+        <span class="kpVoorbeeld"></span>
+        <input type="text" class="kpHex" maxlength="7" autocomplete="off" spellcheck="false" aria-label="Kleurcode">
+        <button type="button" class="btn primary kpKlaar">Klaar</button>
+      </div>
+    </div>`;
+    document.body.appendChild(ov);
+    const pan = ov.querySelector('.kpPaneel'), vlak = ov.querySelector('.kpVlak'), stip = ov.querySelector('.kpStip');
+    const tint = ov.querySelector('.kpTint'), hex = ov.querySelector('.kpHex'), vb = ov.querySelector('.kpVoorbeeld');
+    const nu = () => rgbNaarHex(...hsvNaarRgb(h, sa, v));
+    function teken(bijwerkHex){
+      vlak.style.background = `linear-gradient(to top,#000,transparent),linear-gradient(to right,#fff,hsl(${h},100%,50%))`;
+      stip.style.left = (sa*100)+'%'; stip.style.top = ((1-v)*100)+'%';
+      stip.style.background = nu(); vb.style.background = nu(); tint.value = Math.round(h);
+      if(bijwerkHex !== false) hex.value = nu().toUpperCase();
+      try{ anker.style.background = nu(); }catch(_){}
+      ov.querySelectorAll('.kpSnel button').forEach(b => b.classList.toggle('on', b.dataset.k.toLowerCase() === nu().toLowerCase()));
+    }
+    // Neerzetten bij het rondje, binnen het scherm
+    const r = anker.getBoundingClientRect(), bw = Math.min(280, window.innerWidth - 16);
+    pan.style.width = bw + 'px';
+    pan.style.left = Math.max(8, Math.min(window.innerWidth - bw - 8, r.left)) + 'px';
+    const hoog = pan.offsetHeight || 330;
+    pan.style.top = (r.top - hoog - 10 > 8 ? r.top - hoog - 10 : Math.min(window.innerHeight - hoog - 8, r.bottom + 10)) + 'px';
+    // Slepen in het kleurvlak
+    const kies = (e) => { const b = vlak.getBoundingClientRect(); const x = (e.touches ? e.touches[0].clientX : e.clientX), y = (e.touches ? e.touches[0].clientY : e.clientY);
+      sa = Math.min(1, Math.max(0, (x - b.left) / b.width)); v = Math.min(1, Math.max(0, 1 - (y - b.top) / b.height)); teken(); };
+    vlak.addEventListener('pointerdown', (e)=>{ e.preventDefault(); vlak.setPointerCapture(e.pointerId); kies(e);
+      const mv = (ev)=>kies(ev), op = ()=>{ vlak.removeEventListener('pointermove', mv); vlak.removeEventListener('pointerup', op); };
+      vlak.addEventListener('pointermove', mv); vlak.addEventListener('pointerup', op); });
+    tint.oninput = () => { h = +tint.value; teken(); };
+    hex.oninput = () => { let t = hex.value.trim(); if(t && t[0] !== '#') t = '#' + t; if(/^#[0-9a-f]{6}$/i.test(t)){ [h, sa, v] = rgbNaarHsv(...hexNaarRgb(t)); teken(false); } };
+    ov.querySelectorAll('.kpSnel button').forEach(b => b.onclick = () => { [h, sa, v] = rgbNaarHsv(...hexNaarRgb(b.dataset.k)); teken(); });
+    const sluit = (bewaar) => { if(bewaar) klaar(nu()); ov.remove(); };
+    ov.querySelector('.kpKlaar').onclick = () => sluit(true);
+    ov.addEventListener('pointerdown', (e)=>{ if(e.target === ov){ e.stopPropagation(); sluit(true); } });
+    ov.addEventListener('click', (e)=> e.stopPropagation());
+    teken();
+  };
+})();
+</script>
+<style>
+.kpOv{position:fixed;inset:0;z-index:150}
+.kpPaneel{position:fixed;background:var(--paneelKleur,var(--panel));border:1px solid var(--vlakRand,var(--line));border-radius:16px;padding:14px;box-shadow:0 20px 50px rgba(0,0,0,.6);display:flex;flex-direction:column;gap:12px}
+.kpVlak{position:relative;height:150px;border-radius:10px;cursor:crosshair;touch-action:none}
+.kpStip{position:absolute;width:20px;height:20px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.4),0 2px 6px rgba(0,0,0,.5);transform:translate(-50%,-50%);pointer-events:none}
+html body .kpPaneel input.kpTint{-webkit-appearance:none!important;appearance:none!important;width:100%!important;height:14px!important;min-height:0!important;border-radius:7px!important;border:none!important;padding:0!important;background:linear-gradient(to right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)!important;outline:none;margin:4px 0!important;box-shadow:none!important}
+.kpTint::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--accent);box-shadow:0 2px 6px rgba(0,0,0,.5);cursor:pointer}
+.kpTint::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--accent);cursor:pointer}
+.kpSnel{display:flex;flex-wrap:wrap;gap:9px}
+.kpSnel button{width:24px;height:24px;border-radius:50%;padding:0;border:none;box-shadow:0 0 0 2px rgba(0,0,0,.3) inset}
+.kpSnel button.on{outline:2px solid #fff;outline-offset:2px}
+.kpOnder{display:flex;align-items:center;gap:10px}
+.kpVoorbeeld{flex:0 0 36px;height:36px;border-radius:9px;box-shadow:0 0 0 1px rgba(255,255,255,.25) inset}
+.kpHex{flex:1;min-width:0;height:38px;font-family:ui-monospace,Menlo,monospace;font-size:14px;letter-spacing:.04em;text-transform:uppercase;padding:0 10px}
+.kpKlaar{flex:0 0 auto;height:38px;padding:0 16px}
+.stMenu .ddKleurKnop{border:none;padding:0}
+</style>
+<style>
+/* ===== Kaart restaurant: label en notitie bij de naam, tafel als blok ===== */
+#content .card .cmid{flex:1 1 auto;min-width:0}
+@container lijst (min-width:821px){ #content .card .cnaam{flex:0 0 170px!important;max-width:170px} }
+.cLabelRij{display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.cLabels{display:flex;flex-wrap:wrap;gap:5px;padding-top:2px}
+.cNootVak{display:flex;align-items:flex-start;gap:7px;max-width:360px;min-width:0;padding:6px 10px;border-radius:9px;background:rgba(255,255,255,.05);border:1px solid var(--line);font-size:13px;line-height:1.35;color:var(--txt)}
+.cNootVak svg{flex:none;width:14px;height:14px;margin-top:2px;fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cNootVak span{min-width:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word}
+.cTafelBlok{flex:0 0 auto;min-width:64px;height:52px;padding:0 12px;border-radius:11px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;margin-left:auto;
+  background:color-mix(in srgb,var(--accent) 22%,rgba(0,0,0,.25));border:1px solid color-mix(in srgb,var(--accent) 55%,transparent)}
+.cTafelBlok small{font-size:10.5px;font-weight:600;color:color-mix(in srgb,var(--accent2) 80%,#fff);line-height:1}
+.cTafelBlok b{font-size:22px;font-weight:800;line-height:1.05;font-variant-numeric:tabular-nums;color:#fff;white-space:nowrap}
+.cTafelBlok.veel b{font-size:15px}
+.cTafelBlok.conflict{background:rgba(229,48,77,.22);border-color:#e5304d}
+.cTafelBlok.conflict b{color:#ff8a95}
+@container lijst (max-width:820px){
+  .cTafelBlok{order:2;margin-left:auto;height:44px;min-width:56px}
+  .cTafelBlok b{font-size:19px}
+}
+@media (max-width:767px){
+  .cTafelBlok{height:42px;min-width:52px;padding:0 9px}
+  .cTafelBlok b{font-size:18px}
+  .cNootVak{max-width:none;flex:1 1 100%}
+}
+</style>
+<style>
+/* Gestapelde kaart (iPad staand, telefoon): naam, tafel en status op één regel, daaronder label en notitie */
+@container lijst (max-width:820px){
+  #content .card:has(.cTafelBlok){flex-wrap:wrap;align-items:center;row-gap:8px;column-gap:10px}
+  #content .card:has(.cTafelBlok) .cpax{order:1}
+  #content .card:has(.cTafelBlok) .cnaam{order:2;flex:1 1 0!important;min-width:0;max-width:none}
+  #content .card:has(.cTafelBlok) .cTafelBlok{order:3;margin-left:0}
+  #content .card:has(.cTafelBlok) .stBtn{order:4;margin-left:0;min-width:0}
+  #content .card:has(.cTafelBlok) .cmid{order:5;flex:1 1 100%}
+}
+@media (max-width:767px){
+  #content .card:has(.cTafelBlok){flex-wrap:wrap;align-items:center;row-gap:8px;column-gap:8px}
+  #content .card:has(.cTafelBlok) .cpax{order:1}
+  #content .card:has(.cTafelBlok) .cnaam{order:2;flex:1 1 0!important;min-width:0;max-width:none}
+  #content .card:has(.cTafelBlok) .cTafelBlok{order:3;margin-left:0}
+  #content .card:has(.cTafelBlok) .stBtn{order:4;margin-left:0;min-width:0;padding-left:10px;padding-right:10px}
+  #content .card:has(.cTafelBlok) .cmid{order:5;flex:1 1 100%}
+}
+</style>
+<style>
+@media (max-width:767px){
+  #content .card:has(.cTafelBlok) .cnaam{flex:1 1 calc(100% - 140px)!important}
+  #content .card:has(.cTafelBlok) .cmid{order:5;flex:0 0 calc(100% - 108px)!important;min-width:0;max-width:calc(100% - 108px)}
+  #content .card:has(.cTafelBlok) .stBtn{order:6;align-self:flex-start;margin-left:auto;width:96px;flex:0 0 96px}
+  #content .card:has(.cTafelBlok) .cTafelBlok.veel{max-width:42%}
+  #content .card:has(.cTafelBlok) .cTafelBlok.veel b{font-size:13px;white-space:normal;text-align:center}
+}
+</style>
+<style>
+/* iPad staand en kleiner venster: toch alles op één regel zolang het past */
+@container lijst (min-width:560px) and (max-width:820px){
+  #content .card:has(.cTafelBlok){flex-wrap:nowrap!important;align-items:center!important;column-gap:12px!important;row-gap:0!important}
+  #content .card:has(.cTafelBlok) .cpax{order:1!important}
+  #content .card:has(.cTafelBlok) .cnaam{order:2!important;flex:0 0 140px!important;max-width:140px!important;white-space:normal!important;display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.25}
+  #content .card:has(.cTafelBlok) .cmid{order:3!important;flex:1 1 auto!important;min-width:0;max-width:none!important}
+  #content .card:has(.cTafelBlok) .cTafelBlok{order:4!important;margin-left:auto!important;height:48px}
+  #content .card:has(.cTafelBlok) .stBtn{order:5!important;flex:0 0 auto!important;width:auto!important;min-width:104px!important;margin-left:0!important;align-self:center!important}
+  #content .card:has(.cTafelBlok) .cNootVak{max-width:100%}
+}
+</style>
+<style>
+/* ===== Reserveringskaart (ontwerp optie 1) ===== */
+html body #content .card.kvKaart{display:grid!important;grid-template-columns:46px minmax(120px,190px) minmax(0,1fr) minmax(64px,auto) auto;grid-template-areas:"pax naam mid tafel stat";
+  align-items:center;column-gap:16px;row-gap:8px;padding:12px 14px 12px 18px!important;position:relative;overflow:hidden;min-height:66px;flex-wrap:nowrap!important}
+html body #content .card.kvKaart::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--kvStreep)}
+.card.kvKaart.kvDim{opacity:.55}
+.kvPax{grid-area:pax;width:46px;height:46px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+.kvPax b{font-size:19px;font-weight:800}
+.kvPax small{font-size:10px;color:var(--muted);margin-top:3px}
+.kvNaam{grid-area:naam;min-width:0;display:flex;flex-direction:column;gap:3px}
+.kvNaam b{font-size:15.5px;font-weight:700;line-height:1.25;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;word-break:break-word}
+.kvNaam small{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kvNaam small a{color:inherit;text-decoration:none}
+.kvOnline{color:var(--accent2)}
+.kvMid{grid-area:mid;min-width:0;display:flex;flex-direction:column;gap:6px}
+.kvChips{display:flex;flex-wrap:wrap;gap:6px}
+.kvChips .chip{margin:0!important}
+.kvTag{display:inline-flex;align-items:center;font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:6px;line-height:1.3}
+.kvAll{background:rgba(229,48,77,.18);color:#ff9aa5;border:1px solid rgba(229,48,77,.28)}
+.kvBijz{background:rgba(120,140,170,.18);color:#c9d3e6;border:1px solid rgba(160,175,200,.25)}
+.kvNoot{font-size:13px;color:var(--muted);line-height:1.35;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;word-break:break-word}
+.kvTafel{grid-area:tafel;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+.kvTafel small{font-size:11px;color:var(--accent2);margin-bottom:3px}
+.kvTafel b{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+.kvTafel b.veel{font-size:16px}
+.kvTafel.conflict b{color:#ff6b7a}
+html body #content .card.kvKaart .kvStatus{grid-area:stat;justify-self:end;margin:0!important}
+/* Smallere lijst (iPad staand) */
+@container lijst (max-width:760px){
+  html body #content .card.kvKaart{grid-template-columns:46px minmax(100px,150px) minmax(0,1fr) minmax(56px,auto) auto;column-gap:12px}
+}
+/* Telefoon: twee regels */
+@container lijst (max-width:560px){
+  html body #content .card.kvKaart{grid-template-columns:46px minmax(0,1fr) auto;grid-template-areas:"pax naam tafel" "mid mid stat";column-gap:10px;padding:11px 12px 11px 15px!important}
+  html body #content .card.kvKaart .kvStatus{align-self:start}
+  .kvMid:empty{display:none}
+}
+@media (max-width:767px){
+  html body #content .card.kvKaart{grid-template-columns:46px minmax(0,1fr) auto;grid-template-areas:"pax naam tafel" "mid mid stat";column-gap:10px;padding:11px 12px 11px 15px!important}
+  html body #content .card.kvKaart .kvStatus{align-self:start}
+}
+</style>
+<style>
+@media (max-width:767px){ .kvTafel b.veel{font-size:14px;white-space:normal;max-width:78px;text-align:center;line-height:1.15;word-break:break-all} }
+@container lijst (max-width:560px){ .kvTafel b.veel{font-size:14px;white-space:normal;max-width:78px;text-align:center;line-height:1.15;word-break:break-all} }
+</style>
+<style>
+/* ===== Leisteen-palet zoals de stijldemo (rood blijft accent) ===== */
+html body.kvRood #content .card,html body.kvRood.themaGlas #content .card{background:#141924!important;border:1px solid #1f2636!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+html body.kvRood #sideRail{background:#0b0d12!important;border-right:1px solid #1c2130!important}
+html body.kvRood #topbar{background:#0e1117!important;border-bottom:1px solid #1c2130!important}
+html body.kvRood #countbar,html body.kvRood #filterbar{background:#0e1117!important;border-bottom-color:#1c2130!important}
+html body.kvRood .statChip{background:#141924!important;border:1px solid #1f2636!important}
+html body.kvRood .instPage,html body.kvRood .instTop{background:#0e1117!important}
+html body.kvRood .instCard,html body.kvRood .boxKaart{background:#141924!important;border-color:#1f2636!important}
+html body.kvRood #sheet{background:#11151d!important;border-color:#1f2636!important}
+html body.kvRood input,html body.kvRood select,html body.kvRood textarea,html body.kvRood .ddBtn,html body.kvRood .tafelPickBtn{background:#151a24!important;border-color:#222a3a!important}
+html body.kvRood .stMenu,html body.kvRood .vraagBox,html body.kvRood .tafelPop,html body.kvRood .aantalPop,html body.kvRood .loginBox,html body.kvRood .kpPaneel{background:#141924!important;border-color:#222a3a!important}
+html body.kvRood .tlLabel{color:#e8ebf2}
+html body.kvRood .kvPax{background:#1c2333;border-color:transparent}
+html body.kvRood .kvTafel small{color:#8890a4}
+html body.kvRood .kvNoot{color:#b6bdcc}
+html body.kvRood .kvAll{background:#3a1820;color:#ffb4b8;border-color:transparent}
+html body.kvRood .kvBijz{background:#172a4a;color:#a9c8ff;border-color:transparent}
+html body.kvRood .otWkDag{background:#151a24;border-color:#222a3a}
+html body.kvRood .otPlanner{background:#0e1117;border-color:#1f2636}
+</style>
+<style>
+/* Smalle lijst naast de plattegrond: kaart in twee regels */
+html body #content .mapList .card.kvKaart,html body .mapList .card.kvKaart{grid-template-columns:46px minmax(0,1fr) auto!important;grid-template-areas:"pax naam tafel" "mid mid stat"!important;column-gap:10px!important;row-gap:8px!important;padding:11px 12px 11px 15px!important;margin:0 12px 8px!important}
+html body .mapList .card.kvKaart .kvStatus{align-self:start}
+html body .mapList .card.kvKaart .kvTafel b.veel{font-size:14px;white-space:normal;max-width:78px;text-align:center;line-height:1.15;word-break:break-all}
+html body .mapList .card.kvKaart .kvNaam small{white-space:normal}
+</style>
+<script>
+/* ===== Nieuwe online reserveringen tijdens de service =====
+   Een online boeking is "nieuw" tot iemand hem op dit apparaat opent, of tot
+   3 uur na binnenkomst. Bovenin staat een knop met het aantal; tik erop en je
+   ziet alleen de nieuwe. Komt er een bij terwijl de app open staat, dan
+   verschijnt er meteen een melding. */
+(function(){
+  const DREMPEL = 3 * 60 * 60 * 1000;
+  const gezien = () => store.get('ct_gezienOnline', {}) || {};
+  window.isNieuwOnline = function(r){
+    if(!r || r.bron !== 'web' || !r.aangemaakt || INACTIVE.has(r.status)) return false;
+    if(Date.now() - r.aangemaakt > DREMPEL) return false;
+    return !gezien()[r.id];
+  };
+  window.markeerGezien = function(id){
+    const g = gezien(); if(g[id]) return;
+    g[id] = Date.now();
+    // Oude regels opruimen
+    Object.keys(g).forEach(k => { if(Date.now() - g[k] > 3 * 86400000) delete g[k]; });
+    store.set('ct_gezienOnline', g);
+  };
+  // Openen van een reservering = gezien
+  const oudOpen = window.openFormById;
+  if(typeof oudOpen === 'function') window.openFormById = function(id){ try{ markeerGezien(id); }catch(_){} return oudOpen.apply(this, arguments); };
+
+  let bekend = null, bekendDatum = null;
+  function werkNieuw(){
+    const lijst = getRes();
+    const nieuw = lijst.filter(isNieuwOnline);
+    const knop = document.getElementById('btnNieuw');
+    if(knop){
+      knop.hidden = !nieuw.length && !filt.nieuw;
+      knop.classList.toggle('aan', !!filt.nieuw);
+      const n = document.getElementById('nieuwAantal'); if(n) n.textContent = nieuw.length;
+      if(filt.nieuw && !nieuw.length){ filt.nieuw = false; setTimeout(render, 0); }
+    }
+    // Melding bij een nieuwe online boeking die binnenkomt terwijl de app open staat
+    const web = lijst.filter(r => r.bron === 'web').map(r => r.id);
+    if(bekendDatum !== curDate || !bekend){ bekend = new Set(web); bekendDatum = curDate; return; }
+    lijst.filter(r => r.bron === 'web' && !bekend.has(r.id)).forEach(r => {
+      if(isNieuwOnline(r)) toast('Nieuwe online reservering: ' + (r.naam || 'gast') + ', ' + (r.pax || '?') + 'p om ' + (r.tijd || '?'));
+    });
+    bekend = new Set(web);
+  }
+  const knop = document.getElementById('btnNieuw');
+  if(knop) knop.onclick = () => { filt.nieuw = !filt.nieuw; render(); };
+  if(typeof render === 'function'){
+    const oud = render;
+    window.render = render = function(){ const r = oud.apply(this, arguments); try{ werkNieuw(); }catch(_){} return r; };
+  }
+  // Na 3 uur valt "nieuw" vanzelf weg, ook zonder dat er iets verandert
+  setInterval(() => { try{ if(document.getElementById('btnNieuw') && !document.querySelector('.instPage')) werkNieuw(); }catch(_){} }, 60000);
+  try{ werkNieuw(); }catch(_){}
+})();
+</script>
+<style>
+.kvNieuw{display:inline-flex;align-items:center;font-size:11.5px;font-weight:800;padding:3px 8px;border-radius:6px;background:var(--accent);color:#fff;line-height:1.3}
+.nieuwKnop{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 14px;border-radius:12px;border:1px solid color-mix(in srgb,var(--accent) 60%,transparent);background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--txt);font-weight:700;font-size:13.5px;white-space:nowrap}
+.nieuwKnop[hidden]{display:none!important}
+.nieuwKnop i{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 25%,transparent);animation:nieuwPuls 1.6s ease-in-out infinite}
+.nieuwKnop b{min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:var(--accent);color:#fff;font-size:12px;display:inline-flex;align-items:center;justify-content:center}
+.nieuwKnop.aan{background:var(--accent);border-color:var(--accent)}
+.nieuwKnop.aan b{background:#fff;color:var(--accent)}
+.nieuwKnop.aan i{background:#fff}
+@keyframes nieuwPuls{50%{box-shadow:0 0 0 7px color-mix(in srgb,var(--accent) 0%,transparent)}}
+@media (max-width:767px){ .nieuwKnop span{display:none} .nieuwKnop{padding:0 10px;height:40px} }
+</style>
+<style>
+/* ===== Tijdlijn in de stijl van het ontwerp (zijkolom blijft zoals hij is) ===== */
+html body.kvRood .tlRij{border-top:none!important;background:transparent!important}
+html body.kvRood .tlRij .tlLabel{border-top:1.5px solid color-mix(in srgb, var(--accent) 22%, transparent)}
+html body.kvRood .tlSpoor{position:relative}
+html body.kvRood .tlSpoor::before{content:'';position:absolute;left:6px;right:6px;top:3px;bottom:3px;border-radius:9px;background:#141924;border:1px solid #1a2030;pointer-events:none}
+html body.kvRood .tlBlock{top:6px!important;bottom:6px!important;border-radius:8px!important;border:1px solid #2a3346!important;border-left-width:1px!important;background:#1a2030!important;color:#e8ebf2!important;gap:8px!important;padding:0 10px!important;box-shadow:none!important}
+html body.kvRood .tlBlock b{font-size:14.5px;font-weight:800}
+html body.kvRood .tlBlock .tlNaam{font-weight:700;flex:0 0 auto;max-width:60%}
+html body.kvRood .tlBlock.arr,html body.kvRood .tlBlock.in{background:#0f2e24!important;border-color:#1e5c47!important}
+html body.kvRood .tlBlock.nm{background:#331417!important;border-color:#6b2329!important}
+html body.kvRood .tlBlock.noshow{background:#1b1416!important;border-color:#4a2026!important;opacity:.7}
+html body.kvRood .tlBlock.no{opacity:.45}
+html body.kvRood .tlBlock.later{background:#161b26!important;border-color:#222a3a!important;color:#a9b1c4!important}
+html body.kvRood .tlBlock.later .tlChip{opacity:.75}
+.tlChip{flex:none;font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px;color:#0e1117;line-height:1.35}
+.tlChip.tlNieuw{background:var(--accent);color:#fff}
+.tlNoot{min-width:0;flex:1 1 auto;font-size:12.5px;color:#a9b1c4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html body.kvRood .tlBlock .tlTag{background:rgba(255,255,255,.08);color:#c3c9d8}
+html body.kvRood .tlNu{width:0!important;background:none!important;box-shadow:none!important;border-left:2px dashed var(--accent)!important;z-index:4}
+html body.kvRood .tlKop{background:#0e1117!important;border-bottom:1px solid #1c2130!important}
+html body.kvRood .tlUren span{color:#8890a4;font-weight:600}
+</style>
+<style>
+/* Wereldbol en "Nieuw online" alleen in de lijstweergave */
+html body.viewTafels #countbar #btnOnline,html body.viewKaart #countbar #btnOnline,
+html body.viewTafels #countbar #btnNieuw,html body.viewKaart #countbar #btnNieuw{display:none!important}
+html body.viewTafels #countbar .cbTools:not(:has(button:not(#btnWisPA):not(#btnOnline):not(#btnNieuw))){display:none}
+</style>
+<style>
+/* Smal blok: naam gaat voor, labels en notitie wijken eerst */
+html body.kvRood .tlBlock .tlNaam{flex:0 0 auto!important;max-width:calc(100% - 26px)!important;min-width:0;overflow:hidden;text-overflow:ellipsis}
+html body.kvRood .tlBlock b{flex:none}
+.tlChip{flex:none!important}
+html body.kvRood .tlBlock .tlTag{flex:none}
+.tlNoot{flex:0 1 auto!important}
+</style>
+<script>
+/* ===== Slepen in de tijdlijn =====
+   Opzij = andere tijd (per 15 minuten), omhoog of omlaag = andere tafel.
+   Muis: meteen slepen. Aanraakscherm: eerst even vasthouden, zodat gewoon
+   scrollen door de tijdlijn blijft werken. */
+function tlSleepKoppelen(content, maat){
+  if(typeof tlLock !== 'undefined' && tlLock) return;   // op slot: niets verslepen
+  content.querySelectorAll('.tlBlock[data-id]').forEach(b => b.classList.add('tlSleepbaar'));
+  const STAP = 15;
+  let sleep = null;
+  // Tijdens slepen op een aanraakscherm niet laten scrollen
+  if(!window._tlTouchBlok){
+    window._tlTouchBlok = true;
+    document.addEventListener('touchmove', (e)=>{ if(window._tlSleeptNu) e.preventDefault(); }, { passive:false });
+  }
+  const minNaarTijdTxt = m => { m = ((m % 1440) + 1440) % 1440; return String(Math.floor(m/60)).padStart(2,'0') + ':' + String(m%60).padStart(2,'0'); };
+
+  content.querySelectorAll('.tlBlock[data-id]').forEach(blok=>{
+    blok.addEventListener('pointerdown', (e)=>{
+      if(e.button && e.button !== 0) return;
+      const r = getRes().find(x => x.id === blok.dataset.id);
+      if(!r || INACTIVE.has(r.status)) return;
+      const aanraak = e.pointerType === 'touch' || e.pointerType === 'pen';
+      const st = { blok, r, x0:e.clientX, y0:e.clientY, actief:false, dMin:0, rij:null, timer:null, id:e.pointerId, offset:0 };
+      // Bij een blok over meerdere rijen: onthouden in welke rij je hem vastpakt
+      { const alle = [...content.querySelectorAll('.tlRij[data-tafel]')];
+        const eerste = alle.indexOf(blok.closest('.tlRij'));
+        const rijOnder = alle.find(rr => { const b = rr.getBoundingClientRect(); return e.clientY >= b.top && e.clientY < b.bottom; });
+        if(eerste >= 0 && rijOnder) st.offset = Math.max(0, alle.indexOf(rijOnder) - eerste); }
+      sleep = st;
+      const start = ()=>{
+        st.actief = true; window._tlSleeptNu = true;
+        try{ blok.setPointerCapture(st.id); }catch(_){}
+        blok.classList.add('tlSleep');
+        if(navigator.vibrate) try{ navigator.vibrate(15); }catch(_){}
+        st.label = document.createElement('span');
+        st.label.className = 'tlSleepLabel';
+        blok.appendChild(st.label);
+        werkLabel(st);
+      };
+      if(aanraak) st.timer = setTimeout(start, 350);
+      const move = (ev)=>{
+        if(sleep !== st) return;
+        const dx = ev.clientX - st.x0, dy = ev.clientY - st.y0;
+        if(!st.actief){
+          if(Math.abs(dx) > 8 || Math.abs(dy) > 8){
+            if(aanraak){ clearTimeout(st.timer); stop(); return; }   // gewoon scrollen
+            start();
+          } else return;
+        }
+        ev.preventDefault();
+        st.dMin = Math.round(dx / maat.perMin / STAP) * STAP;
+        blok.style.transform = `translate(${st.dMin * maat.perMin}px, ${dy}px)`;
+        blok.style.pointerEvents = 'none';
+        const onder = document.elementFromPoint(ev.clientX, ev.clientY);
+        blok.style.pointerEvents = '';
+        let rij = onder && onder.closest ? onder.closest('.tlRij[data-tafel]') : null;
+        if(rij && st.offset){ const alle = [...content.querySelectorAll('.tlRij[data-tafel]')]; rij = alle[alle.indexOf(rij) - st.offset] || null; }
+        if(st.rij && st.rij !== rij) st.rij.classList.remove('tlSleepDoel');
+        st.rij = rij; if(rij) rij.classList.add('tlSleepDoel');
+        werkLabel(st);
+      };
+      const stop = ()=>{
+        blok.removeEventListener('pointermove', move);
+        blok.removeEventListener('pointerup', los);
+        blok.removeEventListener('pointercancel', annuleer);
+        clearTimeout(st.timer);
+        window._tlSleeptNu = false;
+        if(st.rij) st.rij.classList.remove('tlSleepDoel');
+        if(st.label) st.label.remove();
+        blok.classList.remove('tlSleep'); blok.style.transform = '';
+        if(sleep === st) sleep = null;
+      };
+      const annuleer = ()=> stop();
+      const los = ()=>{
+        const was = st.actief;
+        stop();
+        if(!was) return;
+        window._sleepklik = Date.now();
+        verplaats(st);
+      };
+      blok.addEventListener('pointermove', move);
+      blok.addEventListener('pointerup', los);
+      blok.addEventListener('pointercancel', annuleer);
+    });
+  });
+
+  function nieuweTafels(st){
+    const oude = getTafels(st.r).map(String);
+    if(!st.rij) return oude;
+    const doelNr = st.rij.dataset.tafel, doelLoc = st.rij.dataset.loc;
+    if(oude.length <= 1) return [doelNr];
+    // Meerdere tafels: dezelfde onderlinge plek meenemen
+    const rijOud = tafelsVoor(st.r.loc).map(t => String(t.nr)), rijNieuw = tafelsVoor(doelLoc).map(t => String(t.nr));
+    const geldig = oude.filter(n => rijOud.includes(n)).sort((a,b) => rijOud.indexOf(a) - rijOud.indexOf(b));
+    const basis = rijOud.indexOf(geldig[0]), doelIdx = rijNieuw.indexOf(doelNr);
+    if(doelIdx < 0 || basis < 0) return [doelNr];
+    const uit = geldig.map(n => rijNieuw[doelIdx + (rijOud.indexOf(n) - basis)]).filter(Boolean);
+    return uit.length === geldig.length ? uit : [doelNr];
+  }
+  function werkLabel(st){
+    if(!st.label) return;
+    const t = minNaarTijdTxt(tijdNaarMin(st.r.tijd) + st.dMin);
+    st.label.textContent = t + ' · tafel ' + nieuweTafels(st).join('+');
+  }
+  function verplaats(st){
+    const lijst = getRes();
+    const r = lijst.find(x => x.id === st.r.id); if(!r) return;
+    const nieuweTijd = minNaarTijdTxt(tijdNaarMin(r.tijd) + st.dMin);
+    const tafels = nieuweTafels(st);
+    const loc = st.rij ? st.rij.dataset.loc : r.loc;
+    const zelfdeTafels = tafels.join('+') === getTafels(r).map(String).join('+') && loc === r.loc;
+    if(nieuweTijd === r.tijd && zelfdeTafels){ render(); return; }
+    // Botst het met een andere reservering op die tafel(s)?
+    const b = tijdNaarMin(nieuweTijd), e = b + (+r.duur || 120);
+    const botsing = lijst.filter(x => x.id !== r.id && x.loc === loc && !INACTIVE.has(x.status)
+      && getTafels(x).map(String).some(n => tafels.includes(n))
+      && tijdNaarMin(x.tijd) < e && tijdNaarMin(x.tijd) + (+x.duur || 120) > b);
+    const doe = ()=>{
+      r.tijd = nieuweTijd; r.loc = loc; r.tafels = tafels; r.tafel = tafels[0]; r.bewerkt = Date.now();
+      try{ syncUpdateRes(curDate, r.id, { tijd: r.tijd, loc: r.loc, tafels: r.tafels, tafel: r.tafel, bewerkt: r.bewerkt }); }catch(_){}
+      setRes(lijst);
+      toast(r.naam + ' verplaatst naar ' + nieuweTijd + ', tafel ' + tafels.join('+'));
+    };
+    if(botsing.length){
+      vraag(`<b>Dubbel geboekt?</b><br><br>Op tafel ${esc(tafels.join('+'))} zit om ${esc(nieuweTijd)} al ${esc(botsing.map(x => x.naam).join(', '))}. Toch verplaatsen?`, doe);
+      const vo = [...document.querySelectorAll('.mcalOv')].pop();
+      if(vo){ const nee = vo.querySelector('#vNee'); if(nee) nee.addEventListener('click', ()=> render()); vo.addEventListener('click', (ev)=>{ if(ev.target === vo) render(); }); }
+    } else doe();
+  }
+}
+</script>
+<style>
+.tlBlock{cursor:pointer}
+.tlBlock.tlSleepbaar{cursor:grab}
+.tlSlot{display:inline-flex!important;align-items:center;justify-content:center}
+.tlSlot.dicht{color:#ff6b7a!important;border-color:rgba(229,72,77,.5)!important}
+.tlSlot.open{color:#34d399!important;border-color:rgba(52,211,153,.5)!important;background:rgba(52,211,153,.1)!important}
+.tlBlock.tlSleep{z-index:60!important;cursor:grabbing;box-shadow:0 10px 28px rgba(0,0,0,.55)!important;opacity:.95;transition:none!important;overflow:visible!important}
+.tlSleepLabel{position:absolute;left:0;top:-30px;padding:4px 9px;border-radius:7px;background:var(--accent);color:#fff;font-size:12px;font-weight:800;white-space:nowrap;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.4)}
+html body .tlRij.tlSleepDoel .tlSpoor::before{border-color:var(--accent)!important;background:color-mix(in srgb,var(--accent) 12%,#141924)!important}
+html body .tlRij.tlSleepDoel .tlLabel{filter:brightness(1.35)}
+</style>
+<style>
+/* Tijdlijnblok: smal = twee regels, breed = één regel. Niets meer half afgekapt. */
+html body.kvRood .tlRij .tlLabel{min-height:calc(54px * var(--tlS,1))}
+html body.kvRood .tlBlock{container-type:inline-size;padding:0 9px!important;align-items:stretch!important}
+.tlIn{display:flex;flex-direction:column;justify-content:center;gap:2px;min-width:0;width:100%;overflow:hidden}
+.tlR1,.tlR2{display:flex;align-items:center;gap:6px;min-width:0;overflow:hidden;white-space:nowrap}
+.tlR1 .tlNaam{min-width:0;overflow:hidden;text-overflow:ellipsis;max-width:none!important;flex:0 1 auto!important}
+.tlR2 .tlChip{font-size:10.5px;padding:1px 6px}
+.tlR2 .tlNoot{font-size:12px;min-width:0;overflow:hidden;text-overflow:ellipsis;flex:1 1 auto!important}
+@container (min-width:320px){
+  .tlIn{flex-direction:row;align-items:center;gap:8px}
+  .tlR1{flex:none;max-width:55%}
+  .tlR2{flex:1 1 auto}
+}
+@container (max-width:90px){
+  .tlR2 .tlNoot{display:none}
+}
+</style>
+<style>
+/* Grote tafel: één blok over meerdere rijen */
+html body .tlBlock.tlSamen{z-index:3}
+html body .tlBlock.tlSamen .tlIn{justify-content:center}
+html body .tlBlock.tlSamen .tlTag{background:rgba(255,255,255,.12)!important;color:#e8ebf2!important}
+html body .tlSpoor{overflow:visible}
+@container (min-width:320px){ .tlBlock.tlSamen .tlIn{flex-direction:column;align-items:flex-start} .tlBlock.tlSamen .tlR1{max-width:100%} }
+</style>
+<style>
+/* Namen niet onnodig afkappen in brede blokken */
+html body.kvRood .tlBlock .tlR1 .tlNaam{max-width:none!important}
+@container (min-width:320px){ .tlR1{max-width:60%} }
+/* Groot blok: inhoud netjes linksboven, onder elkaar */
+html body.kvRood .tlBlock.tlSamen{align-items:flex-start!important;padding-top:9px!important}
+html body .tlBlock.tlSamen .tlIn{justify-content:flex-start!important;height:auto;gap:6px;flex-direction:column!important;align-items:flex-start!important}
+html body .tlBlock.tlSamen .tlR1{max-width:100%!important}
+html body .tlBlock.tlSamen .tlR2{flex-wrap:wrap;white-space:normal;row-gap:5px}
+html body .tlBlock.tlSamen .tlNoot{white-space:normal;flex-basis:100%!important}
+</style>
+<style>
+/* Telefoon en notitie duidelijk herkenbaar */
+html body .kvNaam small.kvOnder{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;white-space:normal;overflow:visible}
+.kvTel{display:inline-flex;align-items:center;gap:5px;color:#c3c9d8!important;font-variant-numeric:tabular-nums}
+.kvTel svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;color:#8890a4}
+.kvOnline{display:inline-flex;align-items:center;font-size:11px;font-weight:700;padding:1px 7px;border-radius:5px;background:color-mix(in srgb,var(--accent2) 14%,transparent);color:var(--accent2)!important}
+html body .kvNoot{display:flex!important;align-items:flex-start;gap:7px;padding:6px 10px;border-radius:8px;background:#1a2030;border:1px solid #222a3a;color:#d5dae6!important;-webkit-line-clamp:unset!important;max-width:520px}
+.kvNoot svg{width:14px;height:14px;flex:none;margin-top:2px;fill:none;stroke:#8890a4;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.kvNoot span{min-width:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word}
+</style>
+<style>
+html body .kvNoot{align-self:flex-start;width:fit-content}
+.kvOnline{white-space:nowrap}
+</style>
+<style>
+.tlDienst{display:inline-flex;gap:2px;padding:3px;border-radius:12px;background:#151a24;border:1px solid #222a3a}
+.tlDienst button{height:36px!important;min-width:0!important;padding:0 12px!important;border-radius:9px!important;border:none!important;background:transparent!important;color:#a9b1c4!important;font-weight:700;font-size:13px;box-shadow:none!important}
+.tlDienst button.on{background:var(--accent)!important;color:#fff!important}
+@media (max-width:520px){ .tlDienst button{padding:0 9px!important;font-size:12.5px} }
+</style>
+<style>
+/* Lunch en diner duidelijk gescheiden in de lijst */
+.dienstKop{display:flex;align-items:baseline;gap:12px;margin:18px 4px 10px;padding:0 0 8px;border-bottom:1px solid #1f2636}
+.dienstKop:first-child{margin-top:4px}
+.dienstKop b{font-size:18px;font-weight:800;color:#e8ebf2;display:inline-flex;align-items:center;gap:9px}
+.dienstKop b::before{content:'';width:10px;height:10px;border-radius:3px;background:var(--dk,#f5a623)}
+.dienstKop.dienstDiner{--dk:#7c8cff}
+.dienstKop span{font-size:13px;color:#8890a4}
+.kvDienst{color:#c3c9d8;font-weight:600}
+</style>
+<style>
+/* Geen vakken achter de rijen: dunne lijn ertussen, blokken staan vrij */
+html body.kvRood .tlSpoor::before{display:none!important}
+html body.kvRood .tlSpoor{border-bottom:1px solid #1a2030}
+html body.kvRood .tlRij.tlSleepDoel .tlSpoor{background-color:color-mix(in srgb,var(--accent) 10%,transparent)!important}
+</style>
+<style>
+/* ===== Tijdlijnblokken: beter gevuld ===== */
+.tlTijd{margin-left:auto;padding-left:8px;font-size:11.5px;font-weight:600;color:#8890a4;font-variant-numeric:tabular-nums;flex:none}
+.tlChip.tlAll{background:#3a1820!important;color:#ffb4b8!important}
+.tlExtra{display:none}
+/* Groot blok (meerdere tafels): alles onder elkaar, met telefoon en volledige notitie */
+html body .tlBlock.tlSamen .tlIn{width:100%;gap:7px}
+html body .tlBlock.tlSamen .tlR1{width:100%;max-width:100%!important}
+html body .tlBlock.tlSamen .tlR2 .tlNoot{display:none}
+html body .tlBlock.tlSamen .tlExtra{display:flex;flex-direction:column;gap:7px;width:100%;min-width:0}
+.tlTel{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:#c3c9d8;font-variant-numeric:tabular-nums}
+.tlTel svg,.tlNootVak svg{width:13px;height:13px;flex:none;fill:none;stroke:#8890a4;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tlExtra .kvOnline{align-self:flex-start}
+.tlNootVak{display:flex;align-items:flex-start;gap:7px;padding:7px 9px;border-radius:8px;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.06);font-size:12.5px;line-height:1.4;color:#d5dae6;white-space:normal;word-break:break-word;max-width:100%}
+.tlNootVak svg{margin-top:2px}
+/* Blok van één rij: tijd alleen tonen als er ruimte is */
+@container (max-width:210px){ .tlBlock:not(.tlSamen) .tlTijd{display:none} }
+/* Later vandaag: niet zo flets, wel rustiger */
+html body.kvRood .tlBlock.later{color:#d5dae6!important}
+html body.kvRood .tlBlock.later .tlChip{opacity:.9}
+</style>
+<style>
+html body .tlBlock.tlSamen .tlR1{flex-wrap:wrap;white-space:normal;row-gap:2px}
+html body .tlBlock.tlSamen .tlR2{flex-wrap:wrap}
+</style>
+<style>
+.tlR1 b small{font-size:11px;font-weight:600;color:inherit;opacity:.75}
+.tlStreep{color:#8890a4;font-weight:600;flex:none}
+.tlR1 .tlChip{margin-left:2px}
+/* Smal blok: eerst de tijd weg, dan het label */
+@container (max-width:160px){ .tlStreep{display:none} .tlR1 b small{display:none} }
+</style>
+<style>
+/* Altijd: regel 1 = personen, naam, label ... tijd rechts. Regel 2 = de rest. */
+@container (min-width:320px){
+  html body .tlBlock .tlIn{flex-direction:column!important;align-items:stretch!important;gap:2px!important}
+  html body .tlBlock .tlR1{max-width:100%!important;flex:none!important}
+}
+html body .tlBlock .tlR1{width:100%}
+html body.kvRood .tlBlock .tlR1 .tlNaam{flex:0 1 auto!important;min-width:20px;max-width:none!important;overflow:hidden;text-overflow:ellipsis}
+html body .tlBlock .tlR1 .tlChip,html body .tlBlock .tlR1 b,html body .tlBlock .tlR1 .tlStreep{flex:none!important}
+html body .tlBlock .tlR1 .tlTijd{flex:none!important;margin-left:auto!important}
+</style>
+<style>
+/* Naam gaat altijd voor. Te smal? Dan schuift het label naar regel 2, en daarna valt de tijd weg. */
+.tlLab1{display:inline-flex;gap:5px;flex:none}
+.tlLab2{display:none;gap:5px;flex:none}
+html body.kvRood .tlBlock .tlR1 .tlNaam{flex:0 1 auto!important}
+@container (max-width:270px){
+  html body .tlBlock:not(.tlSamen) .tlLab1{display:none}
+  html body .tlBlock:not(.tlSamen) .tlLab2{display:inline-flex}
+}
+@container (max-width:190px){
+  html body .tlBlock:not(.tlSamen) .tlTijd{display:none}
+}
+</style>
+<style>
+/* ===== Eén regel per blok: personen - naam, menu, notitie ... tijd rechts ===== */
+html body .tlBlock:not(.tlSamen) .tlR2{display:none!important}
+html body .tlBlock:not(.tlSamen) .tlIn{justify-content:center!important}
+html body .tlBlock:not(.tlSamen) .tlLab1{display:inline-flex!important}
+html body .tlBlock .tlR1 .tlNoot1{flex:0 1 auto!important;min-width:0;font-size:12px;color:#a9b1c4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html body .tlBlock.tlSamen .tlR1 .tlNoot1{display:none}
+html body .tlBlock.tlSamen .tlR1 .tlLab1 .tlAll{display:none}
+/* Smal: eerst notitie weg, dan tijd, dan het menu */
+@container (max-width:300px){ html body .tlBlock .tlR1 .tlNoot1{display:none} }
+@container (max-width:250px){ html body .tlBlock:not(.tlSamen) .tlTijd{display:none} }
+@container (max-width:215px){ html body .tlBlock:not(.tlSamen) .tlLab1{display:none!important} }
+</style>
+<style>
+/* Tafelnummers niet in de tijdlijnblokken: die staan al in de zijkolom */
+html body .tlBlock .tlTag{display:none!important}
+</style>
+<style>
+/* Notitie op een blok van één tafel: in een eigen vakje met icoontje */
+html body .tlBlock .tlR1 .tlNoot1{display:inline-flex;align-items:center;gap:6px;flex:0 1 auto!important;min-width:0;max-width:100%;
+  padding:2px 9px;border-radius:7px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.08);font-size:12px;color:#d5dae6;line-height:1.5}
+.tlNoot1 svg{width:12px;height:12px;flex:none;fill:none;stroke:#8890a4;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tlNoot1 span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+</style>
+<style>
+/* Naam krijgt voorrang boven het notitievakje */
+html body.kvRood .tlBlock .tlR1 .tlNaam{flex:0 0 auto!important;max-width:60%!important}
+html body .tlBlock .tlR1 .tlNoot1{flex:0 1 auto!important;min-width:40px}
+</style>
+<style>
+/* Geen telefoonnummer in de tijdlijn */
+html body .tlBlock .tlTel{display:none!important}
+</style>
+<style>
+/* Tijdlijn tot onderaan, zonder grijze balk */
+html body.kvRood .tlWrap{background:#0e1117!important;scrollbar-width:thin;scrollbar-color:#2a3346 transparent}
+html body.kvRood .tlWrap::-webkit-scrollbar{height:8px;width:8px;background:transparent}
+html body.kvRood .tlWrap::-webkit-scrollbar-thumb{background:#2a3346;border-radius:8px}
+html body.kvRood .tlWrap::-webkit-scrollbar-track,html body.kvRood .tlWrap::-webkit-scrollbar-corner{background:transparent}
+html body.kvRood .tlBody{min-height:calc(100% - 42px);background-image:linear-gradient(90deg,#0e1117 62px,transparent 62px)}
+html body.kvRood.kaartVol #content,html body.kvRood.viewTafels #content{background:#0e1117;padding-bottom:0!important}
+</style>
+<style>
+/* Plattegrond: geen knop "Reservering toevoegen", je tikt op een tafel */
+html body.viewKaart #fabAdd{display:none!important}
+</style>
 </body>
 </html>
