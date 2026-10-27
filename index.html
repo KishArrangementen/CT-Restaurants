@@ -6131,7 +6131,7 @@ function instTijden(){
       const s = schemaVoorDatum(iso);
       const soort = soortVan(iso);
       const voorbij = iso < vandaag;
-      const lab = soort === 'dicht' ? 'dicht' : soort === 'eigen' ? 'eigen tijden' : (isOpen(s) ? 'vaste week' : 'dicht');
+      const lab = !isOpen(s) ? 'dicht' : soort === 'eigen' ? 'aangepast' : 'open';
       if(dagKeuze === iso) gekozenIdx = j;
       html += `<button type="button" class="otBDag otBRij ${voorbij ? 'voorbij' : ''} ${iso === vandaag ? 'nu' : ''} ${dagKeuze === iso ? 'gekozen' : ''}" data-iso="${iso}" aria-pressed="${dagKeuze === iso}">
         <span class="otBLab"><b>${DAGKORT[d.getDay()]} ${d.getDate()}</b><small class="${soort !== 'vast' ? 'afw' : ''}">${lab}</small></span>
@@ -6155,29 +6155,37 @@ function instTijden(){
     return `Week ${weekNr(a)} <span class="otBDatum">${f(a)} t/m ${f(b)}</span>`;
   };
 
-  // Paneel onder de week voor de gekozen dag
+  // Paneel onder de week voor de gekozen dag. Je ziet meteen lunch en diner:
+  // aan of uit zetten en de tijden kiezen, en dat geldt alleen voor die dag.
   const dagPaneel = () => {
-    if(!dagKeuze) return '<div class="otBPaneel otBHint">Tik op een dag om hem aan te passen.</div>';
-    const iso = dagKeuze, soort = soortVan(iso), wd = new Date(iso + 'T12:00:00').getDay();
-    const pil = soort === 'dicht' ? '<span class="otBPil rood">Dicht</span>' : soort === 'eigen' ? '<span class="otBPil eigen">Eigen tijden</span>' : '<span class="otBPil">Vaste week</span>';
-    const kop = `<div class="otDagKop otBPKop"><b>${esc(datumLang(iso))}</b>${pil}<button type="button" class="otDagSluit" aria-label="Sluiten">&times;</button></div>`;
-    if(iso < vandaag) return `<div class="otBPaneel">${kop}<div class="otWkHint">Deze dag is al geweest.</div></div>`;
-    const vastDicht = VAST_DICHT.includes(wd);
-    const knop = (k, tekst) => `<button type="button" data-soort="${k}" class="${soort === k ? 'on' : ''}" aria-pressed="${soort === k}">${tekst}</button>`;
-    let body = '';
-    if(soort === 'vast'){
-      const s = t.week[wd];
-      body = `<div class="otDagVast">${vastDicht || !isOpen(s) ? 'Volgens de vaste week is het deze dag dicht. Kies Eigen tijden om deze ene dag toch open te gaan.'
-        : 'Volgens de vaste week: ' + DIENSTEN.filter(([dn]) => s[dn] && s[dn].aan && tijdenUit(s[dn]).length).map(([dn, naam]) => naam.toLowerCase() + ' ' + esc(bereik(s[dn]))).join(', ') + '.'}</div>
-        ${vastDicht ? '' : `<button type="button" class="otLink" id="otNaarVast" data-wd="${wd}">Vaste ${esc(DAGNAMEN[wd].toLowerCase())} aanpassen</button>`}`;
-    } else if(soort === 'dicht'){
-      body = '<div class="otDagVast">Deze dag kan niemand online boeken. Bestaande reserveringen blijven staan.</div>';
-    } else {
-      body = editor('d' + iso, true);
+    if(!dagKeuze) return '<div class="otBPaneel otBHint">Tik op een dag om hem open of dicht te zetten of de tijden te veranderen.</div>';
+    const iso = dagKeuze, wd = new Date(iso + 'T12:00:00').getDay();
+    const kop = (extra) => `<div class="otDagKop otBPKop"><b>${esc(datumLang(iso))}</b>${extra || ''}<button type="button" class="otDagSluit" aria-label="Sluiten">&times;</button></div>`;
+    if(iso < vandaag) return `<div class="otBPaneel">${kop()}<div class="otWkHint">Deze dag is al geweest.</div></div>`;
+    // Nog niets aangepast? Dan beginnen we met de gewone tijden van die weekdag.
+    if((t.dicht || []).includes(iso)){
+      const s = kopie(t.dagen[iso] || t.week[wd] || standaardDienst(false));
+      DIENSTEN.forEach(([dn]) => { if(s[dn]) s[dn].aan = false; });
+      t.dicht = t.dicht.filter(x => x !== iso);
+      t.dagen[iso] = s;
     }
-    return `<div class="otBPaneel">${kop}
-      <div class="otSeg otDagSoort otBSeg">${knop('vast','Vaste week')}${knop('eigen','Eigen tijden')}${knop('dicht','Dicht')}</div>
-      ${body}</div>`;
+    if(!t.dagen[iso]){
+      const s = kopie(t.week[wd] || standaardDienst(false));
+      const std = standaardDienst(false);
+      DIENSTEN.forEach(([dn]) => { if(!s[dn] || !s[dn].start) s[dn] = std[dn]; });
+      delete s._was;
+      t.dagen[iso] = s;
+    }
+    const bewaard = getTijden();
+    const aangepast = !!bewaard.dagen[iso] || (bewaard.dicht || []).includes(iso);
+    const open = isOpen(t.dagen[iso]);
+    const pil = !open ? '<span class="otBPil rood">Dicht</span>' : aangepast ? '<span class="otBPil eigen">Aangepast</span>' : '<span class="otBPil open">Open</span>';
+    return `<div class="otBPaneel">${kop(pil)}
+      ${editor('d' + iso, true)}
+      <div class="otBDagVoet">
+        ${open ? '<button type="button" class="otBKnop otBRood" id="otDagDicht">Hele dag dicht</button>' : ''}
+        ${aangepast ? '<button type="button" class="otBKnop" id="otDagTerug">Terug naar de gewone tijden</button>' : ''}
+      </div></div>`;
   };
 
   // Vandaag online boeken: hetzelfde als de wereldbol bovenin de lijst
@@ -6194,7 +6202,7 @@ function instTijden(){
   };
 
   const inhoud = () => {
-    const vast = _otWeergave === 'vast';
+    const vast = false;
     const uz = uitzonderingen();
     let lijst = [];
     if(vast) lijst = VOLGORDE.map(d => VAST_DICHT.includes(d) ? null : t.week[d]);
@@ -6210,7 +6218,6 @@ function instTijden(){
         <div class="otBWeek">${vast ? 'Vaste week <span class="otBDatum">geldt voor elke week</span>' : weekTitel()}</div>
       </div>
       <div class="otBKnoppen">
-        <div class="otSeg otBSeg" id="otWeergave"><button type="button" data-w="week" class="${vast ? '' : 'on'}" aria-pressed="${!vast}">Per week</button><button type="button" data-w="vast" class="${vast ? 'on' : ''}" aria-pressed="${vast}">Vaste week</button></div>
         ${vast ? '' : `<button type="button" class="otBRond" id="otWkTerug" aria-label="Vorige week" ${_weekOffset <= 0 ? 'disabled' : ''}>&#8249;</button>
         <button type="button" class="otBKnop" id="otWkNu" ${_weekOffset === 0 ? 'disabled' : ''}>Deze week</button>
         <button type="button" class="otBRond" id="otWkVerder" aria-label="Volgende week" ${_weekOffset >= 52 ? 'disabled' : ''}>&#8250;</button>`}
@@ -6222,7 +6229,7 @@ function instTijden(){
     <div class="otBPaneel otBBalkPaneel">
       ${schaalHTML(sc)}
       <div class="otBRijen">${vast ? vasteDagen(sc) : weekDagen(sc)}</div>
-      <div class="otBLegenda"><span><i class="g"></i>Open</span>${vast ? '' : '<span><i class="r"></i>Eigen tijden</span>'}<span><i class="d"></i>Dicht</span></div>
+      <div class="otBLegenda"><span><i class="g"></i>Open</span>${vast ? '' : '<span><i class="r"></i>Aangepast</span>'}<span><i class="d"></i>Dicht</span></div>
     </div>
 
     ${vast ? editorVast : dagPaneel()}
@@ -6238,6 +6245,16 @@ function instTijden(){
   function koppelExtra(){
     doos.querySelectorAll('#otWeergave button').forEach(b => b.onclick = () => { _otWeergave = b.dataset.w; open = null; teken(); });
     const nv = doos.querySelector('#otNaarVast'); if(nv) nv.onclick = () => { _otWeergave = 'vast'; open = 'w' + nv.dataset.wd; teken(); };
+    const dd = doos.querySelector('#otDagDicht'); if(dd) dd.onclick = () => {
+      const iso = dagKeuze;
+      vraag(`<b>${esc(datumLang(iso))} dicht?</b><br><br>Gasten kunnen die dag niet meer online boeken. Bestaande reserveringen blijven staan.`, () => {
+        delete t.dagen[iso]; t.dicht = [...new Set([...(t.dicht||[]), iso])]; opslaan(datumKort(iso) + ' is dicht'); teken();
+      });
+    };
+    const dt = doos.querySelector('#otDagTerug'); if(dt) dt.onclick = () => {
+      const iso = dagKeuze; delete t.dagen[iso]; t.dicht = (t.dicht||[]).filter(x => x !== iso);
+      opslaan(datumKort(iso) + ' heeft weer de gewone tijden'); teken();
+    };
     const vs = doos.querySelector('#otVastSluit'); if(vs) vs.onclick = () => { open = null; teken(); };
     doos.querySelectorAll('input[data-online]').forEach(inp => inp.onchange = () => {
       window.onlineZet(vandaag, inp.dataset.online, inp.checked);
@@ -6256,7 +6273,7 @@ function instTijden(){
   const pg = instPagina([{n:'Instellingen', ga:toonInstellingen},{n:'Openingstijden', ga:instTijden}], '<div id="otPagina"></div>');
   const doos = pg.querySelector('#otPagina');
 
-  const opslaan = (melding) => { zetTijden(t); if(melding) toast(melding); };
+  const opslaan = (melding) => { Object.keys(t.dagen || {}).forEach(iso => { if(isOpen(t.dagen[iso])) t.dicht = (t.dicht||[]).filter(x => x !== iso); }); zetTijden(t); if(melding) toast(melding); };
   const teken = () => {
     const scroll = (pg.querySelector('.instWrap') || {}).scrollTop || 0;
     doos.innerHTML = inhoud();
@@ -11374,7 +11391,9 @@ html body .kvInst .instSub{font-size:13.5px;color:#8890a4;margin:6px 0 18px}
 .otBPKop b{flex:1;font-size:16px;font-weight:700;color:#e8ebf2}
 .otBKlein{font-size:12.5px;color:#8890a4}
 .otBPil{font-size:11.5px;font-weight:700;padding:4px 9px;border-radius:7px;background:#1a2030;color:#c3c9d8;white-space:nowrap}
-.otBPil.eigen{background:#2a1a20;color:#ff9aa2}.otBPil.rood{background:#331417;color:#ff9aa2}
+.otBPil.eigen{background:#2a1a20;color:#ff9aa2}.otBPil.open{background:#0f2e24;color:#4ade9b}
+.otBDagVoet{display:flex;gap:8px;flex-wrap:wrap}.otBDagVoet:empty{display:none}
+.otBRood{color:#ff9aa2!important}.otBPil.rood{background:#331417;color:#ff9aa2}
 .otBPKop .otDagSluit{width:40px;height:40px;border-radius:11px;border:1px solid #222a3a;background:#151a24;color:#a9b1c4;font-size:20px;flex:none}
 .otBOnRij{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .otBOn{display:flex;align-items:center;gap:12px;border-radius:12px;padding:12px 14px;background:#1a2030}
