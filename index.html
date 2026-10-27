@@ -5791,33 +5791,101 @@ const instInp = 'background:var(--panel2);border:1px solid var(--line);border-ra
 window.openInstellingen = ()=>{ closeDrawer(); vraagPin((rol)=>{ isEigenaar = (rol === 'eigenaar'); toonInstellingen(); }); };
 
 // Paginaraamwerk zoals de DISH-instellingen: oranje kop, kruimelpad, inhoudskaart
-function instPagina(kruimels, inhoud){
-  // Het omhulsel blijft staan en alleen de inhoud wisselt. Zou de hele
-  // pagina worden weggegooid en opnieuw opgebouwd, dan zie je bij elke
-  // stap de achtergrond en de openingsanimatie opnieuw: dat oogt als
-  // geflikker.
-  let pg = document.querySelector('.instPage');
-  const nieuw = !pg;
-  if(nieuw){
-    pg = document.createElement('div');
-    pg.className = 'instPage';
-  }
-  pg.innerHTML = `
-    <div class="instTop">
-      <button type="button" class="btn ghost" id="instTerug">&#8249; Terug</button>
-      <span class="instMerk"><img src="${KEVORA_LOGO_WIT}" alt="" class="kvLogo"></span>
-    </div>
-    ${kruimels.length>1 ? `<div class="instCrumb">${kruimels.map((k,i)=> i<kruimels.length-1 ? `<a data-i="${i}">${esc(k.n)}</a><em>/</em>` : `<b>${esc(k.n)}</b>`).join('')}</div>` : ''}
-    <div class="instWrap"><div class="instCard">${inhoud}</div></div>`;
-  if(nieuw) document.body.appendChild(pg);
-  else { const w = pg.querySelector('.instWrap'); if(w) w.scrollTop = 0; }
-  pg.querySelector('#instTerug').onclick = ()=>{
-    if(kruimels.length>1) kruimels[kruimels.length-2].ga(); else { isEigenaar = false; pg.remove(); }
+// Instellingen: lijst links, gekozen pagina rechts. Op de telefoon wordt de
+// lijst een schuifbalk bovenaan. Elke pagina roept instPagina() aan zoals
+// voorheen, alleen het omhulsel is anders.
+function instMenu(){
+  const tijdenNu = () => {
+    try{
+      const t = getTijden();
+      const open = [1,2,3,4,5,6,0].filter(d => t.week[d] && ((t.week[d].lunch||{}).aan || (t.week[d].diner||{}).aan));
+      return open.length === 7 ? 'elke dag' : open.length ? open.length + ' dagen' : 'dicht';
+    }catch(_){ return ''; }
   };
-  pg.querySelectorAll('.instCrumb a').forEach(a=> a.onclick = ()=> kruimels[+a.dataset.i].ga());
+  const groepen = [
+    { g:'Dagelijks', items:[
+      { id:'rTijden', n:'Openingstijden', ga:()=>{ _weekOffset = 0; instTijden(); }, info:tijdenNu, aan:()=>true },
+      { id:'rCijfers', n:'Cijfers', ga:instCijfers },
+      { id:'rBerichten', n:'Gastberichten', ga:instBerichten, info:()=> (store.get('ct_berichten', {}) || {}).aan ? 'aan' : 'uit', aan:()=> !!(store.get('ct_berichten', {}) || {}).aan },
+      { id:'rPagina', n:'Reserveringspagina', ga:instPaginaWeb },
+      { id:'rArchief', n:'Dagarchief', ga:instArchief },
+      { id:'rZalen', n:'Zalen & Tafels', ga:instZalen, info:()=> String(LOCS.reduce((a,l)=> a + tafelsVoor(l).length, 0)) },
+      { id:'rBackup', n:'Reservekopie', ga:instBackup }
+    ]}
+  ];
+  if(isEigenaar) groepen.push({ g:'Eigenaar', items:[
+    { id:'rManagers', n:'Managers', ga:instManagers },
+    { id:'rVangnet', n:'Extern vangnet', ga:instVangnet, info:()=> reserveKlaar() ? 'aan' : 'uit', aan:()=> reserveKlaar() }
+  ]});
+  return groepen;
+}
+
+function instPagina(kruimels, inhoud){
+  let pg = document.querySelector('.instPage');
+  if(!pg){
+    pg = document.createElement('div');
+    pg.className = 'instPage kvInst';
+    pg.innerHTML = '<nav class="kvIZij" aria-label="Instellingen"></nav><div class="kvIHoofd"><div class="kvIKruim"></div><div class="instWrap"><div class="instCard"></div></div></div>';
+    document.body.appendChild(pg);
+  }
+  const actief = (kruimels[1] || {}).n || 'Openingstijden';
+  const groepen = instMenu();
+  let actiefId = '';
+  const zij = pg.querySelector('.kvIZij');
+  const zijScroll = zij.scrollTop, zijLinks = zij.scrollLeft;
+  zij.innerHTML = `
+    <div class="kvIZijKop">
+      <button type="button" class="kvIRond" id="instTerug" aria-label="Terug naar de reserveringen"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+      <h1>Instellingen</h1>
+    </div>
+    ${groepen.map(g => `<div class="kvIGroep">${esc(g.g)}</div>` + g.items.map(it => {
+      const is = it.n === actief; if(is) actiefId = it.id;
+      let info = ''; try{ info = it.info ? it.info() : ''; }catch(_){}
+      let aan = false; try{ aan = it.aan ? it.aan() : false; }catch(_){}
+      return `<button type="button" class="kvIMenu ${is ? 'actief' : ''}" data-id="${it.id}" ${is ? 'aria-current="page"' : ''}><span class="kvIStip ${aan ? 'aan' : ''}"></span><span class="kvINaam">${esc(it.n)}</span><span class="kvIInfo">${esc(info)}</span></button>`;
+    }).join('')).join('')}
+    <div class="kvIVoet">${esc(KLANT.merk)} &middot; ${esc(LOCS[0] || '')}</div>`;
+  zij.scrollTop = zijScroll; zij.scrollLeft = zijLinks;
+  zij.querySelector('#instTerug').onclick = () => { isEigenaar = false; document.body.classList.remove('rpVbAan','rpVbOpen'); pg.remove(); };
+  zij.querySelectorAll('.kvIMenu').forEach(b => b.onclick = () => {
+    const it = groepen.flatMap(g => g.items).find(x => x.id === b.dataset.id);
+    if(!it) return;
+    document.body.classList.remove('rpVbAan','rpVbOpen');
+    it.ga();
+  });
+
+  // Dieper dan een pagina (zoals de tafels van een zaal): een terugknop erboven
+  const kr = pg.querySelector('.kvIKruim');
+  kr.innerHTML = kruimels.length > 2
+    ? `<button type="button" class="kvIKruimKnop"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>${esc(kruimels[kruimels.length-2].n)}</button>`
+    : '';
+  const kk = kr.querySelector('.kvIKruimKnop'); if(kk) kk.onclick = () => kruimels[kruimels.length-2].ga();
+
+  const kaart = pg.querySelector('.instCard');
+  kaart.innerHTML = inhoud;
+  const w = pg.querySelector('.instWrap'); if(w) w.scrollTop = 0;
+  pg.dataset.pagina = actiefId;
+  // Vraagteken achter de titel, met uitleg in gewone taal
+  window.instZetHulp = () => {
+  const h = kaart.querySelector('.instH');
+  if(h && INST_HULP[actiefId] && kruimels.length <= 2 && !h.querySelector('.instHulp')){
+    const k = document.createElement('button');
+    k.type = 'button'; k.className = 'instHulp'; k.textContent = '?';
+    k.setAttribute('aria-label', 'Wat doet ' + actief + '?');
+    k.onclick = (e) => { e.stopPropagation(); toonHulp(actiefId); };
+    h.appendChild(k);
+  }
+  };
+  window.instZetHulp();
+  // Op de telefoon het gekozen onderdeel in beeld schuiven
+  if(window.matchMedia('(max-width:820px)').matches){
+    const a = zij.querySelector('.kvIMenu.actief');
+    if(a) a.scrollIntoView({ inline:'center', block:'nearest' });
+  }
   return pg;
 }
-window.sluitInstellingen = ()=>{ isEigenaar = false; const p = document.querySelector('.instPage'); if(p) p.remove(); };
+
+window.sluitInstellingen = ()=>{ isEigenaar = false; document.body.classList.remove('rpVbAan','rpVbOpen'); const p = document.querySelector('.instPage'); if(p) p.remove(); };
 
 /* Uitleg bij elke instelling, voor collega's die niet weten wat iets doet */
 const INST_HULP = {
@@ -5847,7 +5915,9 @@ function toonHulp(id){
   ov.querySelector('#instHulpOk').onclick = weg;
 }
 
-function toonInstellingen(){
+// Instellingen openen op de eerste pagina; de lijst staat er altijd naast.
+function toonInstellingen(){ _weekOffset = 0; instTijden(); }
+function toonInstellingenOud(){
   const ico = {
     archief:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/>',
     verkocht:'<path d="M4 8h16l-1.2 11a2 2 0 0 1-2 1.8H7.2a2 2 0 0 1-2-1.8Z"/><path d="M8.5 8V6a3.5 3.5 0 0 1 7 0v2"/>',
@@ -5917,7 +5987,8 @@ function toonInstellingen(){
 }
 
 let _tijdenTab = String(new Date().getDay());   // welk dagtabblad open staat
-let _weekOffset = 0;   // 0 = het vaste weekschema, anders een concrete week
+let _weekOffset = 0;
+let _otWeergave = 'week';   // 'week' of 'vast'   // 0 = het vaste weekschema, anders een concrete week
 
 function instTijden(){
   /* Openingstijden, opnieuw opgezet zodat het in een oogopslag te snappen is.
@@ -6018,93 +6089,169 @@ function instTijden(){
     </div>`;
   };
 
-  // ---------- Weekplanner: maandag t/m zondag ----------
+  // ---------- Weekplanner: per dag een tijdbalk ----------
   const maandagVan = (iso) => { const d = new Date(iso + 'T12:00:00'); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return d; };
   const weekStart = () => { const d = maandagVan(vandaag); d.setDate(d.getDate() + _weekOffset * 7); return d; };
   const weekNr = (d) => { const x = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())); const dag = x.getUTCDay() || 7; x.setUTCDate(x.getUTCDate() + 4 - dag); const j = new Date(Date.UTC(x.getUTCFullYear(),0,1)); return Math.ceil(((x - j) / 86400000 + 1) / 7); };
   const soortVan = (iso) => (t.dicht||[]).includes(iso) ? 'dicht' : (t.dagen[iso] ? 'eigen' : 'vast');
   const bereik = (d) => { const l = tijdenUit(d); return l.length ? l[0] + ' - ' + l[l.length-1] : ''; };
 
+  // Welke uren de balk laat zien: minstens 10:00 tot 24:00, ruimer als het moet
+  const schaalVan = (lijst) => {
+    let lo = 1e9, hi = -1e9;
+    lijst.forEach(s => DIENSTEN.forEach(([dn]) => {
+      const l = s && s[dn] ? tijdenUit(s[dn]) : [];
+      if(l.length){ lo = Math.min(lo, tijdNaarMin(l[0])); hi = Math.max(hi, tijdNaarMin(l[l.length-1])); }
+    }));
+    if(lo > hi){ lo = 11*60; hi = 22*60; }
+    lo = Math.floor(lo / 60) * 60 - 60; hi = Math.ceil(hi / 60) * 60 + 60;
+    if(hi - lo < 6*60) hi = lo + 6*60;
+    lo = Math.max(0, lo); hi = Math.min(26*60, hi);
+    return { lo, hi, stap: hi - lo > 10*60 ? 120 : 60 };
+  };
+  const pct = (m, sc) => ((Math.max(sc.lo, Math.min(sc.hi, m)) - sc.lo) / (sc.hi - sc.lo) * 100).toFixed(2) + '%';
+  const schaalHTML = (sc) => { let h = '<div class="otBSchaal" aria-hidden="true">'; for(let u = sc.lo; u <= sc.hi; u += sc.stap) h += `<span style="left:${pct(u, sc)}">${String((u/60) % 24).padStart(2,'0')}</span>`; return h + '</div>'; };
+  const lijnen = (sc) => { let h = ''; for(let u = sc.lo + sc.stap; u < sc.hi; u += sc.stap) h += `<i class="otBLijn" style="left:${pct(u, sc)}"></i>`; return h; };
+  const balken = (s, sc, eigen, dichtTekst) => {
+    let h = '';
+    DIENSTEN.forEach(([dn, naam]) => {
+      const l = s && s[dn] ? tijdenUit(s[dn]) : [];
+      if(!l.length) return;
+      const a = tijdNaarMin(l[0]), b = Math.max(tijdNaarMin(l[l.length-1]), a + 20);
+      h += `<span class="otBBalk ${eigen ? 'eigen' : ''}" style="left:${pct(a, sc)};width:calc(${pct(b, sc)} - ${pct(a, sc)})"><span class="otBIn"><span class="otBN">${naam}</span><span>${esc(l[0])}</span><span class="otBR">tot ${esc(l[l.length-1])}</span></span></span>`;
+    });
+    return h || `<span class="otBDicht">${dichtTekst || 'Dicht'}</span>`;
+  };
+
   let gekozenIdx = -1;
-  const weekDagen = () => {
+  const weekDagen = (sc) => {
     const d = weekStart(); let html = ''; gekozenIdx = -1;
     for(let j = 0; j < 7; j++){
       const iso = lokaleDatum(d);
       const s = schemaVoorDatum(iso);
-      const op = isOpen(s);
-      const voorbij = iso < vandaag;
       const soort = soortVan(iso);
-      const regels = op
-        ? DIENSTEN.map(([dn, naam]) => s[dn] && s[dn].aan && tijdenUit(s[dn]).length ? `<span class="otWkDienst"><em>${naam}</em><span>${esc(tijdenUit(s[dn])[0])}<span class="otWkTot">-${esc(tijdenUit(s[dn]).slice(-1)[0])}</span></span></span>` : '').join('')
-        : `<span class="otWkDicht">${soort === 'dicht' ? 'Uitzondering: dicht' : 'Gesloten'}</span>`;
+      const voorbij = iso < vandaag;
+      const lab = soort === 'dicht' ? 'dicht' : soort === 'eigen' ? 'eigen tijden' : (isOpen(s) ? 'vaste week' : 'dicht');
       if(dagKeuze === iso) gekozenIdx = j;
-      html += `<button type="button" style="order:${j*2}" class="otWkDag ${op ? '' : 'dicht'} ${voorbij ? 'voorbij' : ''} ${iso === vandaag ? 'nu' : ''} ${dagKeuze === iso ? 'gekozen' : ''} ${soort !== 'vast' ? 'afwijkend' : ''}" data-iso="${iso}">
-        <span class="otWkNaam">${DAGKORT[d.getDay()]} <b>${d.getDate()}</b>${iso === vandaag ? '<i>vandaag</i>' : ''}</span>
-        ${regels}
-        ${soort === 'eigen' ? '<span class="otWkLabel">eigen tijden</span>' : ''}
-        <span class="otWkPijl">&#8250;</span>
+      html += `<button type="button" class="otBDag otBRij ${voorbij ? 'voorbij' : ''} ${iso === vandaag ? 'nu' : ''} ${dagKeuze === iso ? 'gekozen' : ''}" data-iso="${iso}" aria-pressed="${dagKeuze === iso}">
+        <span class="otBLab"><b>${DAGKORT[d.getDay()]} ${d.getDate()}</b><small class="${soort !== 'vast' ? 'afw' : ''}">${lab}</small></span>
+        <span class="otBBaan">${lijnen(sc)}${balken(s, sc, soort === 'eigen', soort === 'dicht' ? 'Dicht deze dag' : 'Dicht')}</span>
       </button>`;
       d.setDate(d.getDate() + 1);
     }
     return html;
   };
+  const vasteDagen = (sc) => VOLGORDE.map(dag => {
+    const k = 'w' + dag, s = t.week[dag], vd = VAST_DICHT.includes(dag);
+    return `<div class="otBWrap" data-k="${k}"><button type="button" class="otBVast otBRij ${open === k ? 'gekozen' : ''}" ${vd ? 'data-vast="1"' : ''} aria-pressed="${open === k}">
+      <span class="otBLab"><b>${DAGKORT[dag]}</b><small>${vd ? 'vast dicht' : isOpen(s) ? 'open' : 'dicht'}</small></span>
+      <span class="otBBaan">${lijnen(sc)}${balken(vd ? null : s, sc, false, vd ? 'Vast dicht' : 'Dicht')}</span>
+    </button></div>`;
+  }).join('');
 
   const weekTitel = () => {
     const a = weekStart(); const b = new Date(a); b.setDate(b.getDate() + 6);
     const f = x => x.getDate() + ' ' + MAAND[x.getMonth()];
-    return `<b>Week ${weekNr(a)}</b><span>${f(a)} t/m ${f(b)}${_weekOffset === 0 ? ' &middot; deze week' : _weekOffset === 1 ? ' &middot; volgende week' : ''}</span>`;
+    return `Week ${weekNr(a)} <span class="otBDatum">${f(a)} t/m ${f(b)}</span>`;
   };
 
   // Paneel onder de week voor de gekozen dag
   const dagPaneel = () => {
-    if(!dagKeuze) return '<div class="otWkHint">Tik op een dag om die dag aan te passen.</div>';
+    if(!dagKeuze) return '<div class="otBPaneel otBHint">Tik op een dag om hem aan te passen.</div>';
     const iso = dagKeuze, soort = soortVan(iso), wd = new Date(iso + 'T12:00:00').getDay();
-    const kop = `<div class="otDagKop"><b>${esc(datumLang(iso))}</b><button type="button" class="otDagSluit" aria-label="Sluiten">&times;</button></div>`;
-    if(iso < vandaag) return `<div class="otDagPaneel">${kop}<div class="otWkHint">Deze dag is al geweest.</div></div>`;
+    const pil = soort === 'dicht' ? '<span class="otBPil rood">Dicht</span>' : soort === 'eigen' ? '<span class="otBPil eigen">Eigen tijden</span>' : '<span class="otBPil">Vaste week</span>';
+    const kop = `<div class="otDagKop otBPKop"><b>${esc(datumLang(iso))}</b>${pil}<button type="button" class="otDagSluit" aria-label="Sluiten">&times;</button></div>`;
+    if(iso < vandaag) return `<div class="otBPaneel">${kop}<div class="otWkHint">Deze dag is al geweest.</div></div>`;
     const vastDicht = VAST_DICHT.includes(wd);
-    const knop = (k, tekst) => `<button type="button" data-soort="${k}" class="${soort === k ? 'on' : ''}">${tekst}</button>`;
+    const knop = (k, tekst) => `<button type="button" data-soort="${k}" class="${soort === k ? 'on' : ''}" aria-pressed="${soort === k}">${tekst}</button>`;
     let body = '';
     if(soort === 'vast'){
       const s = t.week[wd];
-      body = `<div class="otDagVast">${vastDicht || !isOpen(s) ? 'Volgens de vaste week is het deze dag dicht.'
-        : 'Volgens de vaste week: ' + DIENSTEN.filter(([dn]) => s[dn] && s[dn].aan && tijdenUit(s[dn]).length).map(([dn, naam]) => naam.toLowerCase() + ' ' + esc(bereik(s[dn]))).join(', ') + '.'}</div>`;
+      body = `<div class="otDagVast">${vastDicht || !isOpen(s) ? 'Volgens de vaste week is het deze dag dicht. Kies Eigen tijden om deze ene dag toch open te gaan.'
+        : 'Volgens de vaste week: ' + DIENSTEN.filter(([dn]) => s[dn] && s[dn].aan && tijdenUit(s[dn]).length).map(([dn, naam]) => naam.toLowerCase() + ' ' + esc(bereik(s[dn]))).join(', ') + '.'}</div>
+        ${vastDicht ? '' : `<button type="button" class="otLink" id="otNaarVast" data-wd="${wd}">Vaste ${esc(DAGNAMEN[wd].toLowerCase())} aanpassen</button>`}`;
     } else if(soort === 'dicht'){
       body = '<div class="otDagVast">Deze dag kan niemand online boeken. Bestaande reserveringen blijven staan.</div>';
     } else {
       body = editor('d' + iso, true);
     }
-    return `<div class="otDagPaneel">${kop}
-      <div class="otSeg otDagSoort">${knop('vast','Vaste week')}${knop('eigen','Eigen tijden')}${knop('dicht','Dicht')}</div>
+    return `<div class="otBPaneel">${kop}
+      <div class="otSeg otDagSoort otBSeg">${knop('vast','Vaste week')}${knop('eigen','Eigen tijden')}${knop('dicht','Dicht')}</div>
       ${body}</div>`;
   };
 
-  const inhoud = () => {
-    const uz = uitzonderingen();
-    return `
-    <div class="instH">Openingstijden</div>
-    <div class="instSub">Wanneer gasten online kunnen boeken. Aanpassingen staan meteen live.</div>
+  // Vandaag online boeken: hetzelfde als de wereldbol bovenin de lijst
+  const vandaagOnline = () => {
+    if(typeof window.onlineStand !== 'function') return '';
+    const st = window.onlineStand(vandaag), s = schemaVoorDatum(vandaag);
+    const kaart = ([dn, naam]) => {
+      const w = st[dn];
+      const l = w === 'open' ? tijdenUit(s[dn]) : [];
+      return `<div class="otBOn ${w}"><div class="otBOnTxt"><b>${naam}</b><small>${w === 'open' ? 'Open tot ' + esc(l[l.length-1] || '') : w === 'dicht' ? 'Dicht voor online boeken' : 'Vandaag niet open'}</small></div>
+        ${w === 'nvt' ? '' : `<label class="otSchakel"><input type="checkbox" data-online="${dn}" ${w === 'open' ? 'checked' : ''} aria-label="${naam} online"><span></span></label>`}</div>`;
+    };
+    return `<div class="otBPaneel"><div class="otBPKop"><b>Vandaag online boeken</b><span class="otBKlein">${esc(datumLang(vandaag))}</span></div><div class="otBOnRij">${DIENSTEN.map(kaart).join('')}</div></div>`;
+  };
 
-    <div class="otPlanner">
-      <div class="otWeekKop">
-        <span class="otWkTitel">${weekTitel()}</span>
-        <span class="otWeekNav">
-          <button type="button" id="otWkTerug" aria-label="Vorige week" ${_weekOffset <= 0 ? 'disabled' : ''}>&#8249;</button>
-          ${_weekOffset > 0 ? '<button type="button" id="otWkNu" class="otWkNu">Deze week</button>' : ''}
-          <button type="button" id="otWkVerder" aria-label="Volgende week" ${_weekOffset >= 52 ? 'disabled' : ''}>&#8250;</button>
-        </span>
+  const inhoud = () => {
+    const vast = _otWeergave === 'vast';
+    const uz = uitzonderingen();
+    let lijst = [];
+    if(vast) lijst = VOLGORDE.map(d => VAST_DICHT.includes(d) ? null : t.week[d]);
+    else { const d = weekStart(); for(let j = 0; j < 7; j++){ lijst.push(schemaVoorDatum(lokaleDatum(d))); d.setDate(d.getDate() + 1); } }
+    const sc = schaalVan(lijst);
+    const editorVast = open && open[0] === 'w' && !VAST_DICHT.includes(+open.slice(1))
+      ? `<div class="otBPaneel"><div class="otBPKop"><b>Elke ${esc(DAGNAMEN[+open.slice(1)].toLowerCase())}</b><button type="button" class="otDagSluit" id="otVastSluit" aria-label="Sluiten">&times;</button></div>${editor(open)}</div>`
+      : '<div class="otBPaneel otBHint">Tik op een dag om de vaste tijden aan te passen.</div>';
+    return `
+    <div class="otBKop">
+      <div class="otBTitel">
+        <div class="instH">Openingstijden</div>
+        <div class="otBWeek">${vast ? 'Vaste week <span class="otBDatum">geldt voor elke week</span>' : weekTitel()}</div>
       </div>
-      <div class="otWkGrid">${weekDagen()}${dagKeuze && gekozenIdx >= 0 ? `<div class="otWkPaneelPlek" style="--o:${gekozenIdx*2+1}">${dagPaneel()}</div>` : ''}</div>
-      ${dagKeuze && gekozenIdx >= 0 ? '' : dagPaneel()}
+      <div class="otBKnoppen">
+        <div class="otSeg otBSeg" id="otWeergave"><button type="button" data-w="week" class="${vast ? '' : 'on'}" aria-pressed="${!vast}">Per week</button><button type="button" data-w="vast" class="${vast ? 'on' : ''}" aria-pressed="${vast}">Vaste week</button></div>
+        ${vast ? '' : `<button type="button" class="otBRond" id="otWkTerug" aria-label="Vorige week" ${_weekOffset <= 0 ? 'disabled' : ''}>&#8249;</button>
+        <button type="button" class="otBKnop" id="otWkNu" ${_weekOffset === 0 ? 'disabled' : ''}>Deze week</button>
+        <button type="button" class="otBRond" id="otWkVerder" aria-label="Volgende week" ${_weekOffset >= 52 ? 'disabled' : ''}>&#8250;</button>`}
+      </div>
     </div>
 
-    <div class="otKop">Vaste week <small>Geldt voor elke week, tenzij je een dag hierboven aanpast</small></div>
-    <div class="otLijst">${VOLGORDE.map(weekRij).join('')}</div>
-    ${VAST_DICHT.length ? `<div class="otNoot">${VAST_DICHT.map(d => DAGNAMEN[d]).join(' en ')} ${VAST_DICHT.length > 1 ? 'zijn' : 'is'} vast dicht. Een keer open? Kies die datum in de week hierboven.</div>` : ''}
+    ${vast ? '' : vandaagOnline()}
 
+    <div class="otBPaneel otBBalkPaneel">
+      ${schaalHTML(sc)}
+      <div class="otBRijen">${vast ? vasteDagen(sc) : weekDagen(sc)}</div>
+      <div class="otBLegenda"><span><i class="g"></i>Open</span>${vast ? '' : '<span><i class="r"></i>Eigen tijden</span>'}<span><i class="d"></i>Dicht</span></div>
+    </div>
+
+    ${vast ? editorVast : dagPaneel()}
+
+    ${vast ? `
+    ${VAST_DICHT.length ? `<div class="otNoot">${VAST_DICHT.map(d => DAGNAMEN[d]).join(' en ')} ${VAST_DICHT.length > 1 ? 'zijn' : 'is'} vast dicht. Een keer open? Kies die datum bij Per week.</div>` : ''}
     <div class="otKop">Aangepaste dagen <small>Tik om die dag te openen</small></div>
     <div class="otLijst">${uz.length ? uz.map(uitzRij).join('') : '<div class="otLeeg">Geen aangepaste dagen. Elke dag volgt de vaste week.</div>'}</div>
-    <button type="button" class="otToevoegen" id="otNieuw">+ Datum ver vooruit aanpassen</button>`;
+    <button type="button" class="otToevoegen" id="otNieuw">+ Datum ver vooruit aanpassen</button>` : ''}`;
   };
+
+  // Knoppen die er in de nieuwe opzet bij zijn gekomen
+  function koppelExtra(){
+    doos.querySelectorAll('#otWeergave button').forEach(b => b.onclick = () => { _otWeergave = b.dataset.w; open = null; teken(); });
+    const nv = doos.querySelector('#otNaarVast'); if(nv) nv.onclick = () => { _otWeergave = 'vast'; open = 'w' + nv.dataset.wd; teken(); };
+    const vs = doos.querySelector('#otVastSluit'); if(vs) vs.onclick = () => { open = null; teken(); };
+    doos.querySelectorAll('input[data-online]').forEach(inp => inp.onchange = () => {
+      window.onlineZet(vandaag, inp.dataset.online, inp.checked);
+      toast((inp.dataset.online === 'lunch' ? 'Lunch' : 'Diner') + (inp.checked ? ' staat weer open' : ' is dicht voor online boeken'));
+      try{ werkOnlineKnop(); }catch(_){}
+      const keuze = dagKeuze; instTijden(); 
+    });
+    doos.querySelectorAll('.otBDag').forEach(b => b.onclick = () => { dagKeuze = dagKeuze === b.dataset.iso ? null : b.dataset.iso; teken(); });
+    doos.querySelectorAll('.otBVast').forEach(b => b.onclick = () => {
+      if(b.dataset.vast){ toast('Vaste sluitingsdag. Kies bij Per week een datum om een keer open te gaan.'); return; }
+      const k = b.closest('.otBWrap').dataset.k; open = open === k ? null : k; teken();
+    });
+    if(window.instZetHulp) window.instZetHulp();
+  }
 
   const pg = instPagina([{n:'Instellingen', ga:toonInstellingen},{n:'Openingstijden', ga:instTijden}], '<div id="otPagina"></div>');
   const doos = pg.querySelector('#otPagina');
@@ -6113,7 +6260,7 @@ function instTijden(){
   const teken = () => {
     const scroll = (pg.querySelector('.instWrap') || {}).scrollTop || 0;
     doos.innerHTML = inhoud();
-    koppel();
+    koppel(); koppelExtra();
     const w = pg.querySelector('.instWrap'); if(w) w.scrollTop = scroll;
   };
   const omschrijving = k => k[0] === 'w' ? 'elke ' + DAGNAMEN[+k.slice(1)].toLowerCase() : 'op ' + datumLang(k.slice(1)).toLowerCase();
@@ -6238,6 +6385,7 @@ function instTijden(){
   function naarDag(iso){
     const a = maandagVan(vandaag), b = maandagVan(iso);
     _weekOffset = Math.max(0, Math.round((b - a) / (7 * 86400000)));
+    _otWeergave = 'week';
     dagKeuze = iso;
     teken();
     const w = pg.querySelector('.instWrap'); if(w) w.scrollTo({ top: 0, behavior: 'smooth' });
@@ -6303,6 +6451,8 @@ function instTijden(){
 }
 
 function instZalen(){
+  // Een zaal: meteen de plattegrond, zonder tussenstap
+  if(LOCS.length === 1) return instTafels(LOCS[0]);
   const pg = instPagina([{n:'Instellingen', ga:toonInstellingen},{n:'Zalen & Tafels', ga:instZalen}], `
     <div class="instH">Zalen &amp; Tafels</div>
     <div class="instSub">Kies een zaal om de tafels aan te passen.</div>
@@ -6338,7 +6488,7 @@ function instTafels(loc){
   let gekozenProp = null;
 
   const pg = instPagina(
-    [{n:'Instellingen', ga:toonInstellingen},{n:'Zalen & Tafels', ga:instZalen},{n:loc, ga:()=>instTafels(loc)}], `
+    LOCS.length === 1 ? [{n:'Instellingen', ga:toonInstellingen},{n:'Zalen & Tafels', ga:instZalen}] : [{n:'Instellingen', ga:toonInstellingen},{n:'Zalen & Tafels', ga:instZalen},{n:loc, ga:()=>instTafels(loc)}], `
     <div class="tzPagina">
       <div class="tzKop">
         <div style="flex:1;min-width:0">
@@ -7546,30 +7696,62 @@ function instArchief(){
     });
   }
   dagen.sort((a,b) => b.datum.localeCompare(a.datum));
+  const perDatum = {}; dagen.forEach(d => perDatum[d.datum] = d);
+  const vandaag = todayStr();
+  const MAANDEN = ['januari','februari','maart','april','mei','juni','juli','augustus','september','oktober','november','december'];
+  if(!instArchief.maand){ const d = new Date(); instArchief.maand = { j:d.getFullYear(), m:d.getMonth() }; }
+  const { j, m } = instArchief.maand;
+  const inMaand = dagen.filter(d => d.datum.startsWith(j + '-' + String(m+1).padStart(2,'0')));
+  if(!instArchief.keuze || !perDatum[instArchief.keuze] || !instArchief.keuze.startsWith(j + '-' + String(m+1).padStart(2,'0')))
+    instArchief.keuze = inMaand.length ? inMaand[0].datum : null;
+  const top = Math.max(1, ...inMaand.map(d => d.gasten));
+  const aantal = new Date(j, m+1, 0).getDate(), start = (new Date(j, m, 1).getDay() + 6) % 7;
+  let kal = ['ma','di','wo','do','vr','za','zo'].map(x => `<div class="arWk">${x}</div>`).join('');
+  for(let i = 0; i < start; i++) kal += '<div class="arDag leeg"></div>';
+  for(let i = 1; i <= aantal; i++){
+    const iso = j + '-' + String(m+1).padStart(2,'0') + '-' + String(i).padStart(2,'0');
+    const d = perDatum[iso];
+    const st = d ? `background:color-mix(in srgb, var(--accent,#CD1C18) ${Math.round(10 + d.gasten/top*58)}%, #10141d)` : '';
+    kal += `<button type="button" class="arDag ${d ? 'vol' : ''} ${iso === instArchief.keuze ? 'sel' : ''} ${iso === vandaag ? 'nu' : ''}" ${d ? `data-kies="${iso}"` : 'disabled'} style="${st}"><b>${i}</b><small>${d ? d.gasten : ''}</small></button>`;
+  }
+  const k = instArchief.keuze ? perDatum[instArchief.keuze] : null;
+  const totaal = inMaand.reduce((a,d) => a + d.gasten, 0);
+  const paneel = k ? `
+      <div class="arKlein">Gekozen dag</div>
+      <div class="arDatum">${esc(fmtLang(k.datum))}</div>
+      <div class="arFeiten">
+        <div><small>Gasten</small><b>${k.gasten}</b></div>
+        <div><small>Reserveringen</small><b>${k.res}</b></div>
+        <div><small>Verkocht</small><b>${k.verkocht ? k.verkocht + ' <i>' + k.verkochtPax + 'p</i>' : '0'}</b></div>
+        <div><small>No-shows</small><b>${k.noshow}</b></div>
+      </div>
+      <button type="button" class="btn primary wide" data-ga="${esc(k.datum)}">Open deze dag in de lijst</button>`
+    : `<div class="arKlein">Geen dagen in deze maand.</div>`;
 
   const pg = instPagina([{n:'Instellingen', ga:toonInstellingen},{n:'Dagarchief', ga:instArchief}], `
-    <div class="instH">Dagarchief</div>
-    <div class="instSub">Per dag. Tik op een dag om hem te openen.</div>
-    ${dagen.length ? `
-    <div class="archTabel">
-      <div class="archKop">
-        <span>Datum</span><span>Reserveringen</span><span>Gasten</span><span>Verkocht</span><span>No-show</span>
+    <div class="arKop">
+      <div style="flex:1;min-width:200px"><div class="instH">Dagarchief</div><div class="arMaand">${MAANDEN[m].replace(/^./, c => c.toUpperCase())} ${j}</div></div>
+      <div class="arNav">
+        <button type="button" class="otBRond" data-maand="-1" aria-label="Vorige maand">&#8249;</button>
+        <button type="button" class="otBKnop" data-maand="0">Deze maand</button>
+        <button type="button" class="otBRond" data-maand="1" aria-label="Volgende maand">&#8250;</button>
       </div>
-      ${dagen.slice(0, 60).map(d=>`
-      <div class="archRij" data-ga="${esc(d.datum)}" title="Open deze dag">
-        <b>${esc(fmtDate(d.datum))}</b>
-        <span class="getal">${d.res}</span>
-        <span class="getal">${d.gasten}</span>
-        <span>${d.verkocht ? `<span class="chip" style="background:#8b5cf6">${d.verkocht} &middot; ${d.verkochtPax}p</span>` : '<i class="leeg">&mdash;</i>'}</span>
-        <span>${d.noshow ? `<span class="chip" style="background:#991b1b">${d.noshow}</span>` : '<i class="leeg">&mdash;</i>'}</span>
-      </div>`).join('')}
     </div>
-    ${dagen.length > 60 ? `<div class="instSub" style="margin-top:10px">De 60 meest recente dagen worden getoond, er zijn er ${dagen.length} in totaal.</div>` : ''}`
-    : '<div class="instSub" style="padding:10px 0">Nog geen dagen in het archief.</div>'}`);
+    ${dagen.length ? `
+    <div class="arRaster">
+      <div class="otBPaneel"><div class="otBPKop"><b>Gasten per dag</b><span class="otBKlein">${totaal} gasten deze maand</span></div><div class="arKal">${kal}</div><div class="otBKlein">Hoe roder het vakje, hoe drukker het was. Oude dagen worden na 60 dagen verwijderd.</div></div>
+      <div class="otBPaneel arZij">${paneel}</div>
+    </div>` : '<div class="otBPaneel otBHint">Nog geen dagen in het archief.</div>'}`);
 
-  // Een dag aantikken opent die dag meteen in het overzicht, dan hoef je hem
-  // niet zelf in de kalender op te zoeken.
-  pg.querySelectorAll('.archRij[data-ga]').forEach(rij=> rij.onclick = ()=>{
+  pg.querySelectorAll('[data-maand]').forEach(b => b.onclick = () => {
+    const n = +b.dataset.maand;
+    if(n === 0){ const d = new Date(); instArchief.maand = { j:d.getFullYear(), m:d.getMonth() }; }
+    else { const d = new Date(j, m + n, 1); instArchief.maand = { j:d.getFullYear(), m:d.getMonth() }; }
+    instArchief.keuze = null; instArchief();
+  });
+  pg.querySelectorAll('[data-kies]').forEach(b => b.onclick = () => { instArchief.keuze = b.dataset.kies; instArchief(); });
+  // Een dag openen zet hem meteen in het overzicht
+  pg.querySelectorAll('[data-ga]').forEach(rij=> rij.onclick = ()=>{
     curDate = rij.dataset.ga;
     sluitInstellingen();
     render();
@@ -7875,16 +8057,16 @@ function instBackup(){
       <button class="btn ghost" id="bkDownload">Download vandaag als bestand</button>
       <label class="btn ghost instLabelKnop" style="cursor:pointer">Bestand terugzetten<input type="file" id="bkUpload" accept=".json" style="display:none"></label>
     </div>
-    <div class="instKopRij"><span style="flex:1">Automatische kopie&euml;n van vandaag (gedeeld)</span></div>
-    <div id="bkAuto"><div class="instSub" style="padding:8px 0">Laden...</div></div>
+    <div class="otBPaneel bkPaneel"><div class="otBPKop"><b>Kopie&euml;n van vandaag</b><span class="otBKlein">gedeeld met alle apparaten</span></div>
+    <div id="bkAuto"><div class="instSub" style="padding:8px 0">Laden...</div></div></div>
     ${kopies.length ? `
-    <div class="instKopRij" style="margin-top:10px"><span style="flex:1">Kopie&euml;n op dit apparaat</span></div>
+    <div class="otBPaneel bkPaneel"><div class="otBPKop"><b>Kopie&euml;n op dit apparaat</b></div>
     ${kopies.map(k=>`
       <div class="instRow" style="cursor:default">
         <b style="flex:1">${esc(fmtDate(k.datum))}</b>
         <span style="color:var(--muted);font-size:12.5px">${k.aantal} res. &middot; ${new Date(k.t).toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'})}</span>
-        <button class="btn primary" data-lokaal="${esc(k.datum)}">Terugzetten</button>
-      </div>`).join('')}` : ''}`);
+        <button class="btn ghost" data-lokaal="${esc(k.datum)}">Terugzetten</button>
+      </div>`).join('')}</div>` : ''}`);
 
   pg.querySelectorAll('button[data-lokaal]').forEach(bt=>{
     bt.onclick = ()=>{
@@ -7906,7 +8088,7 @@ function instBackup(){
         <div class="instRow" style="cursor:default">
           <b style="flex:1">${esc(uur.length === 4 ? uur.slice(0,2) + ':' + uur.slice(2) : uur + ':00')} uur</b>
           <span style="color:var(--muted);font-size:12.5px">${(d.lijst||[]).length} res. &middot; ${new Date(d.t).toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'})}</span>
-          <button class="btn primary" data-uur="${esc(uur)}">Terugzetten</button>
+          <button class="btn ghost" data-uur="${esc(uur)}">Terugzetten</button>
         </div>`).join('');
       auto.querySelectorAll('button[data-uur]').forEach(bt=>{
         bt.onclick = ()=>{
@@ -7957,13 +8139,15 @@ function instManagers(){
       </div>
       <button class="btn primary" id="pinAdd" style="white-space:nowrap">+ Toevoegen</button>
     </div>
-    <div class="instKopRij"><span style="flex:1">Naam</span><span style="width:74px;text-align:right">Code</span><span style="width:34px"></span><span style="width:100px"></span></div>
-    ${pins.length ? pins.map((p,i)=>`<div class="instRow" style="cursor:default">
-      <b style="flex:1">${esc(p.naam||'Manager')}</b>
-      <span class="pinCode" data-code="${esc(p.code)}">\u2022\u2022\u2022\u2022</span>
-      <button type="button" class="pinOog" data-oog="${i}" title="Code tonen">${OOG_AAN}</button>
-      <button class="btn danger" data-del="${i}" style="width:100px">Verwijderen</button>
-    </div>`).join('') : '<div class="instSub" style="padding:10px 0">Nog geen extra managercodes.</div>'}`);
+    <div class="mgKaarten">
+      <div class="mgKaart"><div class="mgKop"><span class="mgAva eig">E</span><div class="mgTxt"><b>Eigenaar</b><small>Hoofdcode, mag alles</small></div><span class="otBPil eigen">Eigenaar</span></div><div class="otBKlein">De hoofdcode blijft altijd werken, ook als je hieronder codes weghaalt.</div></div>
+      ${pins.map((p,i)=>`<div class="mgKaart">
+        <div class="mgKop"><span class="mgAva" style="background:${['#CD1C18','#4a5675','#9B1313','#2f6b4f','#7a4b1e'][i % 5]}">${esc(String(p.naam||'M').trim().split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase())}</span><div class="mgTxt"><b>${esc(p.naam||'Manager')}</b><small>Manager</small></div></div>
+        <div class="mgCode"><span class="pinCode" data-code="${esc(p.code)}">\u2022\u2022\u2022\u2022</span><button type="button" class="pinOog" data-oog="${i}" title="Code tonen">${OOG_AAN}</button></div>
+        <button class="btn ghost mgWeg" data-del="${i}">Verwijderen</button>
+      </div>`).join('')}
+    </div>
+    ${pins.length ? '' : '<div class="otBKlein" style="margin-top:12px">Nog geen extra managercodes. Tik op Toevoegen om een collega een eigen code te geven.</div>'}`);
 
   // --- oogje: code even zichtbaar maken, gaat vanzelf weer dicht
   pg.querySelectorAll('.pinOog').forEach(bt=>{
@@ -10290,6 +10474,7 @@ html body.kvRood:not(.themaHu):not(.themaGob) .tlRij{border-top-color:color-mix(
     zetTijden(t);
   }
 
+  window.onlineStand = stand; window.onlineZet = zet;
   window.werkOnlineKnop = function(){
     const k = document.getElementById('btnOnline'); if(!k) return;
     const st = stand(curDate);
@@ -11122,6 +11307,163 @@ html body.kvRood.kaartVol #content,html body.kvRood.viewTafels #content{backgrou
 <style>
 /* Plattegrond: geen knop "Reservering toevoegen", je tikt op een tafel */
 html body.viewKaart #fabAdd{display:none!important}
+</style>
+<style id="kvInstSchil">
+/* ===== Instellingen: zijlijst + pagina ===== */
+html body .instPage.kvInst{flex-direction:row;background:#0e1117!important;color:#e8ebf2}
+.kvInst .kvIZij{width:290px;flex:0 0 290px;background:#0b0d12;border-right:1px solid #1c2130;display:flex;flex-direction:column;gap:3px;padding:calc(18px + env(safe-area-inset-top)) 12px 18px max(12px,env(safe-area-inset-left));overflow-y:auto;overscroll-behavior:contain}
+.kvInst .kvIZijKop{display:flex;align-items:center;gap:10px;padding:0 6px 14px}
+.kvInst .kvIZijKop h1{margin:0;font-size:21px;font-weight:800;letter-spacing:-.3px;color:#e8ebf2}
+.kvInst .kvIRond{width:44px;height:44px;flex:none;border-radius:12px;border:1px solid #222a3a;background:#151a24;color:#e8ebf2;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer}
+.kvInst .kvIRond:hover{background:#1a2030}
+.kvInst .kvIGroep{font-size:12px;font-weight:600;color:#6f7890;padding:12px 10px 5px}
+.kvInst .kvIMenu{height:46px;flex:none;border:0;border-radius:11px;background:transparent;color:#c3c9d8;font:inherit;font-size:14.5px;font-weight:500;display:flex;align-items:center;gap:12px;padding:0 12px;text-align:left;cursor:pointer}
+.kvInst .kvIMenu:hover{background:#121722}
+.kvInst .kvIStip{width:8px;height:8px;border-radius:50%;background:#6f7890;flex:none}
+.kvInst .kvIStip.aan{background:#34d399}
+.kvInst .kvINaam{flex:1;white-space:nowrap}
+.kvInst .kvIInfo{font-size:12px;color:#8890a4;white-space:nowrap}
+.kvInst .kvIMenu.actief{background:#1a2030;color:#fff;font-weight:700;box-shadow:inset 3px 0 0 var(--accent,#CD1C18)}
+.kvInst .kvIVoet{margin-top:auto;font-size:12px;color:#6f7890;padding:14px 10px 0}
+.kvInst .kvIHoofd{flex:1;min-width:0;display:flex;flex-direction:column;min-height:0}
+.kvInst .kvIKruim:empty{display:none}
+.kvInst .kvIKruim{padding:calc(16px + env(safe-area-inset-top)) 28px 0}
+.kvInst .kvIKruimKnop{height:40px;padding:0 14px 0 10px;border-radius:11px;border:1px solid #222a3a;background:#151a24;color:#e8ebf2;font:inherit;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+html body .kvInst .instWrap{flex:1;overflow-y:auto;padding:calc(24px + env(safe-area-inset-top)) max(28px,env(safe-area-inset-right)) calc(40px + env(safe-area-inset-bottom)) 28px}
+.kvInst .kvIKruim:not(:empty) + .instWrap{padding-top:14px}
+html body .kvInst .instCard{max-width:1100px;margin:0;background:transparent!important;border:0!important;padding:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+html body .kvInst .instH{font-size:27px!important;font-weight:800;letter-spacing:-.4px;color:#e8ebf2!important;display:flex;align-items:center;gap:10px;line-height:1.15}
+html body .kvInst .instSub{font-size:13.5px;color:#8890a4;margin:6px 0 18px}
+.kvInst .instH .instHulp{width:30px;height:30px;flex:none;border-radius:50%;border:1px solid #222a3a;background:transparent;color:#8890a4;font:inherit;font-size:13px;font-weight:700;letter-spacing:0;display:inline-flex;align-items:center;justify-content:center;padding:0;cursor:pointer}
+.kvInst .instH .instHulp:hover{background:#1a2030;color:#e8ebf2}
+/* Voorbeeld van de reserveringspagina naast de zijlijst */
+@media (min-width:1100px){
+  body.rpVbAan .rpVb{top:16px!important;left:calc(290px + (100vw - 290px) / 2 + 8px)!important}
+  body.rpVbAan .instPage.kvInst .instWrap{padding-right:calc(50% + 8px)!important}
+}
+/* Telefoon en smalle iPad: de lijst wordt een schuifbalk bovenaan */
+@media (max-width:820px){
+  html body .instPage.kvInst{flex-direction:column}
+  .kvInst .kvIZij{width:auto;flex:none;flex-direction:row;align-items:center;overflow-x:auto;overflow-y:hidden;padding:calc(10px + env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) 10px max(14px,env(safe-area-inset-left));gap:6px;border-right:0;border-bottom:1px solid #1c2130;scrollbar-width:none}
+  .kvInst .kvIZij::-webkit-scrollbar{display:none}
+  .kvInst .kvIZijKop{padding:0 4px 0 0}
+  .kvInst .kvIZijKop h1,.kvInst .kvIGroep,.kvInst .kvIVoet,.kvInst .kvIInfo,.kvInst .kvIStip{display:none}
+  .kvInst .kvIMenu{height:44px;padding:0 15px;background:#121722;border-radius:999px;font-size:14px}
+  .kvInst .kvIMenu.actief{box-shadow:none;background:var(--accent,#CD1C18)}
+  .kvInst .kvIKruim{padding:14px 16px 0}
+  html body .kvInst .instWrap{padding:18px max(16px,env(safe-area-inset-right)) calc(40px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
+  html body .kvInst .instH{font-size:23px!important}
+}
+</style>
+<style id="kvOtBalk">
+/* ===== Openingstijden: tijdbalk per dag ===== */
+.otBKop{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.otBTitel{flex:1;min-width:220px}
+.otBWeek{font-size:15px;font-weight:700;color:#c3c9d8;margin-top:6px}
+.otBDatum{font-weight:500;color:#8890a4;margin-left:6px}
+.otBKnoppen{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.kvInst .otBSeg{display:inline-grid!important;grid-auto-flow:column;grid-auto-columns:1fr;background:#10141d!important;border:0!important;border-radius:12px!important;padding:4px!important;gap:4px!important}
+.kvInst .otBSeg button{height:38px!important;padding:0 14px!important;border:0!important;border-radius:9px!important;background:transparent!important;color:#a9b1c4!important;font-size:13.5px!important;font-weight:600!important;white-space:nowrap;box-shadow:none!important}
+.kvInst .otBSeg button.on{background:var(--accent,#CD1C18)!important;color:#fff!important;font-weight:700!important}
+.otBRond,.otBKnop{height:44px;min-width:44px;border-radius:12px;border:1px solid #222a3a;background:#151a24;color:#e8ebf2;font:inherit;font-size:14px;font-weight:600;padding:0 14px;cursor:pointer}
+.otBRond{padding:0;font-size:22px;line-height:1}
+.otBRond:disabled,.otBKnop:disabled{opacity:.35;cursor:default}
+.otBPaneel{background:#141924;border:1px solid #1f2636;border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:12px;margin-bottom:14px}
+.otBHint{color:#8890a4;font-size:13.5px}
+.otBPKop{display:flex;align-items:center;gap:10px}
+.otBPKop b{flex:1;font-size:16px;font-weight:700;color:#e8ebf2}
+.otBKlein{font-size:12.5px;color:#8890a4}
+.otBPil{font-size:11.5px;font-weight:700;padding:4px 9px;border-radius:7px;background:#1a2030;color:#c3c9d8;white-space:nowrap}
+.otBPil.eigen{background:#2a1a20;color:#ff9aa2}.otBPil.rood{background:#331417;color:#ff9aa2}
+.otBPKop .otDagSluit{width:40px;height:40px;border-radius:11px;border:1px solid #222a3a;background:#151a24;color:#a9b1c4;font-size:20px;flex:none}
+.otBOnRij{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.otBOn{display:flex;align-items:center;gap:12px;border-radius:12px;padding:12px 14px;background:#1a2030}
+.otBOnTxt{flex:1;min-width:0}
+.otBOnTxt b{display:block;font-size:14px;color:#e8ebf2}
+.otBOnTxt small{font-size:12px;font-weight:600}
+.otBOn.open small{color:#4ade9b}.otBOn.dicht small{color:#ff9aa2}.otBOn.nvt small{color:#8890a4}
+.otBSchaal{position:relative;height:16px;margin:0 12px 0 96px;font-size:11.5px;color:#6f7890;font-variant-numeric:tabular-nums}
+.otBSchaal span{position:absolute;transform:translateX(-50%)}
+.kvInst #otPagina{max-width:1100px;margin:0}
+.otBRijen{display:flex;flex-direction:column;gap:4px}
+.otBWrap{display:block;border:0!important;background:none!important;padding:0!important;margin:0!important}
+.kvInst .otBRij{display:flex!important;align-items:center;min-height:50px;width:100%;border-radius:11px;border:0!important;background:transparent!important;text-align:left;padding:0!important;margin:0!important;cursor:pointer;color:#e8ebf2;font:inherit;box-shadow:none!important;order:0!important}
+.kvInst .otBRij:hover{background:#171c28!important}
+.kvInst .otBRij.gekozen{background:#1a2030!important;box-shadow:inset 0 0 0 1px #3a4560!important}
+.otBRij.voorbij{opacity:.45}
+.otBLab{width:96px;flex:none;padding-left:12px;display:flex;flex-direction:column;gap:1px}
+.otBLab b{font-size:14px;font-weight:700;white-space:nowrap}
+.otBLab small{font-size:11.5px;color:#8890a4;white-space:nowrap}
+.otBLab small.afw{color:#ff9aa2}
+.otBRij.nu .otBLab b{color:#ff8f86}
+.otBBaan{flex:1;position:relative;height:28px;margin-right:12px;border-radius:8px;background:#10141d;overflow:hidden}
+.otBLijn{position:absolute;top:0;bottom:0;width:1px;background:#171d29}
+.otBBalk{position:absolute;top:0;bottom:0;border-radius:7px;background:#34d399;color:#04120c;font-size:11px;font-weight:700;container-type:inline-size;font-variant-numeric:tabular-nums}
+.otBBalk.eigen{background:var(--accent,#CD1C18);color:#fff}
+.otBIn{display:flex;align-items:center;gap:5px;height:100%;padding:0 8px;overflow:hidden;white-space:nowrap}
+@container (max-width:150px){.otBN{display:none}}
+@container (max-width:84px){.otBR{display:none}.otBIn{justify-content:center;padding:0 2px}}
+@container (max-width:38px){.otBIn{display:none}}
+.otBDicht{position:absolute;inset:0;display:flex;align-items:center;padding-left:10px;font-size:11.5px;color:#6f7890}
+.otBLegenda{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:#8890a4}
+.otBLegenda span{display:flex;align-items:center;gap:6px}
+.otBLegenda i{width:16px;height:6px;border-radius:3px;display:inline-block}
+.otBLegenda i.g{background:#34d399}.otBLegenda i.r{background:var(--accent,#CD1C18)}.otBLegenda i.d{background:#2a3346}
+.otBPaneel .otEditor{margin:0!important;border:0!important;background:transparent!important;padding:0!important}
+.otBPaneel .otDagVast{color:#c3c9d8;font-size:13.5px}
+@media (max-width:820px){
+  .otBLab{width:80px;padding-left:10px}.otBLab small{font-size:11px}
+  .otBSchaal{margin-left:80px}
+  .otBOnRij{grid-template-columns:minmax(0,1fr)}
+  .otBKnoppen{width:100%}
+  .otBKnoppen #otWeergave{flex:1 1 100%}
+  .otBKnoppen .otBKnop{flex:1}
+}
+</style>
+<style id="kvArch">
+.arKop{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.arMaand{font-size:15px;font-weight:700;color:#c3c9d8;margin-top:6px}
+.arNav{display:flex;gap:8px}
+.arRaster{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:14px;align-items:start}
+.arKal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.arWk{font-size:11.5px;color:#6f7890;font-weight:600;text-align:center}
+.arDag{min-height:56px;border-radius:11px;border:1px solid transparent;background:#10141d;padding:7px 8px;display:flex;flex-direction:column;justify-content:space-between;text-align:left;color:#e8ebf2;font:inherit;min-width:0;cursor:pointer}
+.arDag b{font-size:13px;font-weight:700}
+.arDag small{font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;color:#fff}
+.arDag:disabled{cursor:default;color:#6f7890}
+.arDag.leeg{visibility:hidden}
+.arDag.sel{border-color:#fff}
+.arDag.nu b{color:#ff8f86}
+.arZij .btn.wide{width:100%}
+.arKlein{font-size:12.5px;color:#8890a4;font-weight:600}
+.arDatum{font-size:20px;font-weight:800;color:#e8ebf2}
+.arFeiten{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.arFeiten div{background:#1a2030;border-radius:12px;padding:12px}
+.arFeiten small{display:block;font-size:11.5px;color:#8890a4;font-weight:600}
+.arFeiten b{display:block;font-size:22px;font-weight:800;margin-top:3px;font-variant-numeric:tabular-nums;color:#e8ebf2}
+.arFeiten b i{font-style:normal;font-size:13px;color:#8890a4;font-weight:600}
+@media (max-width:1000px){.arRaster{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:820px){.arDag{min-height:46px;padding:5px}.arDag small{font-size:10.5px}.arNav{width:100%}.arNav .otBKnop{flex:1}}
+</style>
+<style id="kvBkMg">
+.kvInst .bkPaneel .instRow{display:flex;align-items:center;gap:12px;min-height:58px;padding:8px 0!important;border:0!important;border-top:1px solid #1f2636!important;background:transparent!important;border-radius:0!important;margin:0!important}
+.kvInst .bkPaneel .instRow:first-child,.kvInst .bkPaneel .otBPKop + .instRow{border-top:0!important}
+.kvInst .bkPaneel #bkAuto .instRow:first-child{border-top:0!important}
+.kvInst .instKnoppen .btn{height:44px}
+.mgKaarten{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:6px}
+.mgKaart{background:#141924;border:1px solid #1f2636;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.mgKop{display:flex;align-items:center;gap:12px}
+.mgAva{width:44px;height:44px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff}
+.mgAva.eig{background:#1c2333;color:#ff8f86}
+.mgTxt{flex:1;min-width:0}.mgTxt b{display:block;font-size:15px;color:#e8ebf2}.mgTxt small{display:block;font-size:12px;color:#8890a4;margin-top:2px}
+.mgCode{display:flex;align-items:center;gap:4px;background:#10141d;border-radius:11px;padding:0 4px 0 12px;height:48px}
+.mgCode .pinCode{flex:1;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:18px;font-weight:700;letter-spacing:3px;color:#e8ebf2;width:auto!important;text-align:left!important}
+.mgCode .pinOog{width:44px;height:44px;border:0;background:transparent;color:#8890a4;display:flex;align-items:center;justify-content:center;border-radius:10px}
+.mgWeg{align-self:flex-start;color:#ff9aa2!important}
+.kvInst .instKopKnop #pinAdd{flex:none!important;width:auto!important;padding:0 18px;height:44px}
+.kvInst .bkPaneel .instRow .btn{flex:none!important;width:auto!important;padding:0 16px;height:40px}
+.kvInst .instKnoppen .btn,.kvInst .instKnoppen .instLabelKnop{flex:1;height:44px!important;display:flex;align-items:center;justify-content:center;font-size:14px!important;font-weight:600}
+
 </style>
 </body>
 </html>
