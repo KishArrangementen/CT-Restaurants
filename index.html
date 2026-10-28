@@ -2788,7 +2788,24 @@ const DEFAULT_LAYOUT = {
   }
 };
 // Plattegrond layout: per locatie {tafelnr: {x,y}} in procenten
-let layout = store.get('ct_layout', {});
+// Firebase maakt van {1:..,2:..,41:..} een lijst met een leeg vak op plek 0,
+// en na opslaan staat daar null. Daar liep de tafeleditor op vast, waardoor
+// nieuwe tafels op een willekeurige plek terechtkwamen. Daarom maken we de
+// indeling altijd weer een gewoon object met alleen geldige posities.
+function schoonLayout(l){
+  const uit = {};
+  if(!l || typeof l !== 'object') return uit;
+  Object.keys(l).forEach(loc => {
+    const z = l[loc]; const o = {};
+    if(z && typeof z === 'object') Object.keys(z).forEach(nr => {
+      const v = z[nr];
+      if(v && typeof v === 'object' && isFinite(+v.x) && isFinite(+v.y)){ o[nr] = { x:+v.x, y:+v.y }; if(v.o) o[nr].o = v.o; }
+    });
+    uit[loc] = o;
+  });
+  return uit;
+}
+let layout = schoonLayout(store.get('ct_layout', {}));
 
 let curDate = todayStr();
 let curView = store.get('ct_view','dag');
@@ -2808,7 +2825,10 @@ function setRes(list){ store.set(dayKey(), list); render(); }
 // Tafels per zaal: aangepaste lijst uit instellingen gaat voor op de vaste config
 function tafelsVoor(loc){
   const eigen = store.get('ct_tafels', null);
-  if(eigen && Array.isArray(eigen[loc]) && eigen[loc].length) return eigen[loc];
+  if(eigen && eigen[loc] && typeof eigen[loc] === 'object'){
+    const l = (Array.isArray(eigen[loc]) ? eigen[loc] : Object.values(eigen[loc])).filter(t => t && t.nr !== undefined && t.nr !== null && t.nr !== '');
+    if(l.length) return l;
+  }
   return parseTafels(tafelConfig[loc]||'');
 }
 
@@ -3423,7 +3443,7 @@ function startSync(){
         // Staat hier nog een wijziging die nooit is doorgestuurd? Dan eerst die
         // versturen, in plaats van hem te overschrijven met de oude stand.
         { const vuil = +store.get('ct_layout_vuil', 0) || 0; if(vuil && Date.now() - vuil < 6*3600000){ syncLayout(); return; } }
-        layout = v;
+        layout = schoonLayout(v);
         store.set('ct_layout', layout);
         if(curView==='map') render();
       });
@@ -6789,7 +6809,7 @@ function instTafels(loc){
     gekozenProp = null;
     // Op een vrije plek in het midden zetten
     let x = 50, y = 50, poging = 0;
-    while(poging++ < 40 && Object.values(lay).some(v => Math.abs(v.x-x) < 5 && Math.abs(v.y-y) < 7)){ x = 50 + ((poging%7)-3)*6; y = 50 + (Math.floor(poging/7)-3)*9; }
+    while(poging++ < 40 && Object.values(lay).some(v => v && Math.abs(v.x-x) < 5 && Math.abs(v.y-y) < 7)){ x = 50 + ((poging%7)-3)*6; y = 50 + (Math.floor(poging/7)-3)*9; }
     lay[nr] = {x, y};
     gekozen = nr;
     bewaar(true); teken(); paneel();
@@ -6852,7 +6872,7 @@ function instTafels(loc){
         const naam = b.dataset.laad, it = indelingenVoor(loc)[naam];
         if(!it) return;
         vraag('Indeling <b>'+esc(naam)+'</b> laden? De huidige opstelling van '+esc(loc)+' wordt vervangen.', ()=>{
-          layout[loc] = JSON.parse(JSON.stringify(it.layout || {}));
+          layout[loc] = schoonLayout({ x: it.layout || {} }).x;
           try{ store.set('ct_layout', layout); }catch(e){}
           zetProps(loc, JSON.parse(JSON.stringify(it.props || [])));
           zetTafels(loc, JSON.parse(JSON.stringify(it.tafels || [])));
@@ -10277,7 +10297,7 @@ function makeDraggable(el, tafel, canvas, lay, naDraai){
       y = Math.min(98, Math.max(2, y));
       // Magnetisch: klik vast op de lijn van andere tafels
       for(const [k,v] of Object.entries(lay)){
-        if(k === tafel) continue;
+        if(k === tafel || !v) continue;
         if(Math.abs(x - v.x) < 0.9) x = v.x;
         if(Math.abs(y - v.y) < 0.9) y = v.y;
       }
