@@ -3420,12 +3420,17 @@ function startSync(){
         const v = sn.val();
         if(!v) return;
         if(editMode || document.querySelector('.tzCanvas')) return;   // niet overschrijven terwijl je zelf tafels verschuift
+        // Staat hier nog een wijziging die nooit is doorgestuurd? Dan eerst die
+        // versturen, in plaats van hem te overschrijven met de oude stand.
+        { const vuil = +store.get('ct_layout_vuil', 0) || 0; if(vuil && Date.now() - vuil < 6*3600000){ syncLayout(); return; } }
         layout = v;
         store.set('ct_layout', layout);
         if(curView==='map') render();
       });
       db.ref(syncPad + '/tafels').on('value', sn=>{
         const v = sn.val();
+        if(document.querySelector('.tzCanvas')) return;   // niet overschrijven terwijl je tafels aanpast
+        { const vuil = +store.get('ct_tafels_vuil', 0) || 0; if(vuil && Date.now() - vuil < 6*3600000){ syncTafels(); return; } }
         if(v){ store.set('ct_tafels', v); if(!sheetWrap.classList.contains('open')) render(); }
       });
       db.ref(syncPad + '/props').on('value', sn=>{
@@ -3756,16 +3761,17 @@ function syncLayout(){
   let schoon;
   try{ schoon = JSON.parse(JSON.stringify(layout || {})); }catch(_){ schoon = {}; }
   let w;
+  store.set('ct_layout_vuil', Date.now());
   try{ w = db.ref(syncPad+'/layout').set(schoon); }
   catch(e){ console.error('[INDELING] doorsturen mislukt:', e && e.message); return Promise.resolve('fout:ongeldig'); }
   return w
-    .then(()=> 'ok')
+    .then(()=> { store.set('ct_layout_vuil', 0); return 'ok'; })
     .catch(e=>{
       console.error('[INDELING] doorsturen mislukt:', e && e.code, e && e.message);
       return 'fout:' + ((e && e.code) || 'onbekend');
     });
 }
-function syncTafels(){ if(db){ try{ db.ref(syncPad+'/tafels').set(JSON.parse(JSON.stringify(store.get('ct_tafels', {}) || {}))).catch(e=>console.error('[TAFELS] doorsturen mislukt:', e && e.message)); }catch(e){ console.error('[TAFELS] doorsturen mislukt:', e && e.message); } } }
+function syncTafels(){ if(db){ try{ store.set('ct_tafels_vuil', Date.now()); db.ref(syncPad+'/tafels').set(JSON.parse(JSON.stringify(store.get('ct_tafels', {}) || {}))).then(()=> store.set('ct_tafels_vuil', 0)).catch(e=>console.error('[TAFELS] doorsturen mislukt:', e && e.message)); }catch(e){ console.error('[TAFELS] doorsturen mislukt:', e && e.message); } } }
 
 /* ===== Openingstijden =====
    Bepaalt welke tijden de gast op de reserveringspagina te zien krijgt.
