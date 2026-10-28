@@ -7401,6 +7401,62 @@ function rpSchaalVoorbeeld(){
   _rpVb.doos.querySelector('.rpVbToestel').style.width = Math.round(breed * s) + 'px';
   _rpVb.doos.querySelector('.rpVbToestel').style.height = Math.round(hoog * s) + 'px';
 }
+
+// Het echte voorbeeld: de live reserveringspagina in een frame. Het frame ligt
+// los boven de pagina, zodat het niet opnieuw laadt als de instellingen
+// opnieuw getekend worden. Het schuift mee met de plek die ervoor vrij is.
+function rpcEchtVoorbeeld(pg, modus){
+  let laag = pg.querySelector('.rpcVbLaag');
+  if(!laag || !_rpVb || _rpVb.doos !== laag){
+    if(laag) laag.remove();
+    laag = document.createElement('div');
+    laag.className = 'rpcVbLaag';
+    laag.innerHTML = '<div class="rpcVbToestel"><iframe title="Voorbeeld reserveringspagina" loading="eager"></iframe></div>';
+    pg.appendChild(laag);
+    const frame = laag.querySelector('iframe');
+    _rpVb = { doos: laag, frame, klaar: false, modus };
+    frame.src = rpVoorbeeldUrl();
+    const wrap = pg.querySelector('.instWrap');
+    const opnieuw = () => { if(laag._plaats) requestAnimationFrame(laag._plaats); };
+    if(wrap) wrap.addEventListener('scroll', opnieuw, { passive:true });
+    window.addEventListener('resize', opnieuw);
+    const wacht = setInterval(() => {
+      if(document.getElementById('rpPagina') && document.body.contains(laag)) return;
+      clearInterval(wacht);
+      window.removeEventListener('resize', opnieuw);
+      if(wrap) wrap.removeEventListener('scroll', opnieuw);
+      laag.remove(); if(_rpVb && _rpVb.doos === laag) _rpVb = null;
+    }, 400);
+  }
+  _rpVb.modus = modus;
+  const frame = laag.querySelector('iframe'), kast = laag.querySelector('.rpcVbToestel');
+  laag.classList.toggle('pc', modus === 'pc');
+  laag._plaats = () => {
+    const plek = document.getElementById('rpcVb');
+    if(!plek){ laag.style.display = 'none'; return; }
+    laag.style.display = '';
+    const breed = modus === 'pc' ? 1100 : 390, hoog = modus === 'pc' ? 860 : 820;
+    const rand = modus === 'pc' ? 16 : 20;
+    const s = Math.min(1, (plek.clientWidth - rand) / breed, modus === 'pc' ? 1 : 0.9);
+    frame.style.width = breed + 'px'; frame.style.height = hoog + 'px';
+    frame.style.transform = 'scale(' + s + ')';
+    const kw = Math.round(breed * s), kh = Math.round(hoog * s);
+    kast.style.width = kw + 'px'; kast.style.height = kh + 'px';
+    plek.style.height = (kh + rand) + 'px';
+    const r = plek.getBoundingClientRect(), pr = pg.getBoundingClientRect();
+    const links = r.left - pr.left + (r.width - kw - rand) / 2, boven = r.top - pr.top;
+    laag.style.left = Math.round(links) + 'px'; laag.style.top = Math.round(boven) + 'px';
+    // Alleen tonen binnen het schuifvak, niet over de zijlijst of de rand heen
+    const w = pg.querySelector('.instWrap'); const wr = w ? w.getBoundingClientRect() : pr;
+    const hoogte = kh + rand;
+    const clipBoven = Math.max(0, wr.top - r.top), clipOnder = Math.max(0, r.top + hoogte - wr.bottom);
+    laag.style.clipPath = 'inset(' + clipBoven + 'px 0 ' + clipOnder + 'px 0)';
+    laag.style.visibility = (clipBoven + clipOnder >= hoogte) ? 'hidden' : 'visible';
+  };
+  laag._plaats();
+  setTimeout(laag._plaats, 60);
+  rpStuurVoorbeeld();
+}
 function rpToonVoorbeeld(p, fotos){
   _rpVbData = { p, fotos };
   const pagina = document.querySelector('.instPage');
@@ -7601,14 +7657,16 @@ async function instPaginaWeb(){
     </div>
     <div class="rpcMidden">
       <section class="rpcPodium" aria-label="Voorbeeld">
+        <div class="rpcVraag">Wat wil je aanpassen?</div>
         <div class="rpcLagen" role="group" aria-label="Onderdelen">${DELEN.map(([k, n]) => `<button type="button" class="rpcLaag" data-deel="${k}" aria-pressed="${sel === k}">${n}</button>`).join('')}</div>
-        <div id="rpcVb">${vbHTML()}</div>
-        <div class="rpcHint">Tik in het voorbeeld op een deel om het aan te passen. Wat je typt zie je meteen, en het staat direct live.</div>
+        <div id="rpcVb" class="rpcVbPlek"><div class="rpcLaden">Voorbeeld laden...</div></div>
+        <div class="rpcHint">Dit is je echte pagina, zoals gasten hem zien. Kies hierboven wat je wilt aanpassen. Wat je typt zie je meteen.</div>
       </section>
       <aside class="rpcBewerk" id="rpcBewerk" aria-label="Aanpassen">${bewerk}</aside>
     </div>
     </div>`);
-  const vbTeken = () => { const v = pg.querySelector('#rpcVb'); if(v) v.innerHTML = vbHTML(); };
+  const vbTeken = () => {};
+  rpcEchtVoorbeeld(pg, toestel);
   pg.querySelector('#rpPagina').addEventListener('click', (e) => {
     const k = e.target.closest('[data-deel]'); if(!k || !pg.contains(k)) return;
     instPaginaWeb.deel = k.dataset.deel; teken();
@@ -11648,6 +11706,16 @@ html body .kvInst .instSub{font-size:13.5px;color:#8890a4;margin:6px 0 18px}
 .rpcBewerk .rpDienst{align-self:flex-start}
 @media (max-width:1100px){.rpcMidden{grid-template-columns:minmax(0,1fr)}.rpcBewerk{position:static}}
 @media (max-width:820px){.rpcToestel{width:300px}.rpcPc{grid-template-columns:minmax(0,1fr)}.rpcAdres{width:100%}.rpcBalkRechts{width:100%}.rpcPodium{padding:14px 8px 18px}}
+</style>
+<style id="kvRpcEcht">
+.rpcVbPlek{width:100%;position:relative;display:flex;align-items:center;justify-content:center;min-height:200px}
+.rpcLaden{font-size:12.5px;color:#6f7890}
+.rpcVbLaag{position:absolute;z-index:5;padding:10px;background:#05070a;border-radius:42px;box-shadow:0 0 0 1px #2a3346,0 30px 60px rgba(0,0,0,.5)}
+.rpcVbLaag.pc{padding:8px;border-radius:16px}
+.rpcVbToestel{position:relative;overflow:hidden;border-radius:32px;background:#edf0f5}
+.rpcVbLaag.pc .rpcVbToestel{border-radius:8px}
+.rpcVbToestel iframe{position:absolute;top:0;left:0;border:0;transform-origin:0 0;background:#edf0f5}
+.rpcVraag{font-size:13px;font-weight:700;color:#c3c9d8}
 </style>
 </body>
 </html>
