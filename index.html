@@ -3751,14 +3751,21 @@ function syncDelRes(datum, id){
 }
 function syncLayout(){
   if(!db) return Promise.resolve('lokaal');
-  return db.ref(syncPad+'/layout').set(layout)
+  // Firebase weigert lege velden (undefined) en gooit dan meteen een fout,
+  // waardoor er niets werd doorgestuurd. Daarom eerst een schone kopie.
+  let schoon;
+  try{ schoon = JSON.parse(JSON.stringify(layout || {})); }catch(_){ schoon = {}; }
+  let w;
+  try{ w = db.ref(syncPad+'/layout').set(schoon); }
+  catch(e){ console.error('[INDELING] doorsturen mislukt:', e && e.message); return Promise.resolve('fout:ongeldig'); }
+  return w
     .then(()=> 'ok')
     .catch(e=>{
       console.error('[INDELING] doorsturen mislukt:', e && e.code, e && e.message);
       return 'fout:' + ((e && e.code) || 'onbekend');
     });
 }
-function syncTafels(){ if(db) db.ref(syncPad+'/tafels').set(store.get('ct_tafels', {})); }
+function syncTafels(){ if(db){ try{ db.ref(syncPad+'/tafels').set(JSON.parse(JSON.stringify(store.get('ct_tafels', {}) || {}))).catch(e=>console.error('[TAFELS] doorsturen mislukt:', e && e.message)); }catch(e){ console.error('[TAFELS] doorsturen mislukt:', e && e.message); } } }
 
 /* ===== Openingstijden =====
    Bepaalt welke tijden de gast op de reserveringspagina te zien krijgt.
@@ -7415,6 +7422,8 @@ function rpcEchtVoorbeeld(pg, modus){
     pg.appendChild(laag);
     const frame = laag.querySelector('iframe');
     _rpVb = { doos: laag, frame, klaar: false, modus };
+    // Meldt de pagina zich niet zelf, dan geldt 'geladen' als klaar
+    frame.addEventListener('load', () => { setTimeout(() => { if(_rpVb && _rpVb.frame === frame){ _rpVb.klaar = true; rpStuurVoorbeeld(); } }, 300); });
     frame.src = rpVoorbeeldUrl();
     const wrap = pg.querySelector('.instWrap');
     const opnieuw = () => { if(laag._plaats) requestAnimationFrame(laag._plaats); };
@@ -7557,7 +7566,7 @@ async function instPaginaWeb(){
   const site = rpSiteUrl();
   const fotoVan = (id, standaard) => fotos[id] || rpFotoSrc(standaard);
   const kleurRij = (welk, lijst) => `<div class="rpKleuren">${lijst.map(k => `<button type="button" class="rpKleur ${p.kleur[welk].toLowerCase() === k ? 'on' : ''}" data-kleur="${welk}" data-w="${k}" style="background:${k}" aria-label="Kleur ${k}"></button>`).join('')}
-      <label class="rpKleur rpEigen" style="background:${esc(p.kleur[welk])}" title="Eigen kleur"><input type="color" data-kleur-eigen="${welk}" value="${esc(p.kleur[welk])}"><span>+</span></label></div>`;
+      <button type="button" class="rpKleur rpEigen" data-kleur-kies="${welk}" title="Eigen kleur" aria-label="Eigen kleur kiezen"><span>+</span></button></div>`;
   const tveld = (k, label, ph, max) => `<label class="gbVeld"><span class="rpVeldKop">${label}<em class="rpTeller" data-teller="${k}">${String(p[k] || '').length}/${max || 80}</em></span><input type="text" data-t="${k}" value="${esc(p[k] || '')}" placeholder="${esc(ph || '')}" maxlength="${max || 80}" autocomplete="off"></label>`;
   const logoSrc = fotos.logo || rpFotoSrc(p.logo);
   const aantalMenus = p.categorieen.reduce((n, c) => n + c.menus.length, 0);
@@ -7606,7 +7615,7 @@ async function instPaginaWeb(){
     bewerk += `<div class="otBPaneel rpBlok">${tveld('eyebrow', 'Kleine regel boven de titel', 'EEN PLEK AAN TAFEL', 40)}${tveld('titel', 'Titel', 'Reserveer een tafel', 40)}${tveld('intro', 'Uitleg onder de titel', 'Kies je gezelschap, je moment en je menu.', 240)}</div>`;
   } else if(sel === 'menu'){
     const ci = instPaginaWeb.cat, c = p.categorieen[ci];
-    bewerk += `<div class="otSeg otBSeg rpcCatTabs" role="tablist">${p.categorieen.map((x, i) => `<button type="button" data-rpcat="${i}" class="${i === ci ? 'on' : ''}" aria-selected="${i === ci}">${esc(x.tab || x.naam || 'Tabblad')}</button>`).join('')}</div>
+    bewerk += `<div class="rpcCatChips" role="tablist" aria-label="Tabbladen">${p.categorieen.map((x, i) => `<button type="button" role="tab" data-rpcat="${i}" class="${i === ci ? 'on' : ''}" aria-selected="${i === ci}"><span>${esc(x.tab || x.naam || 'Tabblad')}</span><small>${x.dienst === 'diner' ? 'Diner' : 'Lunch'} &middot; ${x.menus.length}</small></button>`).join('')}</div>
       <div class="otBPaneel rpBlok rpCat" data-ci="${ci}">
         <div class="rpCatKop">
           <input type="text" class="rpCatNaam" data-cnaam="${ci}" value="${esc(c.tab || c.naam || '')}" placeholder="Naam tabblad" maxlength="30" aria-label="Naam tabblad">
@@ -7699,6 +7708,11 @@ async function instPaginaWeb(){
   };
   pg.querySelectorAll('input[data-t]').forEach(inp => inp.onchange = () => { p[inp.dataset.t] = inp.value.trim(); bewaar('Opgeslagen'); });
   pg.querySelectorAll('.rpKleur[data-kleur]').forEach(k => k.onclick = () => { p.kleur[k.dataset.kleur] = k.dataset.w; bewaar('Kleur opgeslagen'); teken(); });
+  // Eigen kleur: dezelfde kleurkiezer als bij de labels, in de stijl van de app
+  pg.querySelectorAll('[data-kleur-kies]').forEach(b => b.onclick = () => {
+    const welk = b.dataset.kleurKies;
+    openKleurKiezer(b, p.kleur[welk], (kleur) => { p.kleur[welk] = String(kleur).toLowerCase(); bewaar('Kleur opgeslagen'); teken(); });
+  });
   pg.querySelectorAll('input[data-kleur-eigen]').forEach(inp => inp.onchange = () => { p.kleur[inp.dataset.kleurEigen] = inp.value.toLowerCase(); bewaar('Kleur opgeslagen'); teken(); });
   pg.querySelectorAll('.otSeg[data-zaal] button').forEach(b => b.onclick = () => { p.zaal = b.dataset.w; bewaar('Opgeslagen', true); publiceerZaal(); teken(); });
   if(pg.querySelector('#rpLogoKies')) pg.querySelector('#rpLogoKies').onclick = () => pg.querySelector('#rpLogoBestand').click();
@@ -10152,7 +10166,7 @@ function indelingenVoor(loc){ const a = (store.get('ct_indelingen', {}) || {})[l
 function zetIndelingen(loc, obj){ const a = store.get('ct_indelingen', {}) || {}; a[loc] = obj; store.set('ct_indelingen', a); if(typeof db !== 'undefined' && db) db.ref(syncPad+'/indelingen').set(a); }
 function propsVoor(loc){ const a = (store.get('ct_props', {}) || {})[loc]; return Array.isArray(a) ? a : []; }
 function zetProps(loc, lijst){ const a = store.get('ct_props', {}) || {}; a[loc] = lijst; store.set('ct_props', a); }
-function syncProps(){ if(typeof db !== 'undefined' && db) db.ref(syncPad+'/props').set(store.get('ct_props', {})); }
+function syncProps(){ if(typeof db !== 'undefined' && db){ try{ db.ref(syncPad+'/props').set(JSON.parse(JSON.stringify(store.get('ct_props', {}) || {}))).catch(e=>console.error('[PROPS] doorsturen mislukt:', e && e.message)); }catch(e){ console.error('[PROPS] doorsturen mislukt:', e && e.message); } } }
 function propEl(pr, size){
   const el = document.createElement('div');
   el.className = 'prop p-' + pr.t;
@@ -10265,7 +10279,7 @@ function makeDraggable(el, tafel, canvas, lay, naDraai){
         versleept = true;
         canvas.classList.add('sleept');   // stoelen even weg tijdens het slepen
       }
-      lay[tafel] = {x:+x.toFixed(1), y:+y.toFixed(1), o: lay[tafel] && lay[tafel].o};
+      { const oud = lay[tafel] && lay[tafel].o; lay[tafel] = {x:+x.toFixed(1), y:+y.toFixed(1)}; if(oud) lay[tafel].o = oud; }
       el.style.left = x+'%';
       el.style.top = y+'%';
     };
@@ -11716,6 +11730,23 @@ html body .kvInst .instSub{font-size:13.5px;color:#8890a4;margin:6px 0 18px}
 .rpcVbLaag.pc .rpcVbToestel{border-radius:8px}
 .rpcVbToestel iframe{position:absolute;top:0;left:0;border:0;transform-origin:0 0;background:#edf0f5}
 .rpcVraag{font-size:13px;font-weight:700;color:#c3c9d8}
+</style>
+<style id="kvRpcMenu">
+.rpcCatChips{display:flex;flex-wrap:wrap;gap:8px}
+.rpcCatChips button{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;min-height:52px;padding:8px 14px;border-radius:12px;border:1px solid #222a3a;background:#141924;color:#c3c9d8;font:inherit;text-align:left;cursor:pointer;max-width:100%}
+.rpcCatChips button span{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.rpcCatChips button small{font-size:11.5px;color:#8890a4;font-weight:600}
+.rpcCatChips button.on{background:var(--accent,#CD1C18);border-color:var(--accent,#CD1C18);color:#fff}
+.rpcCatChips button.on small{color:rgba(255,255,255,.8)}
+.kvInst .rpcBewerk .rpMenu{display:grid!important;grid-template-columns:72px minmax(0,1fr);grid-template-rows:auto auto;gap:8px 12px;align-items:start}
+.kvInst .rpcBewerk .rpMenu .rpFoto{grid-row:1 / span 2}
+.kvInst .rpcBewerk .rpMenuVelden{display:flex;flex-direction:column;gap:6px;min-width:0}
+.kvInst .rpcBewerk .rpMenuVelden input{width:100%;min-width:0}
+.kvInst .rpcBewerk .rpMenu .rpPijlen{grid-column:2;display:flex!important;flex-direction:row!important;gap:6px;justify-content:flex-end}
+.kvInst .rpcBewerk .rpMini{width:40px;height:36px;border-radius:10px;border:1px solid #2a3346!important;background:#10141d!important;color:#e8ebf2!important;font-size:15px;opacity:1}
+.kvInst .rpcBewerk .rpMini:disabled{opacity:.35}
+.kvInst .rpcBewerk .rpMini.rood{color:#ff9aa2!important}
+.kvInst .rpcBewerk .rpCatKop .rpPijlen{display:flex;gap:6px}
 </style>
 </body>
 </html>
