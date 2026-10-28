@@ -2799,7 +2799,7 @@ function schoonLayout(l){
     const z = l[loc]; const o = {};
     if(z && typeof z === 'object') Object.keys(z).forEach(nr => {
       const v = z[nr];
-      if(v && typeof v === 'object' && isFinite(+v.x) && isFinite(+v.y)){ o[nr] = { x:+v.x, y:+v.y }; if(v.o) o[nr].o = v.o; }
+      if(v && typeof v === 'object' && isFinite(+v.x) && isFinite(+v.y)){ o[nr] = { x:+v.x, y:+v.y }; if(v.o) o[nr].o = v.o; if(+v.r) o[nr].r = ((+v.r % 360) + 360) % 360; }
     });
     uit[loc] = o;
   });
@@ -2832,6 +2832,14 @@ function tafelsVoor(loc){
   return parseTafels(tafelConfig[loc]||'');
 }
 
+// Tafels die alleen het personeel zelf mag kiezen: gasten krijgen ze niet
+// online, en de app pakt ze nooit automatisch. Staat het niet ingesteld,
+// dan geldt dit vanzelf voor tafels die met een H beginnen (H1, H2, H3).
+function isPersoneelTafel(loc, nr){
+  const t = (tafelsVoor(loc) || []).find(x => String(x.nr) === String(nr));
+  if(t && typeof t.personeel === 'boolean') return t.personeel;
+  return /^h\d+$/i.test(String(nr).trim());
+}
 function parseTafels(rangeStr){
   // Ondersteunt: "201", "201:4", "201-204", "201-204:4". Volgorde blijft zoals ingevoerd.
   const out = [];
@@ -3623,7 +3631,7 @@ function zoekVrijeTafels(datum, loc, tijd, duur, pax, negeerIds){
   const vrij = (tafelsVoor(loc) || [])
     .map(t => ({ nr: String(t.nr), cap: +t.cap || 2 }))
     // Niet bezet, en ook niet net door een collega geclaimd op een ander apparaat.
-    .filter(t => !bezet.has(t.nr) && !andereTafelClaim(loc, t.nr));
+    .filter(t => !bezet.has(t.nr) && !andereTafelClaim(loc, t.nr) && !isPersoneelTafel(loc, t.nr));
 
   const past = vrij.filter(t => t.cap >= pax)
     .sort((a,b)=> (HOGE_TAFELS.has(a.nr)?1:0) - (HOGE_TAFELS.has(b.nr)?1:0)
@@ -5147,7 +5155,7 @@ function openForm(existing, walkin){
   function autoTafel(){
     const paxN = Math.max(1, +paxInput.value || 1);
     const conf = conflictSet();
-    const vrij = tafelsVoor(locSel.value).filter(t=>!conf.has(t.nr) && !andereTafelClaim(locSel.value, t.nr));
+    const vrij = tafelsVoor(locSel.value).filter(t=>!conf.has(t.nr) && !andereTafelClaim(locSel.value, t.nr) && !isPersoneelTafel(locSel.value, t.nr));
     const past = vrij.filter(t=>(t.cap||2) >= paxN)
       .sort((a,b)=>(HOGE_TAFELS.has(String(a.nr))?1:0) - (HOGE_TAFELS.has(String(b.nr))?1:0)
         || (tafelZone(a.nr) - tafelZone(b.nr))
@@ -6523,7 +6531,8 @@ function zetTafels(loc, lijst){
 }
 
 function instTafels(loc){
-  const lijst = tafelsVoor(loc).map(t=>({nr:String(t.nr), cap:t.cap||2, vorm: t.vorm || (shapeClass(loc, String(t.nr)) || 'vierkant')}));
+  const lijst = tafelsVoor(loc).map(t=>{ const x = {nr:String(t.nr), cap:t.cap||2, vorm: t.vorm || (shapeClass(loc, String(t.nr)) || 'vierkant')}; if(typeof t.personeel === 'boolean') x.personeel = t.personeel; return x; });
+  const isPers = (t) => typeof t.personeel === 'boolean' ? t.personeel : /^h\d+$/i.test(String(t.nr).trim());
   const size = MAP_SIZE[loc] || {w:1000, h:700};
   const lay = layout[loc] = layout[loc] || {};
   const def = DEFAULT_LAYOUT[loc] || {};
@@ -6688,12 +6697,14 @@ function instTafels(loc){
     lijst.forEach(t=>{
       const vorm = t.vorm === 'vierkant' ? '' : t.vorm;
       const el = document.createElement('div');
-      el.className = ('tbl '+vorm).trim() + (t.nr === gekozen ? ' tzGekozen' : '');
+      el.className = ('tbl '+vorm).trim() + (t.nr === gekozen ? ' tzGekozen' : '') + (isPers(t) ? ' tzPers' : '');
+      if(isPers(t)) el.title = 'Alleen personeel';
       let m = tafelMaat(t.cap, vorm);
       if(vorm === 'wide' && stoelKant(t.nr, t.cap, vorm, lay, size) === 'zij') m = {w:m.h, h:m.w};
       el.style.width = m.w+'px'; el.style.height = m.h+'px';
       el.style.left = lay[t.nr].x+'%'; el.style.top = lay[t.nr].y+'%';
-      el.textContent = t.nr;
+      el.innerHTML = '<span class="tblNr">' + esc(t.nr) + '</span>';
+      { const rr = +((lay[t.nr] || {}).r) || 0; if(rr){ el.style.transform = 'translate(-50%,-50%) rotate(' + rr + 'deg)'; el.style.setProperty('--draai', rr + 'deg'); } }
       addChairs(laag, t.nr, t.cap, vorm, stoelKant(t.nr, t.cap, vorm, lay, size), lay, size, '');
       makeDraggable(el, t.nr, canvas, lay, nr=>{
         if(nr){ gekozen = nr; gekozenProp = null; }          // getikt: kiezen
@@ -6701,6 +6712,45 @@ function instTafels(loc){
         teken(); paneel();
       });
       canvas.appendChild(el);
+      // Gekozen tafel: rondje erboven om hem met je vinger rond te draaien
+      if(t.nr === gekozen){
+        const cx = lay[t.nr].x/100*size.w, cy = lay[t.nr].y/100*size.h;
+        const r0 = (+lay[t.nr].r || 0) * Math.PI / 180, afst = Math.max(m.w, m.h)/2 + 36;
+        const gx = cx + Math.sin(r0)*afst, gy = cy - Math.cos(r0)*afst;
+        const lijn = document.createElement('div');
+        lijn.className = 'tzDraaiLijn';
+        lijn.style.cssText = `left:${cx-1}px;top:${cy-afst}px;height:${afst}px;transform:rotate(${(+lay[t.nr].r||0)}deg)`;
+        const greep = document.createElement('div');
+        greep.className = 'tzDraaiGreep';
+        greep.title = 'Sleep om te draaien';
+        greep.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-3-6.2"/><path d="M20 4v5h-5"/></svg>';
+        greep.style.left = gx + 'px'; greep.style.top = gy + 'px';
+        greep.addEventListener('pointerdown', e => {
+          e.preventDefault(); e.stopPropagation();
+          greep.setPointerCapture(e.pointerId);
+          const nr = t.nr;
+          const beweeg = ev => {
+            const rb = el.getBoundingClientRect();
+            const mx = rb.left + rb.width/2, my = rb.top + rb.height/2;
+            let g = Math.atan2(ev.clientX - mx, -(ev.clientY - my)) * 180 / Math.PI;
+            g = Math.round(((g % 360) + 360) % 360 / 5) * 5 % 360;
+            lay[nr] = Object.assign({}, lay[nr]); if(g) lay[nr].r = g; else delete lay[nr].r;
+            el.style.transform = 'translate(-50%,-50%) rotate(' + g + 'deg)';
+            el.style.setProperty('--draai', g + 'deg');
+            const a2 = g * Math.PI / 180;
+            greep.style.left = (cx + Math.sin(a2)*afst) + 'px'; greep.style.top = (cy - Math.cos(a2)*afst) + 'px';
+            lijn.style.transform = 'rotate(' + g + 'deg)';
+            const gr = document.getElementById('tzGraden'); if(gr) gr.textContent = g + '\u00b0';
+            const sl = document.getElementById('tzHoek'); if(sl) sl.value = g;
+          };
+          const los = () => {
+            greep.removeEventListener('pointermove', beweeg); greep.removeEventListener('pointerup', los); greep.removeEventListener('pointercancel', los);
+            bewaar(false); teken(); paneel();
+          };
+          greep.addEventListener('pointermove', beweeg); greep.addEventListener('pointerup', los); greep.addEventListener('pointercancel', los);
+        });
+        canvas.appendChild(lijn); canvas.appendChild(greep);
+      }
     });
   }
 
@@ -6760,6 +6810,14 @@ function instTafels(loc){
       <div class="tzVorm">
         ${[['vierkant','Vierkant'],['round','Rond'],['wide','Lang']].map(([v,n])=>`<button data-v="${v}" class="${t.vorm===v?'on':''}"><i class="v-${v}"></i>${n}</button>`).join('')}
       </div>
+      <label class="tzPersRij"><span><b>Alleen personeel</b><small>Gasten krijgen deze tafel niet online en de app kiest hem nooit vanzelf. Je kunt hem wel zelf toewijzen.</small></span><span class="otSchakel"><input type="checkbox" id="tzPers" ${isPers(t) ? 'checked' : ''}><span></span></span></label>
+      <label class="tzLbl">Draaien <span id="tzGraden" style="float:right;color:var(--txt)">${Math.round(+((lay[t.nr]||{}).r)||0)}&deg;</span></label>
+      <div class="tzDraaiRij">
+        <button type="button" class="tzKnop" data-draai="-15" aria-label="15 graden linksom">&#8634; 15&deg;</button>
+        <input type="range" id="tzHoek" min="0" max="359" step="1" value="${Math.round(+((lay[t.nr]||{}).r)||0)}" aria-label="Hoek in graden">
+        <button type="button" class="tzKnop" data-draai="15" aria-label="15 graden rechtsom">15&deg; &#8635;</button>
+      </div>
+      <div class="tzDraaiSnel">${[0,45,90,135,180,270].map(g => `<button type="button" class="tzKnop" data-hoek="${g}">${g}&deg;</button>`).join('')}</div>
       <button class="tzKnop breed" id="tzDraai" ${t.vorm==='round'?'disabled':''}>Stoelen draaien</button>
       <button class="tzKnop breed gevaar" id="tzDel">Tafel verwijderen</button>`;
     p.querySelector('#tzWeg').onclick = ()=>{ gekozen = null; teken(); paneel(); };
@@ -6786,6 +6844,24 @@ function instTafels(loc){
       if(t.cap > max){ t.cap = max; toast('Zitplaatsen aangepast naar '+max+', meer past er niet'); }
       bewaar(true); teken(); paneel();
     });
+    const zetHoek = (g, klaar)=>{
+      g = ((Math.round(g) % 360) + 360) % 360;
+      lay[t.nr] = Object.assign({}, lay[t.nr]); if(g) lay[t.nr].r = g; else delete lay[t.nr].r;
+      const gr = p.querySelector('#tzGraden'); if(gr) gr.textContent = g + '\u00b0';
+      const sl = p.querySelector('#tzHoek'); if(sl && +sl.value !== g) sl.value = g;
+      teken();
+      if(klaar) bewaar(false);
+    };
+    p.querySelector('#tzHoek').oninput = (e)=> zetHoek(+e.target.value, false);
+    p.querySelector('#tzHoek').onchange = (e)=> zetHoek(+e.target.value, true);
+    p.querySelectorAll('[data-draai]').forEach(b => b.onclick = ()=> zetHoek((+((lay[t.nr]||{}).r)||0) + (+b.dataset.draai), true));
+    p.querySelectorAll('[data-hoek]').forEach(b => b.onclick = ()=> zetHoek(+b.dataset.hoek, true));
+    p.querySelector('#tzPers').onchange = (e)=>{
+      t.personeel = e.target.checked;
+      bewaar(true); teken(); paneel();
+      if(typeof publiceerZaal === 'function') publiceerZaal();
+      toast('Tafel ' + t.nr + (t.personeel ? ' is alleen voor personeel' : ' kan weer online geboekt worden'));
+    };
     p.querySelector('#tzDraai').onclick = ()=>{
       const vorm = t.vorm === 'vierkant' ? '' : t.vorm;
       const nu = stoelKant(t.nr, t.cap, vorm, lay, size);
@@ -7354,13 +7430,14 @@ function rpZaalVoorWebsite(){
   const tafels = {}, rond = [];
   lijst.forEach(t => {
     const nr = String(t.nr);
+    if(isPersoneelTafel(loc, nr)) return;          // alleen voor personeel, niet online
     tafels[nr] = +t.cap || 2;
     if((t.vorm || shapeClass(loc, nr)) === 'round') rond.push(nr);
   });
   const posities = {};
   const lay = Object.assign({}, DEFAULT_LAYOUT[loc] || {}, (layout && layout[loc]) || {});
   Object.entries(lay).forEach(([nr, v]) => { if(v && isFinite(v.x) && isFinite(v.y) && tafels[nr]) posities[nr] = { x: +(+v.x).toFixed(2), y: +(+v.y).toFixed(2) }; });
-  return { naam: loc, tafels, groepen: (KOPPEL_GROEPEN[loc] || []).map(g => g.map(String)), rond, hoog: (KLANT.hogeTafels || []).map(String), posities, volgorde: (KLANT.tafelVolgorde || []).map(z => z.map(String)) };
+  return { naam: loc, tafels, groepen: (KOPPEL_GROEPEN[loc] || []).flatMap(g => { const uit = [[]]; g.map(String).forEach(nr => { if(tafels[nr]) uit[uit.length-1].push(nr); else if(uit[uit.length-1].length) uit.push([]); }); return uit.filter(x => x.length); }), rond, hoog: (KLANT.hogeTafels || []).map(String), posities, volgorde: (KLANT.tafelVolgorde || []).map(z => z.map(String)) };
 }
 let _rpZaalLaatst = '', _rpZaalTimer = null;
 function publiceerZaal(){
@@ -10041,7 +10118,8 @@ function renderMap(all){
       el.style.height = m.h+'px';
       el.style.left = lay[t.nr].x+'%';
       el.style.top = lay[t.nr].y+'%';
-      el.textContent = t.nr;
+      el.innerHTML = '<span class="tblNr">' + esc(t.nr) + '</span>';
+      { const rr = +((lay[t.nr] || {}).r) || 0; if(rr){ el.style.transform = 'translate(-50%,-50%) rotate(' + rr + 'deg)'; el.style.setProperty('--draai', rr + 'deg'); } }
       if(r){
         el.classList.add(r.status==='in' ? 'in' : (r.status==='arr' ? 'arr' : (r.status==='nm' ? 'nm' : 'verwacht')));
         el.dataset.rid = r.id;
@@ -10221,7 +10299,10 @@ function addChairs(laag, nr, cap, vorm, kant, lay, size, statusKlasse){
   if(vorm === 'wide' && kant === 'zij') m = {w:m.h, h:m.w};
   const cx = lay[nr].x/100*size.w, cy = lay[nr].y/100*size.h;
   const RUG = 11;                       // afstand van tafelrand tot hart van de stoel
-  const zet = (dx, dy, hoek)=>{
+  // Zelf gedraaide tafel: de stoelen draaien mee om het midden
+  const draai = (+lay[nr].r || 0), rad0 = draai * Math.PI / 180, co = Math.cos(rad0), si = Math.sin(rad0);
+  const zet = (dx0, dy0, hoek0)=>{
+    const dx = dx0*co - dy0*si, dy = dx0*si + dy0*co, hoek = hoek0 + draai;
     const c = document.createElement('div');
     c.className = 'chair' + (statusKlasse ? ' '+statusKlasse : '');
     c.style.left = (cx+dx)+'px';
@@ -10307,7 +10388,7 @@ function makeDraggable(el, tafel, canvas, lay, naDraai){
         versleept = true;
         canvas.classList.add('sleept');   // stoelen even weg tijdens het slepen
       }
-      { const oud = lay[tafel] && lay[tafel].o; lay[tafel] = {x:+x.toFixed(1), y:+y.toFixed(1)}; if(oud) lay[tafel].o = oud; }
+      { const oud = lay[tafel] && lay[tafel].o, oudR = lay[tafel] && lay[tafel].r; lay[tafel] = {x:+x.toFixed(1), y:+y.toFixed(1)}; if(oud) lay[tafel].o = oud; if(oudR) lay[tafel].r = oudR; }
       el.style.left = x+'%';
       el.style.top = y+'%';
     };
@@ -11783,6 +11864,24 @@ html body .kvInst .instSub{font-size:13.5px;color:#8890a4;margin:6px 0 18px}
 .kvInst .rpFoto i{text-align:center;line-height:1.3}
 .kvInst .rpcBewerk .rpFoto{width:72px;height:108px}
 @media (max-width:820px){.kvInst .rpcBewerk .rpFoto{width:60px;height:90px}}
+</style>
+<style id="kvPers">
+.tzPersRij{display:flex;align-items:center;gap:12px;margin:12px 0 4px;padding:12px;border-radius:12px;background:rgba(0,0,0,.22);border:1px solid var(--line);cursor:pointer;text-transform:none!important;letter-spacing:0!important}
+.tzPersRij > span:first-child{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.tzPersRij b{font-size:14px;color:var(--txt)}
+.tzPersRij small{font-size:12px;color:var(--muted);line-height:1.4;font-weight:500}
+.tzCanvas .tbl.tzPers{border-style:dashed!important;border-color:#fbbf24!important}
+.tzCanvas .tbl.tzPers::after{content:"P";position:absolute;top:-7px;right:-7px;width:16px;height:16px;border-radius:50%;background:#fbbf24;color:#1a1200;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center}
+</style>
+<style id="kvDraai">
+.tbl .tblNr{display:inline-block;transform:rotate(calc(-1 * var(--draai, 0deg)));pointer-events:none}
+.tzDraaiRij{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.tzDraaiRij input[type=range]{flex:1;min-width:0;accent-color:var(--accent,#CD1C18);height:30px}
+.tzDraaiRij .tzKnop{flex:none;padding:0 10px;min-height:40px;white-space:nowrap}
+.tzDraaiSnel{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;margin-bottom:12px}
+.tzDraaiSnel .tzKnop{min-height:36px;padding:0;font-size:12px}
+.tzDraaiGreep{position:absolute;width:26px;height:26px;border-radius:50%;background:var(--accent,#CD1C18);border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.5);transform:translate(-50%,-50%);cursor:grab;touch-action:none;z-index:6;display:flex;align-items:center;justify-content:center;color:#fff}
+.tzDraaiLijn{position:absolute;width:2px;background:var(--accent,#CD1C18);transform-origin:50% 100%;pointer-events:none;z-index:5;opacity:.8}
 </style>
 </body>
 </html>
